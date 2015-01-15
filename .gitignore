@@ -1,0 +1,6 @@
+
+#package dependencies
+node_modules/*
+
+# other
+npm-debug.log
