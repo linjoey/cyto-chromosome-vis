@@ -12,6 +12,7 @@ bundler.require('./src/chromosome.js',{expose:"Chromosome"});
 bundler.transform('brfs');
 
 gulp.task('js', bundle); // so you can run `gulp js` to build the file
+
 bundler.on('update', bundle); // on any dep update, runs the bundler
 
 function bundle() {

@@ -23,7 +23,8 @@
     "vinyl-source-stream":"^1.0.0",
     "vinyl-buffer": "1.0.0",
     "watchify" :"^2.2.1",
-    "brfs" : "1.2.0"
+    "brfs" : "1.2.0",
+    "biojs-events" : "0.0.4"
 
   },
   "scripts":{

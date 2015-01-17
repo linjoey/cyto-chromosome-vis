@@ -6,9 +6,10 @@
     <script src="./dist/build/chro.js"></script>
     <script>
         var Chromosome = require('Chromosome');
-        var c = new Chromosome();
-        console.log(c.info());
-        console.log(c.info2());
+        var c = new Chromosome({
+            segment: "X",
+        });
+        c.info();
 
     </script>
 </head>

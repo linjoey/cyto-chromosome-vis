@@ -1,22 +1,37 @@
 
+
 var d3 = require("d3");
+var $ = require("jquery");
+var ModelLoader = require("./model-loader");
+
 
 var Chromosome = (function () {
+    "use strict";
+    var chr = function (opt) {
 
-    var chromosome = function () {
-        var local = "t";
-        var test = "2";
+        var DEFAULT_FEATURES_SOURCE = "http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype";
+        //var DEFAULT_REFERENCE_SOURCE = "http://www.ensembl.org/das/Homo_sapiens.GRCh38.reference";
 
+        var defaultOptions = {
+            dasSource : DEFAULT_FEATURES_SOURCE
+        };
+        this.options = $.extend({}, defaultOptions, opt || {});
+
+        var modelLoader = new ModelLoader({
+            source: this.options.dasSource,
+            segment: this.options.segment
+        });
         this.info = function () {
-            return d3.version;
+            console.log(this.options);
+            modelLoader.loadModel(function(a){
+                console.log(a);
+            });
         };
 
-        this.info2 = function () {
-            return test;
-        }
     };
 
-    return chromosome;
-})();
+    return chr;
+}());
 
+require('biojs-events').mixin(Chromosome.prototype);
 module.exports = Chromosome;
