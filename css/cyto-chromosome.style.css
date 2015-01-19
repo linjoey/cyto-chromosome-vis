@@ -13,19 +13,7 @@
     stroke: #d9d9d9;
     stroke: 11;
 }
-.stalkMask {
-    stroke: #ffffff;
-    stroke-width: 1px;
-}
 
-.stalkMask:hover {
-    opacity: 1;
-    cursor: default;
-}
-
-.stalkMask, .top {
-    stroke-width: 8px;
-}
 .acen {
     fill:#708090;
 }

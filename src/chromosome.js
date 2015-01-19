@@ -21,7 +21,8 @@ var Chromosome = (function () {
             CHR1_BP_END = 248956422,
             STALK_MAG_PC = 0.8,
             PADDING = 30,
-            AXIS_SPACING = 4;
+            AXIS_SPACING = 4,
+            STALK_SPACING = 3;
 
         var options = (function () {
 
@@ -47,7 +48,6 @@ var Chromosome = (function () {
         };
 
         this.draw = function () {
-
             modelLoader.loadModel(function (model) {
                 if (typeof model.err === 'undefined') {
                     $(function () {
@@ -82,7 +82,9 @@ var Chromosome = (function () {
                                 .attr('x', function (m) {
                                     return scaleFn(m.START.textContent);
                                 })
-                                .attr('y', PADDING);
+                                .attr('y', function (m) {
+                                    return (m.TYPE.id === "band:stalk") ? (PADDING + STALK_SPACING) : PADDING;
+                                });
 
                             band.on("click", function (m) {
                                 console.log("click" + m.id);
@@ -97,29 +99,6 @@ var Chromosome = (function () {
 
 
                             });
-
-                            var stalkBand = d3.select(options.target + " .band.stalk");
-
-                            if (!stalkBand.empty()) {
-                                stalkBand.attr('dy', 50);
-                                var sX = stalkBand.attr('x'),
-                                    sWidth = stalkBand.attr('width');
-
-                                //Border mask top
-                                visTarget.append('line')
-                                    .attr('class', 'band stalkMask top')
-                                    .attr('x1', sX)
-                                    .attr('x2', (+sX + (+sWidth)))
-                                    .attr('y1', options.height + PADDING)
-                                    .attr('y2', options.height + PADDING);
-                                //Border mask bottom
-                                visTarget.append('line')
-                                    .attr('class', 'band stalkMask bot')
-                                    .attr('x1', sX)
-                                    .attr('x2', (+sX + (+sWidth)))
-                                    .attr('y1', PADDING)
-                                    .attr('y2', PADDING);
-                            }
 
                             if (options.includeAxis) {
                                 var bpAxis = d3.svg.axis()
@@ -147,22 +126,6 @@ var Chromosome = (function () {
             });
             return self;
         };
-
-
-        //(function () {
-        //    $(window).resize(function () {
-        //        console.log(autoResize);
-        //        if (autoResize) {
-        //            options.width = $(options.target).width();
-        //        }
-        //    });
-        //}());
-
-        self.on("onModelLoaded", function () {
-            //console.log("loaded yo");
-            var bands = d3.selectAll("")
-
-        });
     };
 
     return chr;

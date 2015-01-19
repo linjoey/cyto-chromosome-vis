@@ -1,10 +1,11 @@
 
-#binaries
-
-dist/*
 
 #package dependencies
 node_modules/*
 
 # other
 npm-debug.log
+
+*.map
+
+dist/build/chro.js.map
