@@ -13,37 +13,43 @@
 
     <script>
         var Chromosome = require('Chromosome');
-        var width = $("#cyto-chr").width();
-        $(function () {
+//        $(function () {
+//            var chromosomes = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"];
+//            for (var i = 0; i < chromosomes.length; i++)
+//            {
+//
+//                $("#cyto-vis").append("<h3> Chromosome "+ chromosomes[i]+"</h2>");
+//                $("#cyto-vis").append("<svg id=chr"+chromosomes[i] + ">" + "</svg><br/>");
+//                var target = "#chr" + chromosomes[i];
+//                new Chromosome({
+//                    segment: chromosomes[i],
+//                    target: target,
+//                    width: 1300,
+//                    height: 20,
+//                    relativeSize: true,
+//                    includeAxis: true
+//                }).draw();
+//            }
+//        });
 
+        $(function(){
+            var ch = new Chromosome({
+                segment: "13",
+                target: "#chr",
+                width: 950,
+                height: 20,
+                includeAxis: true
+            }).draw();
 
-            var chromosomes = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"];
-            for (var i = 0; i < chromosomes.length; i++)
-            {
+            ch.on('onModelLoaded', function(obj){
+                console.log(obj);
+            });
 
-                $("#cyto-vis").append("<h3> Chromosome "+ chromosomes[i]+"</h2>");
-                $("#cyto-vis").append("<svg id=chr"+chromosomes[i] + ">" + "</svg><br/>");
-                var target = "#chr" + chromosomes[i];
-                new Chromosome({
-                    segment: chromosomes[i],
-                    target: target,
-                    width: 1450,
-                    height: 20,
-                    relativeSize: true,
-                    includeAxis: true
-                }).draw();
-            }
+            ch.on('onBandSelection', function(e){
+                console.log(e);
+            });
         });
 
-//        $(function(){
-//            new Chromosome({
-//                segment: "13",
-//                target: "#chr",
-//                width: 950,
-//                height: 20,
-//                includeAxis: true
-//            }).draw();
-//        });
     </script>
 </head>
 <body>

@@ -5,18 +5,13 @@
 
 .band:hover
 {
-    opacity: 0.5;
+    opacity: 0.6;
+    cursor: pointer;
 }
 
-/*.band.border{*/
-    /*stroke-width: 4px;*/
-    /*stroke: black;*/
-    /*fill-opacity: 0.0;*/
-/*}*/
-
 .band {
-    stroke: rgba(117, 117, 117, 0.56);
-    stroke: 0.2;
+    stroke: #d9d9d9;
+    stroke: 11;
 }
 .stalkMask {
     stroke: #ffffff;
@@ -25,6 +20,7 @@
 
 .stalkMask:hover {
     opacity: 1;
+    cursor: default;
 }
 
 .stalkMask, .top {
