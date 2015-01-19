@@ -16,21 +16,21 @@
             var Chromosome = require('Chromosome');
             var width = $("#cyto-chr").width();
 
-            new Chromosome({
-                segment: "22",
-                target: "#cyto-chr1",
-                width: 950,
-                height: 15
-            }).draw();
+            var chromosomes = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"];
+            for (var i = 0; i < chromosomes.length; i++)
+            {
 
-            new Chromosome({
-                segment: "13",
-                target: "#cyto-chr2",
-                width: 950,
-                height: 15
-            }).draw();
-
-
+                $("#cyto-vis").append("<h3> Chromosome "+ chromosomes[i]+"</h2>");
+                $("#cyto-vis").append("<svg id=chr"+chromosomes[i] + ">" + "</svg><br/>");
+                var target = "#chr" + chromosomes[i];
+                new Chromosome({
+                    segment: chromosomes[i],
+                    target: target,
+                    width: 950,
+                    height: 20,
+                    relativeSize: true
+                }).draw();
+            }
 
         });
 
@@ -38,10 +38,11 @@
 </head>
 <body>
 
-<svg id="cyto-chr1"></svg>
-<hr/>
-<svg id="cyto-chr2"></svg>
+<!--<svg id="cyto-chr1"></svg>-->
+<!--<hr/>-->
+<!--<svg id="cyto-chr2"></svg>-->
 
+<div id="cyto-vis"></div>
 
 </body>
 </html>

@@ -18,6 +18,7 @@ var Chromosome = (function () {
     var chr = function (opt) {
 
         var self = this;
+        var CHR1_BP_END = 248956422;
 
         var options = (function () {
 
@@ -26,7 +27,8 @@ var Chromosome = (function () {
                 dasSource : "http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype",
                 target: "#cyto-chr",
                 width: 900,
-                height: 20
+                height: 20,
+                relativeSize: false
             }, opt || {});
         }());
 
@@ -48,27 +50,31 @@ var Chromosome = (function () {
                         console.log(model);
 
 
+                        var rangeTo = options.relativeSize ? (+model.stop / CHR1_BP_END) * options.width : options.width;
+
                         var scaleFn = d3.scale.linear()
                             .domain([model.start, model.stop])
-                            .range([0, options.width]);
+                            .range([0, rangeTo]);
 
 
                         var visTarget = d3.select(options.target)
                             .attr('width', options.width)
-                            .attr('height', options.height);
+                            .attr('height', options.height + 20);
 
                         if (!visTarget.empty()) {
                             //console.log("holder div present");
 
+                            //Border rectangle
+                            //visTarget.append("rect")
+                            //    .attr('class', "band border")
+                            //    .attr('height', options.height)
+                            //    .attr('width', options.width+3)
+                            //    .attr('y',0)
+                            //    .attr('dy',0);
 
-                            var band = visTarget.selectAll("g")
+                            var band = visTarget.selectAll(options.target + " g")
                                 .data(model.bands)
                                 .enter().append("g");
-
-                            visTarget.append("rect")
-                                .attr('class', "band border")
-                                .attr('height', options.height)
-                                .attr('width', options.width);
 
                             band.append('rect')
                                 .attr('class', function (m) {
@@ -82,28 +88,32 @@ var Chromosome = (function () {
                                 })
                                 .attr('x', function (m) {
                                     return scaleFn(m.START.textContent);
-                                });
+                                })
+                                .attr('y', 0.5);
 
 
-                            var stalkBand = d3.select(".band.stalk")
-                                .attr('dy',50);
-                            var sX = stalkBand.attr('x');
-                            var sWidth = stalkBand.attr('width');
 
-                            //Border mask top
-                            visTarget.append('line')
-                                .attr('class', 'band stalkMask top')
-                                .attr('x1', sX)
-                                .attr('x2', (+sX + (+sWidth)));
+                            var stalkBand = d3.select(options.target + " .band.stalk");
 
-                            //Border mask bottom
-                            visTarget.append('line')
-                                .attr('class', 'band stalkMask bot')
-                                .attr('x1', sX)
-                                .attr('x2', (+sX + (+sWidth)))
-                                .attr('y1', options.height)
-                                .attr('y2', options.height);
+                            if (!stalkBand.empty()) {
+                                stalkBand.attr('dy',50);
+                                var sX = stalkBand.attr('x');
+                                var sWidth = stalkBand.attr('width');
 
+                                //Border mask top
+                                visTarget.append('line')
+                                    .attr('class', 'band stalkMask top')
+                                    .attr('x1', sX)
+                                    .attr('x2', (+sX + (+sWidth)));
+
+                                //Border mask bottom
+                                visTarget.append('line')
+                                    .attr('class', 'band stalkMask bot')
+                                    .attr('x1', sX)
+                                    .attr('x2', (+sX + (+sWidth)))
+                                    .attr('y1', options.height)
+                                    .attr('y2', options.height);
+                            }
 
                         } else {
                             //No html target set
