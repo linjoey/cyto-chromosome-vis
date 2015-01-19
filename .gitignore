@@ -1,11 +1,7 @@
 
 
-#package dependencies
 node_modules/*
-
-# other
+.idea/*
 npm-debug.log
-
 *.map
 
-dist/build/chro.js.map

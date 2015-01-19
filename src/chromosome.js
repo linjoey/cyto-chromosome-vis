@@ -21,6 +21,7 @@ var Chromosome = (function () {
             CHR1_BP_END = 248956422,
             STALK_MAG_PC = 0.8,
             PADDING = 30,
+            LABEL_PADDING = 24,
             AXIS_SPACING = 4,
             STALK_SPACING = 3;
 
@@ -42,7 +43,6 @@ var Chromosome = (function () {
             segment: options.segment
         });
 
-
         this.info = function () {
             return options;
         };
@@ -51,6 +51,7 @@ var Chromosome = (function () {
             modelLoader.loadModel(function (model) {
                 if (typeof model.err === 'undefined') {
                     $(function () {
+
                         console.log(model);
 
                         var rangeTo = options.relativeSize ? ((+model.stop / CHR1_BP_END) * options.width) - PADDING : options.width - PADDING;
@@ -69,6 +70,9 @@ var Chromosome = (function () {
                                 .data(model.bands)
                                 .enter().append("g");
 
+                            //band.append("title")
+                            //    .text(function(m) {return m.id; });
+
                             band.append('rect')
                                 .attr('class', function (m) {
                                     return m.TYPE.id.replace(':', ' ');
@@ -86,6 +90,18 @@ var Chromosome = (function () {
                                     return (m.TYPE.id === "band:stalk") ? (PADDING + STALK_SPACING) : PADDING;
                                 });
 
+                            var label = visTarget.append("text")
+                                .attr("class", "label")
+                                .attr("fill", "black")
+                                .attr('font-size', 11)
+                                .attr('font-family', 'sans-serif')
+                                .attr("y", LABEL_PADDING);
+
+                            band.on("mouseover", function (m) {
+                                label.text(m.id)
+                                    .attr('x', (scaleFn(m.START.textContent)));
+                            });
+
                             band.on("click", function (m) {
                                 console.log("click" + m.id);
 
@@ -93,11 +109,6 @@ var Chromosome = (function () {
                                     start: +m.START.textContent,
                                     end: +m.END.textContent
                                 });
-                            });
-
-                            band.on("mouseover", function (m) {
-
-
                             });
 
                             if (options.includeAxis) {
