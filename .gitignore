@@ -1,4 +1,8 @@
 
+#binaries
+
+dist/*
+
 #package dependencies
 node_modules/*
 

@@ -4,16 +4,44 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="./dist/build/chro.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <link href="css/cyto-chromosome.style.css" rel="stylesheet"  type="text/css"/>
+
+    <style>
+
+    </style>
+
     <script>
-        var Chromosome = require('Chromosome');
-        var c = new Chromosome({
-            segment: "X",
+        $(function () {
+            var Chromosome = require('Chromosome');
+            var width = $("#cyto-chr").width();
+
+            new Chromosome({
+                segment: "22",
+                target: "#cyto-chr1",
+                width: 950,
+                height: 15
+            }).draw();
+
+            new Chromosome({
+                segment: "13",
+                target: "#cyto-chr2",
+                width: 950,
+                height: 15
+            }).draw();
+
+
+
         });
-        c.info();
 
     </script>
 </head>
 <body>
+
+<svg id="cyto-chr1"></svg>
+<hr/>
+<svg id="cyto-chr2"></svg>
+
 
 </body>
 </html>

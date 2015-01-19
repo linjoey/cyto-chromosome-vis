@@ -6,14 +6,11 @@ var ModelLoader = (function () {
     "use strict";
 
     var mdl = function (opt) {
-
-
         var error_handler = function() {
             console.log("DAS Load Fail");
         };
 
         this.loadModel = function (cb) {
-
             JSDAS.Simple.getClient(opt.source).features({segment: opt.segment}, function (res) {
                 //success response
                 cb({
@@ -29,7 +26,7 @@ var ModelLoader = (function () {
             });
         };
         this.info = function () {
-
+            console.log(this.options);
         };
     };
 

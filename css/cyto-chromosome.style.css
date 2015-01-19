@@ -1,0 +1,61 @@
+/**
+    Use Less
+ */
+
+.band.border{
+    stroke-width: 1.5px;
+    stroke: #bfbfbf;
+    fill-opacity: 0.0;
+}
+
+.stalkMask {
+    stroke: #ffffff;
+    stroke-width: 2px;
+}
+
+.stalkMask, .top {
+    stroke-width: 8px;
+}
+.acen {
+    fill:#708090;
+}
+
+.gneg {
+    fill: #ffffff;
+}
+
+.gpos., .gpos100, .tip  {
+    fill: #000000;
+}
+
+.gpos25 {
+    fill: #d9d9d9;
+}
+
+.gpos33 {
+    fill: #bfbfbf;
+}
+
+.gpos50 {
+    fill:#999999;
+}
+
+.gpos66 {
+    fill: #7f7f7f;
+}
+
+.gpos75 {
+    fill: #666666;
+}
+
+.gvar {
+    fill: #e0e0e0;
+}
+
+.mark {
+    fill: #0000ff;
+}
+
+.stalk {
+    fill: #708090;
+}
