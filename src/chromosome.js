@@ -17,8 +17,11 @@ var Chromosome = (function () {
     "use strict";
     var chr = function (opt) {
 
-        var self = this;
-        var CHR1_BP_END = 248956422;
+        var self = this,
+            CHR1_BP_END = 248956422,
+            STALK_MAG_PC = 0.8,
+            PADDING = 35,
+            AXIS_SPACING = 3;
 
         var options = (function () {
 
@@ -28,7 +31,8 @@ var Chromosome = (function () {
                 target: "#cyto-chr",
                 width: 900,
                 height: 20,
-                relativeSize: false
+                relativeSize: false,
+                includeAxis: false
             }, opt || {});
         }());
 
@@ -50,7 +54,7 @@ var Chromosome = (function () {
                         console.log(model);
 
 
-                        var rangeTo = options.relativeSize ? (+model.stop / CHR1_BP_END) * options.width : options.width;
+                        var rangeTo = options.relativeSize ? ((+model.stop / CHR1_BP_END) * options.width) - PADDING : options.width - PADDING;
 
                         var scaleFn = d3.scale.linear()
                             .domain([model.start, model.stop])
@@ -59,7 +63,7 @@ var Chromosome = (function () {
 
                         var visTarget = d3.select(options.target)
                             .attr('width', options.width)
-                            .attr('height', options.height + 20);
+                            .attr('height', options.height + PADDING);
 
                         if (!visTarget.empty()) {
                             //console.log("holder div present");
@@ -81,7 +85,7 @@ var Chromosome = (function () {
                                     return m.TYPE.id.replace(':', ' ');
                                 })
                                 .attr('height', function (m) {
-                                    return (m.TYPE.id === "band:stalk") ? (options.height * .8) : options.height;
+                                    return (m.TYPE.id === "band:stalk") ? (options.height * STALK_MAG_PC) : options.height;
                                 })
                                 .attr('width', function (m) {
                                     return scaleFn(+m.END.textContent) - scaleFn(+m.START.textContent);
@@ -96,7 +100,7 @@ var Chromosome = (function () {
                             var stalkBand = d3.select(options.target + " .band.stalk");
 
                             if (!stalkBand.empty()) {
-                                stalkBand.attr('dy',50);
+                                stalkBand.attr('dy', 50);
                                 var sX = stalkBand.attr('x');
                                 var sWidth = stalkBand.attr('width');
 
@@ -114,6 +118,19 @@ var Chromosome = (function () {
                                     .attr('y1', options.height)
                                     .attr('y2', options.height);
                             }
+
+                            if (options.includeAxis) {
+                                var bpAxis = d3.svg.axis()
+                                    .scale(scaleFn)
+                                    .tickFormat(d3.format('s'))
+                                    .orient("bottom");
+
+                                visTarget.append('g')
+                                    .attr('class', 'bp-axis')
+                                    .attr('transform', 'translate(0,' + (options.height + AXIS_SPACING) + ")")
+                                    .call(bpAxis);
+                            }
+
 
                         } else {
                             //No html target set

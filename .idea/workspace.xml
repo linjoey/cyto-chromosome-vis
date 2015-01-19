@@ -6,6 +6,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/chromosome.js" afterPath="$PROJECT_DIR$/src/chromosome.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/cyto-chromosome.style.css" afterPath="$PROJECT_DIR$/css/cyto-chromosome.style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model-loader.js" afterPath="$PROJECT_DIR$/src/model-loader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cyto-chromosome.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,11 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-20.625" vertical-offset="0" max-vertical-offset="795">
-              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.53097343" vertical-offset="75" max-vertical-offset="960">
+              <caret line="29" column="31" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -42,30 +44,35 @@
       <file leaf-file-name="chro.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dist/build/chro.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="326349" max-vertical-offset="327060">
-              <caret line="21763" column="0" selection-start-line="21763" selection-start-column="0" selection-end-line="21763" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="324343" max-vertical-offset="327375">
+              <caret line="21642" column="17" selection-start-line="21642" selection-start-column="17" selection-end-line="21642" selection-end-column="17" />
               <folding>
-                <marker date="1421640132000" expanded="true" signature="662529:667546" placeholder="[...]" />
-                <marker date="1421640132000" expanded="true" signature="662562:667557" placeholder="{...}" />
-                <marker date="1421640132000" expanded="true" signature="662628:667129" placeholder="{...}" />
-                <marker date="1421640132000" expanded="true" signature="662677:667110" placeholder="{...}" />
-                <marker date="1421640132000" expanded="true" signature="662831:663092" placeholder="{...}" />
-                <marker date="1421640132000" expanded="true" signature="662899:663014" placeholder="{&quot;dasSource&quot;: &quot;http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype&quot;...}" />
-                <marker date="1421640132000" expanded="true" signature="663126:663143" placeholder="{...}" />
-                <marker date="1421640132000" expanded="true" signature="663276:666827" placeholder="{...}" />
-                <marker date="1421640132000" expanded="true" signature="663404:666815" placeholder="{...}" />
-                <marker date="1421640132000" expanded="true" signature="663443:666801" placeholder="{...}" />
-                <marker date="1421640132000" expanded="true" signature="663467:666781" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="662870:668505" placeholder="[...]" />
+                <marker date="1421646165000" expanded="true" signature="662955:668143" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="662968:668087" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="663033:663336" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="663152:663339" placeholder="{&quot;dasSource&quot;: &quot;http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype&quot;...}" />
+                <marker date="1421646165000" expanded="true" signature="663452:663469" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="663791:667824" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="663920:667827" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="664033:667820" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="664057:667794" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="664687:667718" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="665214:665285" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="665437:665506" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="665637:665703" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="665799:665860" placeholder="{...}" />
+                <marker date="1421646165000" expanded="true" signature="666083:666956" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chromosome.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="chromosome.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/chromosome.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.608931" vertical-offset="795" max-vertical-offset="2220">
-              <caret line="83" column="94" selection-start-line="83" selection-start-column="94" selection-end-line="83" selection-end-column="94" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1458" max-vertical-offset="2475">
+              <caret line="124" column="60" selection-start-line="124" selection-start-column="60" selection-end-line="124" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -74,8 +81,8 @@
       <file leaf-file-name="cyto-chromosome.style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/cyto-chromosome.style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.0" vertical-offset="0" max-vertical-offset="1275">
-              <caret line="36" column="7" selection-start-line="36" selection-start-column="7" selection-end-line="36" selection-end-column="7" />
+            <state vertical-scroll-proportion="-9.166667" vertical-offset="0" max-vertical-offset="1500">
+              <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -84,7 +91,7 @@
       <file leaf-file-name="model-loader.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/model-loader.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
               <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
               <folding />
             </state>
@@ -112,14 +119,14 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/cyto-chromosome.style.css" />
         <option value="$PROJECT_DIR$/src/d3test.js" />
-        <option value="$PROJECT_DIR$/src/model-loader.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
         <option value="$PROJECT_DIR$/css/b" />
         <option value="$PROJECT_DIR$/css/idio-chromosome.style.css" />
+        <option value="$PROJECT_DIR$/src/model-loader.js" />
         <option value="$PROJECT_DIR$/dist/build/chro.js" />
-        <option value="$PROJECT_DIR$/src/chromosome.js" />
         <option value="$PROJECT_DIR$/css/cyto-chromosome.style.css" />
+        <option value="$PROJECT_DIR$/src/chromosome.js" />
         <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
@@ -141,7 +148,7 @@
     <option name="x" value="1920" />
     <option name="y" value="23" />
     <option name="width" value="1920" />
-    <option name="height" value="1012" />
+    <option name="height" value="1057" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -258,7 +265,7 @@
       <recent name="$PROJECT_DIR$/test" />
     </key>
   </component>
-  <component name="RunManager" selected="Gulp.js.build-watch">
+  <component name="RunManager" selected="JavaScript Debug.Run Index">
     <configuration default="false" name="default" type="js.build_tools.gulp" factoryName="Gulp.js" temporary="true">
       <node-options />
       <gulpfile>$PROJECT_DIR$/gulpfile.js</gulpfile>
@@ -486,17 +493,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="23" width="1920" height="1012" extended-state="0" />
+    <frame x="1920" y="23" width="1920" height="1057" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.190625" sideWeight="0.27640158" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.190625" sideWeight="0.27671233" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33678755" sideWeight="0.4997367" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32866043" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24948025" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.190625" sideWeight="0.7222946" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18663839" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.190625" sideWeight="0.72328764" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2611336" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28207847" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28066528" sideWeight="0.50093806" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953367" sideWeight="0.5002633" order="7" side_tool="true" content_ui="tabs" />
@@ -547,31 +554,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/dist/build/chro.js</url>
-          <line>21676</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/dist/build/chro.js</url>
-          <line>21757</line>
+          <line>21765</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/index.html</url>
-          <line>15</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.html</url>
-          <line>16</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/index.html</url>
-          <line>24</line>
+          <line>25</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/dist/build/chro.js</url>
+          <line>21631</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="35" />
+      <option name="time" value="37" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -923,7 +920,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/model-loader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
           <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
           <folding />
         </state>
@@ -931,44 +928,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dist/build/chro.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="326349" max-vertical-offset="327060">
-          <caret line="21763" column="0" selection-start-line="21763" selection-start-column="0" selection-end-line="21763" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="324343" max-vertical-offset="327375">
+          <caret line="21642" column="17" selection-start-line="21642" selection-start-column="17" selection-end-line="21642" selection-end-column="17" />
           <folding>
-            <marker date="1421640132000" expanded="true" signature="662529:667546" placeholder="[...]" />
-            <marker date="1421640132000" expanded="true" signature="662562:667557" placeholder="{...}" />
-            <marker date="1421640132000" expanded="true" signature="662628:667129" placeholder="{...}" />
-            <marker date="1421640132000" expanded="true" signature="662677:667110" placeholder="{...}" />
-            <marker date="1421640132000" expanded="true" signature="662831:663092" placeholder="{...}" />
-            <marker date="1421640132000" expanded="true" signature="662899:663014" placeholder="{&quot;dasSource&quot;: &quot;http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype&quot;...}" />
-            <marker date="1421640132000" expanded="true" signature="663126:663143" placeholder="{...}" />
-            <marker date="1421640132000" expanded="true" signature="663276:666827" placeholder="{...}" />
-            <marker date="1421640132000" expanded="true" signature="663404:666815" placeholder="{...}" />
-            <marker date="1421640132000" expanded="true" signature="663443:666801" placeholder="{...}" />
-            <marker date="1421640132000" expanded="true" signature="663467:666781" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="662870:668505" placeholder="[...]" />
+            <marker date="1421646165000" expanded="true" signature="662955:668143" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="662968:668087" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="663033:663336" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="663152:663339" placeholder="{&quot;dasSource&quot;: &quot;http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype&quot;...}" />
+            <marker date="1421646165000" expanded="true" signature="663452:663469" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="663791:667824" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="663920:667827" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="664033:667820" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="664057:667794" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="664687:667718" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="665214:665285" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="665437:665506" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="665637:665703" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="665799:665860" placeholder="{...}" />
+            <marker date="1421646165000" expanded="true" signature="666083:666956" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/cyto-chromosome.style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.0" vertical-offset="0" max-vertical-offset="1275">
-          <caret line="36" column="7" selection-start-line="36" selection-start-column="7" selection-end-line="36" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.625" vertical-offset="0" max-vertical-offset="795">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        <state vertical-scroll-proportion="-9.166667" vertical-offset="0" max-vertical-offset="1500">
+          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/chromosome.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.608931" vertical-offset="795" max-vertical-offset="2220">
-          <caret line="83" column="94" selection-start-line="83" selection-start-column="94" selection-end-line="83" selection-end-column="94" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1458" max-vertical-offset="2475">
+          <caret line="124" column="60" selection-start-line="124" selection-start-column="60" selection-end-line="124" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53097343" vertical-offset="75" max-vertical-offset="960">
+          <caret line="29" column="31" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
           <folding />
         </state>
       </provider>

@@ -15,8 +15,8 @@
 /*}*/
 
 .band {
-    stroke:#bfbfbf;
-    stroke: 0.5;
+    stroke: rgba(117, 117, 117, 0.56);
+    stroke: 0.2;
 }
 .stalkMask {
     stroke: #ffffff;
@@ -76,4 +76,19 @@
 
 .stalk {
     fill: #708090;
+}
+
+/**
+*
+*/
+
+.bp-axis text {
+    font: 10px sans-serif;
+}
+
+.bp-axis path,
+.bp-axis line {
+    fill: none;
+    stroke: #666666;
+    shape-rendering: crispEdges;
 }

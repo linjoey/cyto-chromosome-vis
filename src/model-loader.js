@@ -13,12 +13,16 @@ var ModelLoader = (function () {
         this.loadModel = function (cb) {
             JSDAS.Simple.getClient(opt.source).features({segment: opt.segment}, function (res) {
                 //success response
-                cb({
-                    id : res.GFF.SEGMENT[0].id,
-                    start : res.GFF.SEGMENT[0].start,
-                    stop : res.GFF.SEGMENT[0].stop,
-                    bands : res.GFF.SEGMENT[0].FEATURE
-                });
+                if (res.GFF.SEGMENT.length > 0) {
+                    cb({
+                        id : res.GFF.SEGMENT[0].id,
+                        start : res.GFF.SEGMENT[0].start,
+                        stop : res.GFF.SEGMENT[0].stop,
+                        bands : res.GFF.SEGMENT[0].FEATURE
+                    });
+                } else {
+                    console.log("cyto-Chromosome: JSDAS empty results for segment");
+                }
 
             }, function () {
                 //error response handler
