@@ -21803,5 +21803,3 @@ require('biojs-events').mixin(Chromosome.prototype);
 module.exports = Chromosome;
 
 },{"./model-loader":"/Users/linjoey/Developer/cyto-chromosome/src/model-loader.js","biojs-events":"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-events/index.js","d3":"/Users/linjoey/Developer/cyto-chromosome/node_modules/d3/d3.js","jquery":"/Users/linjoey/Developer/cyto-chromosome/node_modules/jquery/dist/jquery.js"}]},{},[]);
-
-//# sourceMappingURL=../build/chro.js.map
