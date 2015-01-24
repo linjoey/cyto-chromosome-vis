@@ -23,3 +23,13 @@ function bundleDev() {
         //
         .pipe(gulp.dest('./dist'));
 }
+
+gulp.task('build', function(){
+    var b = browserify();
+    b.add('./src/index.js')
+    .require('./src/chromosome.js', {expose:"Chromosome"})
+        .bundle()
+    .pipe(source('./build/cyto-chromosome.js'))
+    .pipe(gulp.dest('./dist'));
+
+});

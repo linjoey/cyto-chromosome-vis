@@ -11,7 +11,7 @@
 
 .band {
     stroke: #d9d9d9;
-    stroke: 11;
+    stroke-width: 1;
 }
 
 .acen {
@@ -75,4 +75,16 @@
     fill: none;
     stroke: #666666;
     shape-rendering: crispEdges;
+}
+
+
+.band-lbl {
+    font: 12px sans-serif;
+
+}
+
+.selector rect{
+    fill: #0000ff;
+    fill-opacity: 0.2;
+
 }

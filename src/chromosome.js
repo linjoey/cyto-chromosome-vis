@@ -30,31 +30,54 @@ var Chromosome = (function () {
             return $.extend({}, {
                 //DEFAULT OPTIONS
                 dasSource : "http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype",
-                target: "#cyto-chr",
                 width: 900,
                 height: 20,
                 relativeSize: false,
-                includeAxis: false
+                includeAxis: false,
+                includeSelector: true
             }, opt || {});
         }());
 
-        var modelLoader = new ModelLoader({
+        var _modelLoader = new ModelLoader({
             source: options.dasSource,
             segment: options.segment
         });
 
+        var _model;
+        var _brush;
         this.info = function () {
             return options;
         };
 
+        this.moveSelectorTo = function (to, from) {
+            if (options.includeSelector) {
+                _brush.extent([to, from]);
+                var selector = d3.select(options.target + ' .selector');
+                selector.call(_brush);
+
+
+            }
+        }
+
+        this.getCurrentSelection = function () {
+            if (options.includeSelector && (typeof _brush !== 'undefined')) {
+                var ar = _brush.extent();
+                return {
+                    start: ar[0],
+                    end: ar[1]
+                };
+            }
+        };
+
         this.draw = function () {
-            modelLoader.loadModel(function (model) {
+            _modelLoader.loadModel(function (model) {
+                console.log(model);
+                _model = model;
                 if (typeof model.err === 'undefined') {
                     $(function () {
-
-                        console.log(model);
-
-                        var rangeTo = options.relativeSize ? ((+model.stop / CHR1_BP_END) * options.width) - PADDING : options.width - PADDING;
+                        var rangeTo = options.relativeSize
+                            ? ((+model.stop / CHR1_BP_END) * options.width) - PADDING
+                            : options.width - PADDING;
 
                         var scaleFn = d3.scale.linear()
                             .domain([model.start, model.stop])
@@ -91,10 +114,7 @@ var Chromosome = (function () {
                                 });
 
                             var label = visTarget.append("text")
-                                .attr("class", "label")
-                                .attr("fill", "black")
-                                .attr('font-size', 11)
-                                .attr('font-family', 'sans-serif')
+                                .attr("class", "band-lbl")
                                 .attr("y", LABEL_PADDING);
 
                             band.on("mouseover", function (m) {
@@ -103,11 +123,16 @@ var Chromosome = (function () {
                             });
 
                             band.on("click", function (m) {
-                                console.log("click" + m.id);
+                                var start = +m.START.textContent,
+                                    end = +m.END.textContent
 
-                                self.trigger("onBandSelection", {
-                                    start: +m.START.textContent,
-                                    end: +m.END.textContent
+                                self.moveSelectorTo(start, end);
+
+                                self.trigger("bandSelection", {
+                                    segment: options.segment,
+                                    bandID: m.id,
+                                    start: start,
+                                    end: end
                                 });
                             });
 
@@ -123,13 +148,37 @@ var Chromosome = (function () {
                                     .call(bpAxis);
                             }
 
+                            if (options.includeSelector) {
+                                _brush = d3.svg.brush()
+                                    .x(scaleFn);
+
+                                var selector = visTarget.append("g")
+                                    .classed('selector', true)
+                                    .attr('transform',"translate(0,"+ (PADDING - AXIS_SPACING)+")")
+                                    .call(_brush);
+
+                                selector.selectAll('rect')
+                                    .attr('height', options.height + (AXIS_SPACING * 2));
+
+                                selector.select('.background').remove();
+
+                                _brush.on('brush', function () {
+                                    var selectedArea = _brush.extent();
+                                    self.trigger('selectionChange', {
+                                        segment: options.segment,
+                                        start: selectedArea[0],
+                                        end: selectedArea[1]
+                                    });
+                                });
+                            }
+
                         } else {
                             //No html target set
                             console.log("cyto-Chromosome: invalid html target handle");
                         }
 
-                        self.trigger('onModelLoaded-intern', {
-                            info: model.id
+                        self.trigger('modelLoaded', {
+                            id: model.id
                         });
 
                     });
