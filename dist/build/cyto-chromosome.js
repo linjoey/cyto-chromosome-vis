@@ -1,4 +1,10 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-events/index.js":[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/**
+ * Created by linjoey on 1/15/15.
+ */
+
+module.exports = require("./chromosome.js");
+},{"./chromosome.js":"Chromosome"}],2:[function(require,module,exports){
 var events = require("backbone-events-standalone");
 
 events.onAll = function(callback,context){
@@ -21,7 +27,7 @@ events.mixin = function(proto) {
 
 module.exports = events;
 
-},{"backbone-events-standalone":"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-events/node_modules/backbone-events-standalone/index.js"}],"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-events/node_modules/backbone-events-standalone/backbone-events-standalone.js":[function(require,module,exports){
+},{"backbone-events-standalone":4}],3:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -300,12 +306,12 @@ module.exports = events;
   }
 })(this);
 
-},{}],"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-events/node_modules/backbone-events-standalone/index.js":[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-events/node_modules/backbone-events-standalone/backbone-events-standalone.js"}],"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-rest-jsdas/index.js":[function(require,module,exports){
+},{"./backbone-events-standalone":3}],5:[function(require,module,exports){
 module.exports = require('./src/jsdas.js');
-},{"./src/jsdas.js":"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-rest-jsdas/src/jsdas.js"}],"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-rest-jsdas/src/jsdas.js":[function(require,module,exports){
+},{"./src/jsdas.js":6}],6:[function(require,module,exports){
 /* JSDAS
 * Copyright (C) 2008-2009 Bernat Gel
 *
@@ -2939,7 +2945,7 @@ JSDAS = JSDAS || {};
 	JSDAS.Simple = simple;
 }());
 module.exports = JSDAS;
-},{}],"/Users/linjoey/Developer/cyto-chromosome/node_modules/d3/d3.js":[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 !function() {
   var d3 = {
     version: "3.5.3"
@@ -12406,7 +12412,7 @@ module.exports = JSDAS;
   if (typeof define === "function" && define.amd) define(d3); else if (typeof module === "object" && module.exports) module.exports = d3;
   this.d3 = d3;
 }();
-},{}],"/Users/linjoey/Developer/cyto-chromosome/node_modules/jquery/dist/jquery.js":[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -21613,7 +21619,7 @@ return jQuery;
 
 }));
 
-},{}],"/Users/linjoey/Developer/cyto-chromosome/src/model-loader.js":[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 
 var $ = require("jquery");
 var JSDAS = require('biojs-rest-jsdas');
@@ -21654,7 +21660,7 @@ var ModelLoader = (function () {
 }());
 
 module.exports = ModelLoader;
-},{"biojs-rest-jsdas":"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-rest-jsdas/index.js","jquery":"/Users/linjoey/Developer/cyto-chromosome/node_modules/jquery/dist/jquery.js"}],"Chromosome":[function(require,module,exports){
+},{"biojs-rest-jsdas":5,"jquery":8}],"Chromosome":[function(require,module,exports){
 /**
  * INTERACTIVE CHROMOSOME VISUALIZATION
  * opt : initialization options object
@@ -21851,4 +21857,4 @@ var Chromosome = (function () {
 require('biojs-events').mixin(Chromosome.prototype);
 module.exports = Chromosome;
 
-},{"./model-loader":"/Users/linjoey/Developer/cyto-chromosome/src/model-loader.js","biojs-events":"/Users/linjoey/Developer/cyto-chromosome/node_modules/biojs-events/index.js","d3":"/Users/linjoey/Developer/cyto-chromosome/node_modules/d3/d3.js","jquery":"/Users/linjoey/Developer/cyto-chromosome/node_modules/jquery/dist/jquery.js"}]},{},[]);
+},{"./model-loader":9,"biojs-events":2,"d3":7,"jquery":8}]},{},[1]);

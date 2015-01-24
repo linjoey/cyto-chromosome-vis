@@ -5,6 +5,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var watchify = require('watchify');
 var browserify = require('browserify');
+var uglify = require('gulp-uglify');
 
 var bundler = watchify(browserify(watchify.args));
 bundler.require('./src/chromosome.js',{expose:"Chromosome"});
@@ -24,7 +25,7 @@ function bundleDev() {
         .pipe(gulp.dest('./dist'));
 }
 
-gulp.task('build', function(){
+gulp.task('build', function() {
     var b = browserify();
     b.add('./src/index.js')
     .require('./src/chromosome.js', {expose:"Chromosome"})
@@ -32,4 +33,10 @@ gulp.task('build', function(){
     .pipe(source('./build/cyto-chromosome.js'))
     .pipe(gulp.dest('./dist'));
 
+});
+
+gulp.task('compress', function() {
+    gulp.src('dist/build/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/release'));
 });
