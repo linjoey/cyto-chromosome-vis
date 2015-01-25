@@ -48,7 +48,6 @@ var Chromosome = (function () {
             deleteAll: function () {
                 for (var i = 0; i < this.selectorList.length; i++) {
                     this.selectorList[i].delete();
-
                 }
                 this.selectorList.length = 0;
             },
@@ -71,14 +70,16 @@ var Chromosome = (function () {
                 _brush.extent([to, from]);
                 var selector = d3.select(_options.target + ' .selector');
                 selector.call(_brush);
-
-
             }
         };
 
         this.getCurrentSelections = function () {
             return self.selectors.getSelections();
         };
+
+        this.deleteSelectors = function () {
+            self.selectors.deleteAll();
+        }
 
         function newSelector(xscale, start, end, yshift) {
             return new Selector({
@@ -151,7 +152,7 @@ var Chromosome = (function () {
                                     yshift = (PADDING - AXIS_SPACING);
 
                                 if ((_options.selectionMode!=="none" && self.selectors.selectorList.length == 0) ||
-                                    (_options.selectionMode === "multi" && _multiSelKeyPressed)) {
+                                    (_options.selectionMode === "multi" && d3.event.shiftKey)) {
                                     self.selectors.selectorList.push(newSelector(scaleFn, start, end, yshift).draw());
                                 }
 
@@ -193,13 +194,6 @@ var Chromosome = (function () {
             });
             return self;
         };
-
-        var _multiSelKeyPressed;
-        (function () {
-            d3.select("body")
-                .on("keydown.brush", function() { _multiSelKeyPressed = d3.event.shiftKey;})
-                .on("keyup.brush", function() { _multiSelKeyPressed = d3.event.shiftKey;});
-        }());
     };
 
     return chr;
