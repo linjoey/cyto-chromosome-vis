@@ -44,13 +44,21 @@ var Chromosome = (function () {
         });
 
         this.selectors = {
-            ary: new Array(),
+            selectorList: new Array(),
             deleteAll: function () {
-                for (var i = 0; i < this.ary.length; i++) {
-                    this.ary[i].delete();
+                for (var i = 0; i < this.selectorList.length; i++) {
+                    this.selectorList[i].delete();
 
                 }
-                this.ary.length = 0;
+                this.selectorList.length = 0;
+            },
+            getSelections: function () {
+                var list = new Array();
+                for (var i = 0; i < this.selectorList.length; i++)
+                {
+                    list.push(this.selectorList[i].getSelectedCoords());
+                }
+                return list;
             }
         };
 
@@ -83,7 +91,11 @@ var Chromosome = (function () {
                 xscale: xscale,
                 y: yshift,
                 target: _options.target
-            }).init(start, end);
+            }).init(start, end)
+                .on("selectionChanged", function (e) {
+                    e.segment = _options.segment;
+                    self.trigger("selectionChanged", e);
+            });
         };
 
         this.draw = function () {
@@ -144,13 +156,13 @@ var Chromosome = (function () {
                                     end = +m.END.textContent,
                                     yshift = (PADDING - AXIS_SPACING);
 
-                                if ((_options.selectionMode!=="none" && self.selectors.ary.length == 0) ||
+                                if ((_options.selectionMode!=="none" && self.selectors.selectorList.length == 0) ||
                                     (_options.selectionMode === "multi" && _multiSelKeyPressed)) {
-                                    self.selectors.ary.push(newSelector(scaleFn, start, end, yshift).draw());
+                                    self.selectors.selectorList.push(newSelector(scaleFn, start, end, yshift).draw());
                                 }
 
                                 if(_options.selectionMode === "single") {
-                                    self.selectors.ary[0].move(start, end);
+                                    self.selectors.selectorList[0].move(start, end);
                                 }
 
                                 self.trigger("bandSelection", {
@@ -190,8 +202,6 @@ var Chromosome = (function () {
 
         var _multiSelKeyPressed;
         (function () {
-            console.log(_multiSelKeyPressed);
-
             d3.select("body")
                 .on("keydown.brush", function() { _multiSelKeyPressed = d3.event.shiftKey;})
                 .on("keyup.brush", function() { _multiSelKeyPressed = d3.event.shiftKey;});

@@ -21690,10 +21690,26 @@ var Selector = (function () {
             _initialized = false;
         };
 
+        function triggerSelectionChange () {
+            var ext = _brush.extent();
+            self.trigger("selectionChanged", {
+                start: ext[0],
+                end: ext[1]
+            });
+        }
+
         this.init = function (start, end) {
             _brush = d3.svg.brush()
                 .x(options.xscale)
                 .extent([start, end]);
+
+            _brush.on("brush", function () {
+                triggerSelectionChange();
+            });
+
+            _brush.on("brushend", function () {
+                triggerSelectionChange();
+            });
 
             _selector = d3.select(options.target).append("g")
                 .classed('selector', true)
@@ -21705,6 +21721,10 @@ var Selector = (function () {
 
             _initialized = true;
             return self;
+        };
+
+        this.getSelectedCoords = function() {
+            return _brush.extent();
         };
 
         this.draw = function () {
@@ -21725,8 +21745,9 @@ var Selector = (function () {
     return sel;
 }());
 
+require('biojs-events').mixin(Selector.prototype);
 module.exports = Selector;
-},{"d3":7,"jquery":8}],"Chromosome":[function(require,module,exports){
+},{"biojs-events":2,"d3":7,"jquery":8}],"Chromosome":[function(require,module,exports){
 /**
  * INTERACTIVE CHROMOSOME VISUALIZATION
  * opt : initialization options object
@@ -21773,13 +21794,21 @@ var Chromosome = (function () {
         });
 
         this.selectors = {
-            ary: new Array(),
+            selectorList: new Array(),
             deleteAll: function () {
-                for (var i = 0; i < this.ary.length; i++) {
-                    this.ary[i].delete();
+                for (var i = 0; i < this.selectorList.length; i++) {
+                    this.selectorList[i].delete();
 
                 }
-                this.ary.length = 0;
+                this.selectorList.length = 0;
+            },
+            getSelections: function () {
+                var list = new Array();
+                for (var i = 0; i < this.selectorList.length; i++)
+                {
+                    list.push(this.selectorList[i].getSelectedCoords());
+                }
+                return list;
             }
         };
 
@@ -21812,7 +21841,11 @@ var Chromosome = (function () {
                 xscale: xscale,
                 y: yshift,
                 target: _options.target
-            }).init(start, end);
+            }).init(start, end)
+                .on("selectionChanged", function (e) {
+                    e.segment = _options.segment;
+                    self.trigger("selectionChanged", e);
+            });
         };
 
         this.draw = function () {
@@ -21873,13 +21906,13 @@ var Chromosome = (function () {
                                     end = +m.END.textContent,
                                     yshift = (PADDING - AXIS_SPACING);
 
-                                if ((_options.selectionMode!=="none" && self.selectors.ary.length == 0) ||
-                                    (_options.selectionMode === "multi" && _multiSelKey)) {
-                                    self.selectors.ary.push(newSelector(scaleFn, start, end, yshift).draw());
+                                if ((_options.selectionMode!=="none" && self.selectors.selectorList.length == 0) ||
+                                    (_options.selectionMode === "multi" && _multiSelKeyPressed)) {
+                                    self.selectors.selectorList.push(newSelector(scaleFn, start, end, yshift).draw());
                                 }
 
                                 if(_options.selectionMode === "single") {
-                                    self.selectors.ary[0].move(start, end);
+                                    self.selectors.selectorList[0].move(start, end);
                                 }
 
                                 self.trigger("bandSelection", {
@@ -21917,13 +21950,11 @@ var Chromosome = (function () {
             return self;
         };
 
-        var _multiSelKey;
+        var _multiSelKeyPressed;
         (function () {
-            console.log(_multiSelKey);
-
             d3.select("body")
-                .on("keydown.brush", function() { _multiSelKey = d3.event.shiftKey;})
-                .on("keyup.brush", function() { _multiSelKey = d3.event.shiftKey;});
+                .on("keydown.brush", function() { _multiSelKeyPressed = d3.event.shiftKey;})
+                .on("keyup.brush", function() { _multiSelKeyPressed = d3.event.shiftKey;});
         }());
     };
 

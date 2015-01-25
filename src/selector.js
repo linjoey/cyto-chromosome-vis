@@ -27,10 +27,26 @@ var Selector = (function () {
             _initialized = false;
         };
 
+        function triggerSelectionChange () {
+            var ext = _brush.extent();
+            self.trigger("selectionChanged", {
+                start: ext[0],
+                end: ext[1]
+            });
+        }
+
         this.init = function (start, end) {
             _brush = d3.svg.brush()
                 .x(options.xscale)
                 .extent([start, end]);
+
+            _brush.on("brush", function () {
+                triggerSelectionChange();
+            });
+
+            _brush.on("brushend", function () {
+                triggerSelectionChange();
+            });
 
             _selector = d3.select(options.target).append("g")
                 .classed('selector', true)
@@ -42,6 +58,10 @@ var Selector = (function () {
 
             _initialized = true;
             return self;
+        };
+
+        this.getSelectedCoords = function() {
+            return _brush.extent();
         };
 
         this.draw = function () {
@@ -62,4 +82,5 @@ var Selector = (function () {
     return sel;
 }());
 
+require('biojs-events').mixin(Selector.prototype);
 module.exports = Selector;

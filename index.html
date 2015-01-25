@@ -30,7 +30,7 @@
                           width: 1200,
                           includeAxis: true,
                           relativeSize: false,
-                          selectionMode: "single"
+                          selectionMode: "multi"
                       }).draw();
 
                       inst[chromosomes[i]].on('modelLoaded', function(e) {
@@ -46,7 +46,6 @@
                       });
 
                       inst[chromosomes[i]].on('selectionChanged', function(e) {
-                          //console.log(e);
                           $("#info"+ e.segment).text("selectionChanged: start: " + e.start + " end: " + e.end);
                       });
 
@@ -63,7 +62,7 @@
 
           }
 
-        x(["12"]);
+        x(["21"]);
 
 
     </script>
