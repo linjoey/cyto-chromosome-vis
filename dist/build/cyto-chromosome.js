@@ -21751,10 +21751,8 @@ module.exports = Selector;
 /**
  * INTERACTIVE CHROMOSOME VISUALIZATION
  * opt : initialization options object
- *  + target:
- *  + segment:
- *  - dasSource:
- *  - width:
+ *  + target: REQUIRED
+ *  + segment: REQUIRED
  *
  *
  */
@@ -21793,7 +21791,10 @@ var Chromosome = (function () {
             segment: _options.segment
         });
 
-        var _multiSelKeyPressed = false;
+        var _model;
+
+        var _xscale;
+
         this.selectors = {
             selectorList: new Array(),
             deleteAll: function () {
@@ -21814,6 +21815,19 @@ var Chromosome = (function () {
 
         this.info = function () {
             return _options;
+        };
+
+        this.getBandCoords = function (band) {
+            var ret = [];
+            if (typeof _model !== 'undefined') {
+                for (var i = 0; i < _model.bands.length; i++) {
+                    if (band === _model.bands[i].id){
+                        ret =  [+_model.bands[i].START.textContent, +_model.bands[i].END.textContent];
+                    }
+                }
+
+            }
+            return ret;
         };
 
         this.moveSelectorTo = function (to, from) {
@@ -21844,24 +21858,21 @@ var Chromosome = (function () {
             });
         };
 
+        this.addSelector = function (start, end, yshift) {
+            self.selectors.selectorList.push(newSelector(_xscale, start, end, yshift).draw());
+        }
+
         this.draw = function () {
             _modelLoader.loadModel(function (model) {
-                //console.log(model);
+                console.log(model);
+                _model = model;
                 if (typeof model.err === 'undefined') {
                     $(function () {
-                        var b = d3.select("body")
-                            .on("keydown.brush", function() {
-                                _multiSelKeyPressed = d3.event.shiftKey;
-                            })
-                            .on("keyup.brush", function() {
-                                _multiSelKeyPressed = d3.event.shiftKey;
-                            });
-
                         var rangeTo = _options.relativeSize
                             ? ((+model.stop / CHR1_BP_END) * _options.width) - PADDING
                             : _options.width - PADDING;
 
-                        var scaleFn = d3.scale.linear()
+                        _xscale = d3.scale.linear()
                             .domain([model.start, model.stop])
                             .range([0, rangeTo]);
 
@@ -21886,10 +21897,10 @@ var Chromosome = (function () {
                                     return (m.TYPE.id === "band:stalk") ? (_options.height * STALK_MAG_PC) : _options.height;
                                 })
                                 .attr('width', function (m) {
-                                    return scaleFn(+m.END.textContent) - scaleFn(+m.START.textContent);
+                                    return _xscale(+m.END.textContent) - _xscale(+m.START.textContent);
                                 })
                                 .attr('x', function (m) {
-                                    return scaleFn(m.START.textContent);
+                                    return _xscale(m.START.textContent);
                                 })
                                 .attr('y', function (m) {
                                     return (m.TYPE.id === "band:stalk") ? (PADDING + STALK_SPACING) : PADDING;
@@ -21901,18 +21912,17 @@ var Chromosome = (function () {
 
                             band.on("mouseover", function (m) {
                                 label.text(m.id)
-                                    .attr('x', (scaleFn(m.START.textContent)));
+                                    .attr('x', (_xscale(m.START.textContent)));
                             });
 
 
                             band.on("click", function (m) {
                                 var start = +m.START.textContent,
-                                    end = +m.END.textContent,
-                                    yshift = (PADDING - AXIS_SPACING);
+                                    end = +m.END.textContent;
 
                                 if ((_options.selectionMode!=="none" && self.selectors.selectorList.length == 0) ||
                                     (_options.selectionMode === "multi" && d3.event.shiftKey)) {
-                                    self.selectors.selectorList.push(newSelector(scaleFn, start, end, yshift).draw());
+                                    self.addSelector(start,end, (PADDING - AXIS_SPACING))
                                 }
 
                                 if(_options.selectionMode === "single") {
@@ -21929,7 +21939,7 @@ var Chromosome = (function () {
 
                             if (_options.includeAxis) {
                                 var bpAxis = d3.svg.axis()
-                                    .scale(scaleFn)
+                                    .scale(_xscale)
                                     .tickFormat(d3.format('s'))
                                     .orient("bottom");
 
