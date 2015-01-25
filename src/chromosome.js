@@ -12,6 +12,7 @@
 var d3 = require("d3");
 var $ = require("jquery");
 var ModelLoader = require("./model-loader");
+var Selector = require("./selector.js");
 
 var Chromosome = (function () {
     "use strict";
@@ -25,8 +26,7 @@ var Chromosome = (function () {
             AXIS_SPACING = 4,
             STALK_SPACING = 3;
 
-        var options = (function () {
-
+        var _options = (function () {
             return $.extend({}, {
                 //DEFAULT OPTIONS
                 dasSource : "http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype",
@@ -34,33 +34,42 @@ var Chromosome = (function () {
                 height: 20,
                 relativeSize: false,
                 includeAxis: false,
-                includeSelector: true
+                selectionMode: "single"
             }, opt || {});
         }());
 
         var _modelLoader = new ModelLoader({
-            source: options.dasSource,
-            segment: options.segment
+            source: _options.dasSource,
+            segment: _options.segment
         });
 
-        var _model;
-        var _brush;
+        this.selectors = {
+            ary: new Array(),
+            deleteAll: function () {
+                for (var i = 0; i < this.ary.length; i++) {
+                    this.ary[i].delete();
+
+                }
+                this.ary.length = 0;
+            }
+        };
+
         this.info = function () {
-            return options;
+            return _options;
         };
 
         this.moveSelectorTo = function (to, from) {
-            if (options.includeSelector) {
+            if (_options.selectionMode!=="none") {
                 _brush.extent([to, from]);
-                var selector = d3.select(options.target + ' .selector');
+                var selector = d3.select(_options.target + ' .selector');
                 selector.call(_brush);
 
 
             }
-        }
+        };
 
         this.getCurrentSelection = function () {
-            if (options.includeSelector && (typeof _brush !== 'undefined')) {
+            if (_options.selectionMode!=="none" && (typeof _brush !== 'undefined')) {
                 var ar = _brush.extent();
                 return {
                     start: ar[0],
@@ -69,27 +78,34 @@ var Chromosome = (function () {
             }
         };
 
+        function newSelector(xscale, start, end, yshift) {
+            return new Selector({
+                xscale: xscale,
+                y: yshift,
+                target: _options.target
+            }).init(start, end);
+        };
+
         this.draw = function () {
             _modelLoader.loadModel(function (model) {
-                console.log(model);
-                _model = model;
+                //console.log(model);
                 if (typeof model.err === 'undefined') {
                     $(function () {
-                        var rangeTo = options.relativeSize
-                            ? ((+model.stop / CHR1_BP_END) * options.width) - PADDING
-                            : options.width - PADDING;
+                        var rangeTo = _options.relativeSize
+                            ? ((+model.stop / CHR1_BP_END) * _options.width) - PADDING
+                            : _options.width - PADDING;
 
                         var scaleFn = d3.scale.linear()
                             .domain([model.start, model.stop])
                             .range([0, rangeTo]);
 
-                        var visTarget = d3.select(options.target)
-                            .attr('width', options.width)
-                            .attr('height', options.height + (2 * PADDING));
+                        var visTarget = d3.select(_options.target)
+                            .attr('width', _options.width)
+                            .attr('height', _options.height + (2 * PADDING));
 
                         if (!visTarget.empty()) {
 
-                            var band = visTarget.selectAll(options.target + " g")
+                            var band = visTarget.selectAll(_options.target + " g")
                                 .data(model.bands)
                                 .enter().append("g");
 
@@ -101,7 +117,7 @@ var Chromosome = (function () {
                                     return m.TYPE.id.replace(':', ' ');
                                 })
                                 .attr('height', function (m) {
-                                    return (m.TYPE.id === "band:stalk") ? (options.height * STALK_MAG_PC) : options.height;
+                                    return (m.TYPE.id === "band:stalk") ? (_options.height * STALK_MAG_PC) : _options.height;
                                 })
                                 .attr('width', function (m) {
                                     return scaleFn(+m.END.textContent) - scaleFn(+m.START.textContent);
@@ -122,21 +138,30 @@ var Chromosome = (function () {
                                     .attr('x', (scaleFn(m.START.textContent)));
                             });
 
+
                             band.on("click", function (m) {
                                 var start = +m.START.textContent,
-                                    end = +m.END.textContent
+                                    end = +m.END.textContent,
+                                    yshift = (PADDING - AXIS_SPACING);
 
-                                self.moveSelectorTo(start, end);
+                                if ((_options.selectionMode!=="none" && self.selectors.ary.length == 0) ||
+                                    (_options.selectionMode === "multi" && _multiSelKeyPressed)) {
+                                    self.selectors.ary.push(newSelector(scaleFn, start, end, yshift).draw());
+                                }
+
+                                if(_options.selectionMode === "single") {
+                                    self.selectors.ary[0].move(start, end);
+                                }
 
                                 self.trigger("bandSelection", {
-                                    segment: options.segment,
+                                    segment: _options.segment,
                                     bandID: m.id,
                                     start: start,
                                     end: end
                                 });
                             });
 
-                            if (options.includeAxis) {
+                            if (_options.includeAxis) {
                                 var bpAxis = d3.svg.axis()
                                     .scale(scaleFn)
                                     .tickFormat(d3.format('s'))
@@ -144,32 +169,8 @@ var Chromosome = (function () {
 
                                 visTarget.append('g')
                                     .attr('class', 'bp-axis')
-                                    .attr('transform', 'translate(0,' + (options.height + PADDING + AXIS_SPACING) + ")")
+                                    .attr('transform', 'translate(0,' + (_options.height + PADDING + AXIS_SPACING) + ")")
                                     .call(bpAxis);
-                            }
-
-                            if (options.includeSelector) {
-                                _brush = d3.svg.brush()
-                                    .x(scaleFn);
-
-                                var selector = visTarget.append("g")
-                                    .classed('selector', true)
-                                    .attr('transform',"translate(0,"+ (PADDING - AXIS_SPACING)+")")
-                                    .call(_brush);
-
-                                selector.selectAll('rect')
-                                    .attr('height', options.height + (AXIS_SPACING * 2));
-
-                                selector.select('.background').remove();
-
-                                _brush.on('brush', function () {
-                                    var selectedArea = _brush.extent();
-                                    self.trigger('selectionChange', {
-                                        segment: options.segment,
-                                        start: selectedArea[0],
-                                        end: selectedArea[1]
-                                    });
-                                });
                             }
 
                         } else {
@@ -186,6 +187,15 @@ var Chromosome = (function () {
             });
             return self;
         };
+
+        var _multiSelKeyPressed;
+        (function () {
+            console.log(_multiSelKeyPressed);
+
+            d3.select("body")
+                .on("keydown.brush", function() { _multiSelKeyPressed = d3.event.shiftKey;})
+                .on("keyup.brush", function() { _multiSelKeyPressed = d3.event.shiftKey;});
+        }());
     };
 
     return chr;

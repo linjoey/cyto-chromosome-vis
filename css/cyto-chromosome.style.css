@@ -86,5 +86,7 @@
 .selector rect{
     fill: #0000ff;
     fill-opacity: 0.2;
+    stroke: #666666;
+    stroke-width: 0.5;
 
 }

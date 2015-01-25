@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="./dist/build/cyto-chromosome.js"></script>
-    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="node_modules/jquery/dist/cdn/jquery-2.1.3.min.js"></script>
     <link href="css/cyto-chromosome.style.css" rel="stylesheet"  type="text/css"/>
 
     <style>
@@ -13,7 +13,6 @@
 
     <script>
           var Chromosome = require('Chromosome');
-
           function x(chromosomes){
               $(function () {
                   var inst = new Array();
@@ -30,13 +29,15 @@
                           target: target,
                           width: 1200,
                           includeAxis: true,
-                          relativeSize: true
+                          relativeSize: false,
+                          selectionMode: "single"
                       }).draw();
 
                       inst[chromosomes[i]].on('modelLoaded', function(e) {
                           //console.log(e);
                           $("#info"+ e.id).text("modelLoaded: " + e.id);
-                          inst[e.id].moveSelectorTo(1,2000000);
+                          //inst[e.id].moveSelectorTo(1,45345);
+                          //console.log(inst[e.id].getCurrentSelection());
                       });
 
                       inst[chromosomes[i]].on("bandSelection", function(e) {
@@ -44,11 +45,20 @@
                           $("#info"+ e.segment).text("bandSelection: " + e.segment + " start: " + e.start + " end: " + e.end);
                       });
 
-                      inst[chromosomes[i]].on('selectionChange', function(e) {
+                      inst[chromosomes[i]].on('selectionChanged', function(e) {
                           //console.log(e);
-                          $("#info"+ e.segment).text("selectionChange: start: " + e.start + " end: " + e.end);
+                          $("#info"+ e.segment).text("selectionChanged: start: " + e.start + " end: " + e.end);
                       });
+
                   }
+
+                  $("#del").click(function () {
+
+                      inst["12"].selectors.deleteAll();
+
+                  });
+
+
               });
 
           }
@@ -60,7 +70,7 @@
 </head>
 <body>
 
-
+<button id="del" type="button">Delete All Selectors</button>
 <div id="cyto-vis"></div>
 
 </body>
