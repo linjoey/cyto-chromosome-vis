@@ -43,7 +43,10 @@
                       inst[chromosomes[i]].on("bandSelection", function(e) {
                           //console.log(e);
                           $("#info"+ e.segment).text("bandSelection: " + e.segment + " start: " + e.start + " end: " + e.end);
+                          //console.log(this.getCurrentSelections());
                       });
+
+
 
                       inst[chromosomes[i]].on('selectionChanged', function(e) {
                           $("#info"+ e.segment).text("selectionChanged: start: " + e.start + " end: " + e.end);

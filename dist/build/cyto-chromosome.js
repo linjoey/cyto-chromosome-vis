@@ -21826,14 +21826,8 @@ var Chromosome = (function () {
             }
         };
 
-        this.getCurrentSelection = function () {
-            if (_options.selectionMode!=="none" && (typeof _brush !== 'undefined')) {
-                var ar = _brush.extent();
-                return {
-                    start: ar[0],
-                    end: ar[1]
-                };
-            }
+        this.getCurrentSelections = function () {
+            return self.selectors.getSelections();
         };
 
         function newSelector(xscale, start, end, yshift) {
