@@ -38,7 +38,7 @@
                           $("#info"+ e.id).text("modelLoaded: " + e.id);
                           //inst[e.id].moveSelectorTo(1,45345);
                           //console.log(inst[e.id].getCurrentSelection());
-                          console.log(inst["13"].getBandCoords("p11.2"));
+                          //console.log(inst["1"].getBandCoords("p11.2"));
                       });
 
                       inst[chromosomes[i]].on("bandSelection", function(e) {
@@ -46,8 +46,6 @@
                           $("#info"+ e.segment).text("bandSelection: " + e.segment + " start: " + e.start + " end: " + e.end);
                           //console.log(this.getCurrentSelections());
                       });
-
-
 
                       inst[chromosomes[i]].on('selectionChanged', function(e) {
                           $("#info"+ e.segment).text("selectionChanged: start: " + e.start + " end: " + e.end);
@@ -67,7 +65,7 @@
 
 
           var all = ["2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"];
-          x(["13"]);
+          x(["1","21"]);
 
 
 
@@ -75,15 +73,16 @@
     </script>
 </head>
 <body>
+<a href="demo.html">demo 13</a>
 
 <button id="del" type="button">Delete All Selectors</button>
 <br/>
-<input id="startxt" type="text"><br/>
-<input id="endtxt" type="text">
-<button id="moveSel" type="button">Move</button>
+
 
 
 <div id="cyto-vis"></div>
+
+
 
 </body>
 </html>

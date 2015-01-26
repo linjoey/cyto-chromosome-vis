@@ -21791,9 +21791,7 @@ var Chromosome = (function () {
             segment: _options.segment
         });
 
-        var _model;
-
-        var _xscale;
+        var _model, _xscale;
 
         this.selectors = {
             selectorList: new Array(),
@@ -21817,12 +21815,13 @@ var Chromosome = (function () {
             return _options;
         };
 
-        this.getBandCoords = function (band) {
+        this.getCoordsByBand = function (band) {
             var ret = [];
             if (typeof _model !== 'undefined') {
                 for (var i = 0; i < _model.bands.length; i++) {
-                    if (band === _model.bands[i].id){
-                        ret =  [+_model.bands[i].START.textContent, +_model.bands[i].END.textContent];
+                    if (band == _model.bands[i].id) {
+                        ret = [+_model.bands[i].START.textContent, +_model.bands[i].END.textContent];
+                        break;
                     }
                 }
 
@@ -21832,9 +21831,7 @@ var Chromosome = (function () {
 
         this.moveSelectorTo = function (to, from) {
             if (_options.selectionMode!=="none") {
-                _brush.extent([to, from]);
-                var selector = d3.select(_options.target + ' .selector');
-                selector.call(_brush);
+                self.selectors.selectorList[0].move(to, from);
             }
         };
 
@@ -21932,6 +21929,7 @@ var Chromosome = (function () {
                                 self.trigger("bandSelection", {
                                     segment: _options.segment,
                                     bandID: m.id,
+                                    type: m.TYPE.textContent,
                                     start: start,
                                     end: end
                                 });
@@ -21957,13 +21955,32 @@ var Chromosome = (function () {
                         self.trigger('modelLoaded', {
                             id: model.id
                         });
-
                     });
                 }
             });
             return self;
         };
     };
+
+    //http://stackoverflow.com/questions/12115691/svg-d3-js-rounded-corner-on-one-corner-of-a-rectangle
+    function rounded_rect(x, y, w, h, r, tl, tr, bl, br) {
+        var retval;
+        retval  = "M" + (x + r) + "," + y;
+        retval += "h" + (w - 2*r);
+        if (tr) { retval += "a" + r + "," + r + " 0 0 1 " + r + "," + r; }
+        else { retval += "h" + r; retval += "v" + r; }
+        retval += "v" + (h - 2*r);
+        if (br) { retval += "a" + r + "," + r + " 0 0 1 " + -r + "," + r; }
+        else { retval += "v" + r; retval += "h" + -r; }
+        retval += "h" + (2*r - w);
+        if (bl) { retval += "a" + r + "," + r + " 0 0 1 " + -r + "," + -r; }
+        else { retval += "h" + -r; retval += "v" + -r; }
+        retval += "v" + (2*r - h);
+        if (tl) { retval += "a" + r + "," + r + " 0 0 1 " + r + "," + -r; }
+        else { retval += "v" + -r; retval += "h" + r; }
+        retval += "z";
+        return retval;
+    }
 
     return chr;
 }());
