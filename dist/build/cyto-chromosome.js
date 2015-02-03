@@ -21883,9 +21883,6 @@ var Chromosome = (function () {
                                 .data(model.bands)
                                 .enter().append("g");
 
-                            //band.append("title")
-                            //    .text(function(m) {return m.id; });
-
                             band.append('rect')
                                 .attr('class', function (m) {
                                     return m.TYPE.id.replace(':', ' ');
@@ -21961,27 +21958,7 @@ var Chromosome = (function () {
             return self;
         };
     };
-
-    //http://stackoverflow.com/questions/12115691/svg-d3-js-rounded-corner-on-one-corner-of-a-rectangle
-    function rounded_rect(x, y, w, h, r, tl, tr, bl, br) {
-        var retval;
-        retval  = "M" + (x + r) + "," + y;
-        retval += "h" + (w - 2*r);
-        if (tr) { retval += "a" + r + "," + r + " 0 0 1 " + r + "," + r; }
-        else { retval += "h" + r; retval += "v" + r; }
-        retval += "v" + (h - 2*r);
-        if (br) { retval += "a" + r + "," + r + " 0 0 1 " + -r + "," + r; }
-        else { retval += "v" + r; retval += "h" + -r; }
-        retval += "h" + (2*r - w);
-        if (bl) { retval += "a" + r + "," + r + " 0 0 1 " + -r + "," + -r; }
-        else { retval += "h" + -r; retval += "v" + -r; }
-        retval += "v" + (2*r - h);
-        if (tl) { retval += "a" + r + "," + r + " 0 0 1 " + r + "," + -r; }
-        else { retval += "v" + -r; retval += "h" + r; }
-        retval += "z";
-        return retval;
-    }
-
+console.log('io');
     return chr;
 }());
 

@@ -1,4 +1,4 @@
-var Chromosome = require('cyto-chromosome');
+var Chromosome = require('Chromosome');
 
 var c13 = new Chromosome({
   target: "#demo",
