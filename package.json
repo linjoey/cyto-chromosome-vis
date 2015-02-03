@@ -29,7 +29,7 @@
     "watchify": "^2.2.1"
   },
   "scripts": {
-    "build": "browserify -r ./:cyto-chromosome > ./dist/build/cyto-chromosome.js --debug"
+    "build": "browserify -r ./:cyto-chromosome-vis > ./dist/build/cyto-chromosome.js --debug"
   },
   "keywords": [
     "biojs",

@@ -4,7 +4,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
  */
 
 module.exports = require("./chromosome.js");
-},{"./chromosome.js":"Chromosome"}],2:[function(require,module,exports){
+},{"./chromosome.js":"cyto-chromosome-vis"}],2:[function(require,module,exports){
 var events = require("backbone-events-standalone");
 
 events.onAll = function(callback,context){
@@ -21747,7 +21747,7 @@ var Selector = (function () {
 
 require('biojs-events').mixin(Selector.prototype);
 module.exports = Selector;
-},{"biojs-events":2,"d3":7,"jquery":8}],"Chromosome":[function(require,module,exports){
+},{"biojs-events":2,"d3":7,"jquery":8}],"cyto-chromosome-vis":[function(require,module,exports){
 /**
  * INTERACTIVE CHROMOSOME VISUALIZATION
  * opt : initialization options object
@@ -21958,7 +21958,7 @@ var Chromosome = (function () {
             return self;
         };
     };
-console.log('io');
+
     return chr;
 }());
 

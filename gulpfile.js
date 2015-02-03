@@ -20,7 +20,7 @@ function bundleDev() {
     return bundler.bundle()
         // log errors if they happen
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-        .pipe(source('./build/cyto-chromosome.js'))
+        .pipe(source('./build/cyto-chromosome-vis.js'))
         //
         .pipe(gulp.dest('./dist'));
 }
@@ -28,7 +28,7 @@ function bundleDev() {
 gulp.task('build', function() {
     var b = browserify();
     b.add('./src/index.js')
-    .require('./src/chromosome.js', {expose:"Chromosome"})
+    .require('./src/chromosome.js', {expose:"cyto-chromosome-vis"})
         .bundle()
     .pipe(source('./build/cyto-chromosome.js'))
     .pipe(gulp.dest('./dist'));
