@@ -20,11 +20,12 @@ HTML
 JS
 
 ```
-var Chromosome = require('Chromosome');
+var Chromosome = require('cyto-chromosome-vis');
    var ch13 = new Chromosome({
        segment: "13",
        target: "#chr13",
-       width: 1000
+       width: 1000,
+       selectionMode: "multi" //use shift-key to multi select
    }).draw();
 ```
 
