@@ -13,11 +13,11 @@
   "dependencies": {
     "d3": "^3.5.2",
     "jquery": "^2.1.1",
-    "biojs-rest-jsdas": "0.0.4"
+    "biojs-rest-jsdas": "0.0.4",
+    "biojs-events": "0.0.4"
   },
   "main": "src/index.js",
   "devDependencies": {
-    "biojs-events": "0.0.4",
     "brfs": "1.2.0",
     "browserify": "^7.0.0",
     "gulp": "^3.8.10",
