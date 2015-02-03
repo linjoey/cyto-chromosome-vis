@@ -3,6 +3,8 @@ cyto-chromosome-vis
 
 Interactive Chromosome visualization using D3.js
 
+[![npm version](https://badge.fury.io/js/cyto-chromosome-vis.svg?style=flat)](http://badge.fury.io/js/cyto-chromosome-vis)
+
 Documentation: [project page](http://linjoey.github.io/cyto-chromosome-vis)
 
 ## Basics:
