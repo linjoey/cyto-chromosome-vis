@@ -9,12 +9,16 @@ Documentation: [project page](http://linjoey.github.io/cyto-chromosome-vis)
 
 HTML
 
-```<svg id="chr13"></svg>
+
+
+```
+<svg id="chr13"></svg>
 ```
 
 JS
 
-```var Chromosome = require('Chromosome');
+```
+var Chromosome = require('Chromosome');
    var ch13 = new Chromosome({
        segment: "13",
        target: "#chr13",
