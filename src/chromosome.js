@@ -111,7 +111,7 @@ var Chromosome = (function () {
 
         this.draw = function () {
             _modelLoader.loadModel(function (model) {
-                console.log(model);
+                //console.log(model);
                 _model = model;
                 if (typeof model.err === 'undefined') {
                     $(function () {
@@ -133,8 +133,12 @@ var Chromosome = (function () {
                                 .data(model.bands)
                                 .enter().append("g");
 
+                            var centromereLocation;
                             band.append('rect')
                                 .attr('class', function (m) {
+                                    if(m.TYPE.id === "band:acen" && (m.id.indexOf('p')==0)) {
+                                        centromereLocation = m.END.textContent;
+                                    }
                                     return m.TYPE.id.replace(':', ' ');
                                 })
                                 .attr('height', function (m) {
@@ -149,7 +153,21 @@ var Chromosome = (function () {
                                 .attr('y', function (m) {
                                     return (m.TYPE.id === "band:stalk") ? (PADDING + STALK_SPACING) : PADDING;
                                 });
+                            // Centromere line optio
+                            //visTarget.append('line')
+                            //    .style('stroke', 'red')
+                            //    .style('stroke-width', 2)
+                            //    .attr('x1', _xscale(centromereLocation))
+                            //    .attr('y1', 0)
+                            //    .attr('x2', _xscale(centromereLocation))
+                            //    .attr('y2', _options.height);
 
+                            //centromere dot option
+                            visTarget.append('circle')
+                                .classed('centromere', true)
+                                .attr('cx', _xscale(centromereLocation))
+                                .attr('cy', PADDING - 6)
+                                .attr('r', 5);
                             var label = visTarget.append("text")
                                 .attr("class", "band-lbl")
                                 .attr("y", LABEL_PADDING);
