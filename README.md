@@ -13,7 +13,7 @@ HTML
 
 
 
-```
+```html
 <script src="./dist/build/cyto-chromosome.js"></script>
 <link href="css/cyto-chromosome.style.css" rel="stylesheet"  type="text/css"/>
 <svg id="chr13"></svg>
@@ -21,7 +21,7 @@ HTML
 
 JS
 
-```
+```javascript
 var Chromosome = require('cyto-chromosome-vis');
    var ch13 = new Chromosome({
        segment: "13",
