@@ -21983,4 +21983,7 @@ var Chromosome = (function () {
 require('biojs-events').mixin(Chromosome.prototype);
 module.exports = Chromosome;
 
-},{"./model-loader":9,"./selector.js":10,"biojs-events":2,"d3":7,"jquery":8}]},{},[1]);
+},{"./model-loader":9,"./selector.js":10,"biojs-events":2,"d3":7,"jquery":8}]},{},[1])
+
+
+//# sourceMappingURL=cyto-chromosome.js.map
