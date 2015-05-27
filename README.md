@@ -7,6 +7,10 @@ Interactive Chromosome visualization using D3.js
 
 Documentation: [project page](http://linjoey.github.io/cyto-chromosome-vis)
 
+![](http://i.imgur.com/AufbUNe.gif)
+
+This project uses D3.js to visualize chromosome bands using svg rect. The annotations are retrieved remotely from a specified DAS source.
+
 ## Basics:
 
 HTML
@@ -14,7 +18,7 @@ HTML
 
 
 ```html
-<script src="./dist/build/cyto-chromosome.js"></script>
+<script src="./dist/cyto-chromosome.min.js"></script>
 <link href="css/cyto-chromosome.style.css" rel="stylesheet"  type="text/css"/>
 <svg id="chr13"></svg>
 ```
@@ -30,6 +34,7 @@ var Chromosome = require('cyto-chromosome-vis');
        selectionMode: "multi" //use shift-key to multi select
    }).draw();
 ```
+
 
 ## License
 
