@@ -1,6 +1,7 @@
 
-var $ = require("jquery");
+//var $ = require("jquery");
 var d3 = require("d3");
+var assign = require('lodash.assign');
 
 var Selector = (function () {
     "use strict";
@@ -14,8 +15,8 @@ var Selector = (function () {
 
         var AXIS_SPACING = 4;
 
-        var options = (function () {
-            return $.extend({}, {
+        var _options = (function () {
+            return assign({}, {
                 //DEFAULT OPTIONS
                 height: 20,
                 y:9
@@ -37,7 +38,7 @@ var Selector = (function () {
 
         this.init = function (start, end) {
             _brush = d3.svg.brush()
-                .x(options.xscale)
+                .x(_options.xscale)
                 .extent([start, end]);
 
             _brush.on("brush", function () {
@@ -48,13 +49,13 @@ var Selector = (function () {
                 triggerSelectionChange();
             });
 
-            _selector = d3.select(options.target).append("g")
+            _selector = d3.select(_options.target).append("g")
                 .classed('selector', true)
-                .attr('transform',"translate(0,"+ options.y +")")
+                .attr('transform',"translate(0,"+ _options.y +")")
                 .call(_brush);
 
             _selector.selectAll('rect')
-                .attr('height', options.height + (AXIS_SPACING * 2));
+                .attr('height', _options.height + (AXIS_SPACING * 2));
 
             _initialized = true;
             return self;
@@ -73,7 +74,7 @@ var Selector = (function () {
 
         this.move = function (to, from) {
             _brush.extent([to, from]);
-            var selector = d3.select(options.target + ' .selector');
+            var selector = d3.select(_options.target + ' .selector');
             selector.call(_brush);
             return self;
         };

@@ -8,9 +8,10 @@
  */
 
 var d3 = require("d3");
-var $ = require("jquery");
+//var $ = require("jquery");
 var ModelLoader = require("./model-loader");
 var Selector = require("./selector.js");
+var assign = require('lodash.assign');
 
 var Chromosome = (function () {
     "use strict";
@@ -25,7 +26,7 @@ var Chromosome = (function () {
             STALK_SPACING = 3;
 
         var _options = (function () {
-            return $.extend({}, {
+            return assign({}, {
                 //DEFAULT OPTIONS
                 dasSource : "http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype",
                 width: 900,

@@ -1,5 +1,5 @@
 
-var $ = require("jquery");
+
 var JSDAS = require('biojs-rest-jsdas');
 
 var ModelLoader = (function () {
