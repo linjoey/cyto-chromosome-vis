@@ -1,6 +1,6 @@
 {
   "name": "cyto-chromosome-vis",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Chromosome visualization using d3.js",
   "author": {
     "name": "Joe Lin",
