@@ -178,7 +178,6 @@ var Chromosome = (function () {
                                     .attr('x', (_xscale(m.START.textContent)));
                             });
 
-
                             band.on("click", function (m) {
                                 var start = +m.START.textContent,
                                     end = +m.END.textContent;
