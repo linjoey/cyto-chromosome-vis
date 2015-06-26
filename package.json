@@ -1,0 +1,22 @@
+{
+  "name": "chromosome-map",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linjoey/chromosome-map.git"
+  },
+  "author": "Joe Zhao Lin <linjoeyy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/linjoey/chromosome-map/issues"
+  },
+  "homepage": "https://github.com/linjoey/chromosome-map#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
