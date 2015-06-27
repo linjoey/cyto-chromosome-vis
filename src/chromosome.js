@@ -1,83 +1,6 @@
 
 (function(chr_map, d3) {
 
-  //http://stackoverflow.com/questions/12115691/svg-d3-js-rounded-corner-on-one-corner-of-a-rectangle
-  function rounded_rect(x, y, w, h, r, tl, tr, bl, br) {
-    var retval;
-    retval = "M" + (x + r) + "," + y;
-    retval += "h" + (w - 2 * r);
-    if (tr) {
-      retval += "a" + r + "," + r + " 0 0 1 " + r + "," + r;
-    }
-    else {
-      retval += "h" + r;
-      retval += "v" + r;
-    }
-    retval += "v" + (h - 2 * r);
-    if (br) {
-      retval += "a" + r + "," + r + " 0 0 1 " + -r + "," + r;
-    }
-    else {
-      retval += "v" + r;
-      retval += "h" + -r;
-    }
-    retval += "h" + (2 * r - w);
-    if (bl) {
-      retval += "a" + r + "," + r + " 0 0 1 " + -r + "," + -r;
-    }
-    else {
-      retval += "h" + -r;
-      retval += "v" + -r;
-    }
-    retval += "v" + (2 * r - h);
-    if (tl) {
-      retval += "a" + r + "," + r + " 0 0 1 " + r + "," + -r;
-    }
-    else {
-      retval += "v" + -r;
-      retval += "h" + r;
-    }
-    retval += "z";
-    return retval;
-  }
-
-  function getStainColour(bandtype, density) {
-
-    if(bandtype == "gpos") {
-      if(density === "" || density === null) return "#000000";
-
-      switch(density) {
-        case "100":
-          return "#000000";
-        case "75":
-          return "#666666";
-        case "50":
-          return "#999999";
-        case "25":
-          return "#d9d9d9";
-      }
-    }
-
-    if (bandtype === "gneg") {
-      return "#ffffff";
-    }
-
-    if (bandtype === "acen") {
-      return "url(#acen-fill)";
-      //return "#708090";
-    }
-
-    if (bandtype === "gvar") {
-      return "#e0e0e0";
-    }
-
-    if(bandtype === "stalk") {
-      return "#708090";
-    }
-
-    return "green";
-  }
-
   var margin = {
     top: 40,
     left: 5
@@ -104,13 +27,13 @@
     }
 
     this.segment = opt.segment.toString();
-    this.resolution = opt.resolution || "850";
-    this.width = opt.width || 1000;
+    this.resolution = chr_map.setOption(opt.resolution, "550");
+    this.width = chr_map.setOption(opt.width, 1000);
     this.height = 90;
-
-    this.useRelative = opt.relativeSize || true;
-    this.showAxis = opt.showAxis || true;
-    this.alignCentromere = false;
+    this.useRelative = chr_map.setOption(opt.useRelative, true);
+    this.showAxis = chr_map.setOption(opt.showAxis, true);
+    //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
+    this.alignCentromere = chr_map.setOption(opt.alignCentromere, false);
 
   };
 
@@ -121,11 +44,12 @@
       .orient("bottom");
 
     if (
+      this.useRelative && (
       this.segment === "Y" ||
       this.segment === "22" ||
       this.segment === "21" ||
       this.segment === "20" ||
-      this.segment === "19"
+      this.segment === "19")
     ) {
       bpAxis.ticks(6);
     }
@@ -203,11 +127,11 @@
 
           function drawRoundedRect(d, r, tl, tr, bl, br) {
             return this.append('path')
-              .attr("d", rounded_rect(bpCoord(d.bp_start), margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
-              .style('fill', getStainColour(d.stain, d.density));
+              .attr("d", chr_map.roundedRect(bpCoord(d.bp_start), margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
+              .style('fill', chr_map.getStainColour(d.stain, d.density));
           }
 
-          if(i % 2 == 0) {
+          if(i % 2 === 0) {
             var bmid = (bpCoord(d.bp_stop) + bpCoord(d.bp_start)) / 2;
             elem.append('line')
               .attr('x1', bmid)
@@ -228,13 +152,13 @@
           if (i === 0 && w > 10) {
             rect = drawRoundedRect.call(elem, d, 4, true, false, true, false);
             applyBorder.call(rect);
-          } else if (d.stain === "acen" && (w > 10)) {
+          } else if (d.stain === "acen" && (w > 6)) {
 
             if (d.arm === "p") {
-              rect = drawRoundedRect.call(elem, d, 10, false, true, false, true);
+              rect = drawRoundedRect.call(elem, d, 8, false, true, false, true);
 
             } else if(d.arm === "q") {
-              rect = drawRoundedRect.call(elem, d, 10, true, false, true, false);
+              rect = drawRoundedRect.call(elem, d, 8, true, false, true, false);
             }
           } else if (i === data.length - 1) {
 
@@ -242,14 +166,20 @@
             applyBorder.call(rect);
 
           } else {
+
+            var ys = d.stain === "stalk" ? margin.top + (CHR_HEIGHT / 4) : margin.top;
+            var hs = d.stain === "stalk" ? CHR_HEIGHT / 2 : CHR_HEIGHT;
             rect = elem.append('rect')
               .attr('x', bpCoord(d.bp_start))
-              .attr('y', margin.top)
-              .attr('height', CHR_HEIGHT)
+              .attr('y', ys)
+              .attr('height', hs)
               .attr('width', self.xscale(d.bp_stop) - self.xscale(d.bp_start))
-              .style('fill', getStainColour(d.stain, d.density));
+              .style('fill', chr_map.getStainColour(d.stain, d.density));
             applyBorder.call(rect);
           }
+
+          rect.append('title')
+            .text(d.arm + d.band)
 
           rect.on('mouseover', function(d) {
             var e = d3.select(this)
@@ -257,7 +187,7 @@
               .style('cursor', 'pointer');
 
             if (d.stain === "gneg") {
-              e.style('fill', getStainColour("gpos", "25"));
+              e.style('fill', chr_map.getStainColour("gpos", "25"));
             }
 
           });
@@ -268,7 +198,7 @@
               .style('cursor', 'default');
 
             if (d.stain === "gneg") {
-              e.style('fill', getStainColour("gneg"));
+              e.style('fill', chr_map.getStainColour("gneg"));
             }
           });
         });
