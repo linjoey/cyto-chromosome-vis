@@ -1,7 +1,7 @@
 
 (function(chr_map, d3) {
 
-  var margin = {
+  chr_map.margin = {
     top: 40,
     left: 5
   };
@@ -56,7 +56,7 @@
 
     var axisg = this.svgTarget.append('g')
       .classed('bp-axis', true)
-      .attr('transform', 'translate('+ margin.left + ',' + (CHR_HEIGHT + margin.top + 5) + ")");
+      .attr('transform', 'translate('+ chr_map.margin.left + ',' + (CHR_HEIGHT + chr_map.margin.top + 5) + ")");
 
       axisg.call(bpAxis);
 
@@ -93,7 +93,7 @@
 
       self.xscale = d3.scale.linear()
         .domain([1, maxBasePair])
-        .range([0, rangeTo - margin.left]);
+        .range([0, rangeTo - chr_map.margin.left]);
 
       var svgWidth = self.alignCentromere ? self.width + (self.width * 0.3) : self.width;
 
@@ -111,7 +111,7 @@
           xshift = self.xscale(CHR1_BP_MID) - self.xscale(self.segMid);
         }
 
-        return self.xscale(bp) + margin.left + xshift;
+        return self.xscale(bp) + chr_map.margin.left + xshift;
       }
 
       bands.append('g')
@@ -127,7 +127,7 @@
 
           function drawRoundedRect(d, r, tl, tr, bl, br) {
             return this.append('path')
-              .attr("d", chr_map.roundedRect(bpCoord(d.bp_start), margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
+              .attr("d", chr_map.roundedRect(bpCoord(d.bp_start), chr_map.margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
               .style('fill', chr_map.getStainColour(d.stain, d.density));
           }
 
@@ -135,14 +135,14 @@
             var bmid = (bpCoord(d.bp_stop) + bpCoord(d.bp_start)) / 2;
             elem.append('line')
               .attr('x1', bmid)
-              .attr('y1', margin.top)
+              .attr('y1', chr_map.margin.top)
               .attr('x2', bmid)
-              .attr('y2', margin.top - 4)
+              .attr('y2', chr_map.margin.top - 4)
               .style('stroke', 'grey')
               .style('stroke-width',1);
 
             elem.append('text')
-              .attr('transform', 'translate(' + bmid + ',' + (margin.top - 6) + ')rotate(-50)')
+              .attr('transform', 'translate(' + bmid + ',' + (chr_map.margin.top - 6) + ')rotate(-50)')
               .style('font', '10px sans-serif')
               .text(d.arm + d.band);
           }
@@ -167,7 +167,7 @@
 
           } else {
 
-            var ys = d.stain === "stalk" ? margin.top + (CHR_HEIGHT / 4) : margin.top;
+            var ys = d.stain === "stalk" ? chr_map.margin.top + (CHR_HEIGHT / 4) : chr_map.margin.top;
             var hs = d.stain === "stalk" ? CHR_HEIGHT / 2 : CHR_HEIGHT;
             rect = elem.append('rect')
               .attr('x', bpCoord(d.bp_start))
@@ -205,14 +205,13 @@
           rect.on('click', function(d) {
 
             var ve = new chr_map.Selector()
-              .x(margin.left)
-              .y(margin.top - (CHR_HEIGHT / 4))
+              .x(chr_map.margin.left)
+              .y(chr_map.margin.top - (CHR_HEIGHT / 4))
               .height(CHR_HEIGHT + (CHR_HEIGHT / 2))
               .xscale(self.xscale)
               .extent([d.bp_start, d.bp_stop])
               .target(self.svgTarget)
               .render();
-
           });
         });
 

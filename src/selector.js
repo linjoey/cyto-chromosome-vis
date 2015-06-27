@@ -50,6 +50,8 @@
 
   Selector.prototype.render = function() {
 
+    var self = this;
+
     this.selector = this.target.append('g')
         .attr('transform', 'translate(' + this.x + ',' + this.y + ')')
         .call(this.brush);
@@ -59,15 +61,45 @@
 
     this.selector.select('.background').remove();
 
-    this.selector.select('.extent')
+    var e = this.selector.select('.extent')
       .style('fill', 'steelblue')
       .style('opacity', '0.5');
+
+    var cbg = this.target.append('g');
+    cbg.append('title').text('remove');
+
+    this.deleteButton = cbg.append('circle')
+      .attr('cx', this.xscale(this.extent[1]) + 5)
+      .attr('cy', chr_map.margin.top - 5)
+      .attr('r', 5)
+      .attr('fill', 'red')
+      .on('mouseover', function() {
+        d3.select(this)
+          .style('cursor', 'pointer')
+          .style('opacity', '0.8');
+      })
+      .on('mouseout', function(){
+        d3.select(this)
+          .style('cursor', 'default')
+          .style('opacity', '1');
+      })
+      .on('click', function() {
+
+        self.remove();
+      });
+
+    this.brush.on('brush', function(d) {
+      var e = self.brush.extent();
+      //console.log(self.brush.extent());
+      self.deleteButton.attr('cx', self.xscale(e[1]) + 5);
+    });
 
     return this;
   };
 
   Selector.prototype.remove = function() {
     this.selector.remove();
+    this.deleteButton.remove();
     return this;
   };
 
