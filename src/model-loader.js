@@ -16,18 +16,32 @@
     "850" : [],
     "1200" : []
   };
-
-  var cache = [];
+  
   var loaded = false;
 
+  var callQueue = [];
+
   function loadData(file, res, cb) {
+
+
     if (dataCache[res].length === 0) {
-      console.log('network load')
+      if (loaded) {
+        callQueue.push(cb);
+        return;
+      }
+
+      loaded = true;
+
       d3.tsv(file, function(d) {
-        //dataCache[res] = d;
-        cache = d;
+        dataCache[res] = d;
         loaded = true;
         cb(d);
+
+        for(var i = 0; i < callQueue.length; i ++) {
+          var cbq = callQueue.shift();
+          cbq(d);
+        }
+
       });
 
     } else {
