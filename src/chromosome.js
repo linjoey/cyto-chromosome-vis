@@ -79,7 +79,7 @@
   }
 
   var margin = {
-    top: 10,
+    top: 40,
     left: 5
   };
 
@@ -106,11 +106,11 @@
     this.segment = opt.segment.toString();
     this.resolution = opt.resolution || "850";
     this.width = opt.width || 1000;
-    this.height = opt.height || 50;
+    this.height = 90;
 
     this.useRelative = opt.relativeSize || true;
-    this.showAxis = opt.showAxis || false;
-    this.alignCentromere = true;
+    this.showAxis = opt.showAxis || true;
+    this.alignCentromere = false;
 
   };
 
@@ -205,6 +205,22 @@
             return this.append('path')
               .attr("d", rounded_rect(bpCoord(d.bp_start), margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
               .style('fill', getStainColour(d.stain, d.density));
+          }
+
+          if(i % 2 == 0) {
+            var bmid = (bpCoord(d.bp_stop) + bpCoord(d.bp_start)) / 2;
+            elem.append('line')
+              .attr('x1', bmid)
+              .attr('y1', margin.top)
+              .attr('x2', bmid)
+              .attr('y2', margin.top - 4)
+              .style('stroke', 'grey')
+              .style('stroke-width',1);
+
+            elem.append('text')
+              .attr('transform', 'translate(' + bmid + ',' + (margin.top - 6) + ')rotate(-50)')
+              .style('font', '10px sans-serif')
+              .text(d.arm + d.band);
           }
 
           var rect;
