@@ -16,7 +16,7 @@
     "850" : [],
     "1200" : []
   };
-  
+
   var loaded = false;
 
   var callQueue = [];
@@ -25,6 +25,7 @@
 
 
     if (dataCache[res].length === 0) {
+
       if (loaded) {
         callQueue.push(cb);
         return;
@@ -37,7 +38,7 @@
         loaded = true;
         cb(d);
 
-        for(var i = 0; i < callQueue.length; i ++) {
+        while(callQueue.length > 0) {
           var cbq = callQueue.shift();
           cbq(d);
         }
