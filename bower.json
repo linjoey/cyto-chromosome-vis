@@ -1,0 +1,12 @@
+{
+  "name": "chromosome-map",
+  "version": "0.0.0",
+  "homepage": "https://github.com/linjoey/chromosome-map",
+  "authors": [
+    "Joe Lin <linjoeyy@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "d3-context-menu": "*"
+  }
+}
