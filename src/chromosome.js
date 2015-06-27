@@ -201,6 +201,19 @@
               e.style('fill', chr_map.getStainColour("gneg"));
             }
           });
+
+          rect.on('click', function(d) {
+
+            var ve = new chr_map.Selector()
+              .x(margin.left)
+              .y(margin.top - (CHR_HEIGHT / 4))
+              .height(CHR_HEIGHT + (CHR_HEIGHT / 2))
+              .xscale(self.xscale)
+              .extent([d.bp_start, d.bp_stop])
+              .target(self.svgTarget)
+              .render();
+
+          });
         });
 
       if (self.showAxis) {
