@@ -7,22 +7,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 
     <script src="src/model-loader.js"></script>
+    <script src="src/chromosome.js"></script>
 </head>
 <body>
 
+<div id="chr1"></div>
+<div id="chr2"></div>
+<div id="chr3"></div>
+<div id="chr4"></div>
+<div id="chr5"></div>
+
 <script>
-
-//    d3.tsv('data/ideogram_9606_GCF_000001305.14_850_V1', function(d) {
-//        console.log(d)
-//    })
-
-    chr_map.loadChromosome("1", "550", function(d) {
-        console.log(d);
+    var Chromosome = chr_map.Chromosome;
+    var c1 = new Chromosome({
+        target: "#chr1",
+        chr: 1
     });
+
+    c1.render();
+
+    var c2 = new Chromosome({
+        target: "#chr2",
+        chr: 2
+    });
+
+    c2.render();
+
+    var c3 = new Chromosome({
+        target: "#chr3",
+        chr: "X"
+    });
+
+    c3.render();
+
+    var c4 = new Chromosome({
+        target: "#chr4",
+        chr: 14
+    });
+
+    c4.render();
+
+    var c5 = new Chromosome({
+        target: "#chr5",
+        chr: 21
+    });
+
+    c5.render();
 </script>
 
 
+<svg width="120" height="120" viewBox="0 0 120 120"
+     xmlns="http://www.w3.org/2000/svg" version="1.1"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
 
+    <pattern id="acen-fill" patternUnits="userSpaceOnUse"
+             x="0" y="0" width="10" height="10">
+        <g style="fill:none; stroke:#708090; stroke-width:3">
+            <path d="M0,0 l10,10"/>
+            <path d="M10,0 l-10,10"/>
+        </g>
+    </pattern>
+
+</svg>
 
 </body>
 </html>

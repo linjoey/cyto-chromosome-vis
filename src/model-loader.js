@@ -1,10 +1,4 @@
-/**
- *  model-loader.js
- *  @author Joe Zhao Lin <linjoeyy@gmail.com>
- *
- */
 
-console.log('model-loader.js loaded');
 (function (chr_map, d3) {
 
   var defaultDataURLs = {
