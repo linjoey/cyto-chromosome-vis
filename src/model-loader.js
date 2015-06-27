@@ -22,17 +22,15 @@
   var callQueue = [];
 
   function loadData(file, res, cb) {
-
-
+//TODO fix caching for multiple resolution
     if (dataCache[res].length === 0) {
-
       if (loaded) {
         callQueue.push(cb);
         return;
       }
 
       loaded = true;
-
+      //console.log('network')
       d3.tsv(file, function(d) {
         dataCache[res] = d;
         loaded = true;

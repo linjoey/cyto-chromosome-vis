@@ -4,21 +4,25 @@
     <meta charset="UTF-8">
     <title>Chromosome-Map Test - QUnit</title>
     <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.18.0.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-    <script src="//code.jquery.com/qunit/qunit-1.18.0.js"></script>
 
+    <script src="//code.jquery.com/qunit/qunit-1.18.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
     <!--SOURCE FILES-->
     <script src="../src/model-loader.js"></script>
+    <script src="../src/chromosome.js"></script>
 
-    <!--TEST FILES-->
-    <script src="modelLoaderTest.js"></script>
+
 </head>
 <body>
 <div id="qunit"></div>
 <div id="qunit-fixture"></div>
+<div id="testdiv"></div>
+<!--TEST FILES-->
 <script>
-
+    chr_map.modelLoader.setBaseDir('../data/');
 </script>
+<script src="modelLoaderTest.js"></script>
+<script src="chromosomeTest.js"></script>
 
 </body>
 </html>
