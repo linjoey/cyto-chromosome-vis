@@ -85,6 +85,7 @@
 
   var CHR_HEIGHT = 17;
   var CHR1_BP_END = 248956422;
+  var CHR1_BP_MID = 121700000;
 
   var Chromosome = function(opt) {
 
@@ -108,7 +109,9 @@
     this.height = opt.height || 50;
 
     this.useRelative = opt.relativeSize || true;
-    this.showAxis = opt.showAxis || true;
+    this.showAxis = opt.showAxis || false;
+    this.alignCentromere = true;
+
   };
 
   Chromosome.prototype.renderAxis = function () {
@@ -124,13 +127,12 @@
       this.segment === "20" ||
       this.segment === "19"
     ) {
-      console.log(this.segment)
       bpAxis.ticks(6);
     }
 
     var axisg = this.svgTarget.append('g')
       .classed('bp-axis', true)
-      .attr('transform', 'translate('+ margin.left+',' + (CHR_HEIGHT + margin.top + 5) + ")");
+      .attr('transform', 'translate('+ margin.left + ',' + (CHR_HEIGHT + margin.top + 5) + ")");
 
       axisg.call(bpAxis);
 
@@ -155,21 +157,37 @@
         return +d.bp_stop;
       });
 
+      self.segMid = 0;
+      for(var j =0; j < data.length;j++) {
+        if(data[j].stain ==="acen") {
+          self.segMid = data[j].bp_stop;
+          break;
+        }
+      }
+
       var rangeTo = self.useRelative ? (maxBasePair / CHR1_BP_END) * self.width : self.width;
 
       self.xscale = d3.scale.linear()
         .domain([1, maxBasePair])
         .range([0, rangeTo - margin.left]);
 
+      var svgWidth = self.alignCentromere ? self.width + (self.width * 0.3) : self.width;
+
       self.svgTarget = self.domTarget.append('svg')
-        .attr('width', self.width)
+        .attr('width', svgWidth)
         .attr('height', self.height);
 
       var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
 
       function bpCoord(bp) {
-        return self.xscale(bp) + margin.left;
+        var xshift = 0;
+        if(self.alignCentromere && self.segment !== "1") {
+          console.log(self.segMid)
+          xshift = self.xscale(CHR1_BP_MID) - self.xscale(self.segMid);
+        }
+
+        return self.xscale(bp) + margin.left + xshift;
       }
 
       bands.append('g')
@@ -239,7 +257,7 @@
           });
         });
 
-      if (self.showAxis !== "false") {
+      if (self.showAxis) {
         self.renderAxis();
       }
 

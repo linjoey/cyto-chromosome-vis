@@ -17,10 +17,16 @@
     "1200" : []
   };
 
+  var cache = [];
+  var loaded = false;
+
   function loadData(file, res, cb) {
     if (dataCache[res].length === 0) {
+      console.log('network load')
       d3.tsv(file, function(d) {
-        dataCache[res] = d;
+        //dataCache[res] = d;
+        cache = d;
+        loaded = true;
         cb(d);
       });
 
