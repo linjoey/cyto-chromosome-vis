@@ -16,44 +16,26 @@
 <div id="chr3"></div>
 <div id="chr4"></div>
 <div id="chr5"></div>
+<div id="chr6"></div>
+<div id="chr7"></div>
+<div id="chr8"></div>
+<div id="chr9"></div>
+<div id="chr10"></div>
+<div id="chr11"></div>
+<div id="chr12"></div>
+<div id="chr13"></div>
+<div id="chr14"></div>
+<div id="chr15"></div>
+<div id="chr16"></div>
+<div id="chr17"></div>
+<div id="chr18"></div>
+<div id="chr19"></div>
+<div id="chr20"></div>
+<div id="chr21"></div>
+<div id="chr22"></div>
+<div id="chrX"></div>
+<div id="chrY"></div>
 
-<script>
-    var Chromosome = chr_map.Chromosome;
-    var c1 = new Chromosome({
-        target: "#chr1",
-        chr: 1
-    });
-
-    c1.render();
-
-    var c2 = new Chromosome({
-        target: "#chr2",
-        chr: 2
-    });
-
-    c2.render();
-
-    var c3 = new Chromosome({
-        target: "#chr3",
-        chr: "X"
-    });
-
-    c3.render();
-
-    var c4 = new Chromosome({
-        target: "#chr4",
-        chr: 14
-    });
-
-    c4.render();
-
-    var c5 = new Chromosome({
-        target: "#chr5",
-        chr: 21
-    });
-
-    c5.render();
-</script>
 
 
 <svg width="120" height="120" viewBox="0 0 120 120"
@@ -62,13 +44,36 @@
 
     <pattern id="acen-fill" patternUnits="userSpaceOnUse"
              x="0" y="0" width="10" height="10">
-        <g style="fill:none; stroke:#708090; stroke-width:3">
+        <g style="fill:none; stroke:#708090; stroke-width:2">
             <path d="M0,0 l10,10"/>
             <path d="M10,0 l-10,10"/>
         </g>
     </pattern>
 
 </svg>
+
+<script>
+    var Chromosome = chr_map.Chromosome;
+
+    for(var i = 1; i < 23; i++) {
+        var t = "#chr"+i;
+        new Chromosome({
+            target: t,
+            segment: i
+        }).render();
+    }
+
+    new Chromosome({
+        target: "#chrX",
+        segment: "X"
+    }).render();
+
+    new Chromosome({
+        target: "#chrY",
+        segment: "Y"
+    }).render();
+
+</script>
 
 </body>
 </html>

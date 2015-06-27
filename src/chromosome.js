@@ -64,6 +64,7 @@
 
     if (bandtype === "acen") {
       return "url(#acen-fill)";
+      //return "#708090";
     }
 
     if (bandtype === "gvar") {
@@ -77,10 +78,22 @@
     return "green";
   }
 
+  var margin = {
+    top: 10,
+    left: 5
+  };
+
+  var CHR_HEIGHT = 17;
+  var CHR1_BP_END = 248956422;
+
   var Chromosome = function(opt) {
 
     if(typeof opt.target === "undefined") {
       throw "Error: Chromosome constructor undfefined DOM target";
+    }
+
+    if(typeof opt.segment === "undefined") {
+      throw "Error: Chromosome segment is undfefined";
     }
 
     if(typeof opt.target === "string") {
@@ -89,27 +102,54 @@
       this.domTarget = opt.target;
     }
 
-    this.chrNumber = opt.chr.toString();
+    this.segment = opt.segment.toString();
     this.resolution = opt.resolution || "850";
     this.width = opt.width || 1000;
     this.height = opt.height || 50;
 
     this.useRelative = opt.relativeSize || true;
+    this.showAxis = opt.showAxis || true;
+  };
+
+  Chromosome.prototype.renderAxis = function () {
+    var bpAxis = d3.svg.axis()
+      .scale(this.xscale)
+      .tickFormat(d3.format('s'))
+      .orient("bottom");
+
+    if (
+      this.segment === "Y" ||
+      this.segment === "22" ||
+      this.segment === "21" ||
+      this.segment === "20" ||
+      this.segment === "19"
+    ) {
+      console.log(this.segment)
+      bpAxis.ticks(6);
+    }
+
+    var axisg = this.svgTarget.append('g')
+      .classed('bp-axis', true)
+      .attr('transform', 'translate('+ margin.left+',' + (CHR_HEIGHT + margin.top + 5) + ")");
+
+      axisg.call(bpAxis);
+
+    axisg.selectAll('text')
+      .style('font', '10px sans-serif');
+
+    axisg.selectAll('path, line')
+      .style({
+        "fill": "none",
+        "stroke": "#666666",
+        "shape-rendering": "crispEdges"
+      });
   };
 
   Chromosome.prototype.render = function () {
 
     var self = this;
 
-    var CHR_HEIGHT = 17;
-    var CHR1_BP_END = 248956422;
-
-    chr_map.modelLoader.load(this.chrNumber, this.resolution, function(data) {
-
-      var margin = {
-        top: 5,
-        left: 5
-      };
+    chr_map.modelLoader.load(this.segment, this.resolution, function(data) {
 
       var maxBasePair = d3.max(data, function(d) {
         return +d.bp_stop;
@@ -121,11 +161,11 @@
         .domain([1, maxBasePair])
         .range([0, rangeTo - margin.left]);
 
-      var target = self.domTarget.append('svg')
+      self.svgTarget = self.domTarget.append('svg')
         .attr('width', self.width)
         .attr('height', self.height);
 
-      var bands = target.selectAll('g')
+      var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
 
       function bpCoord(bp) {
@@ -147,14 +187,15 @@
             return this.append('path')
               .attr("d", rounded_rect(bpCoord(d.bp_start), margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
               .style('fill', getStainColour(d.stain, d.density));
-
           }
 
           var rect;
-          if (i === 0) {
+          var w = bpCoord(d.bp_stop) - bpCoord(d.bp_start);
+          if (i === 0 && w > 10) {
             rect = drawRoundedRect.call(elem, d, 4, true, false, true, false);
             applyBorder.call(rect);
-          } else if (d.stain === "acen") {
+          } else if (d.stain === "acen" && (w > 10)) {
+
             if (d.arm === "p") {
               rect = drawRoundedRect.call(elem, d, 10, false, true, false, true);
 
@@ -196,10 +237,11 @@
               e.style('fill', getStainColour("gneg"));
             }
           });
-
-
-
         });
+
+      if (self.showAxis !== "false") {
+        self.renderAxis();
+      }
 
     });
 
