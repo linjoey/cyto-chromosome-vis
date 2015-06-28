@@ -6,7 +6,9 @@
     left: 5
   };
 
-  var CHR_HEIGHT = 17;
+  cyto_chr.hasInitPattern = false;
+
+  var CHR_HEIGHT = 15;
   var CHR1_BP_END = 248956422;
   var CHR1_BP_MID = 121700000;
 
@@ -112,7 +114,10 @@
       var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
 
-      cyto_chr.initPattern.call(self.svgTarget);
+      if(!cyto_chr.hasInitPattern) {
+        cyto_chr.initPattern.call(self.svgTarget);
+        cyto_chr.hasInitPattern = true;
+      }
 
       function bpCoord(bp) {
         var xshift = 0;
