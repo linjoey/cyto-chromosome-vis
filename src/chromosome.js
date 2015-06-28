@@ -6,14 +6,13 @@
     left: 5
   };
 
-  cyto_chr.hasInitPattern = false;
+  cyto_chr.chrCount = 0;
 
   var CHR_HEIGHT = 15;
   var CHR1_BP_END = 248956422;
   var CHR1_BP_MID = 121700000;
 
   var Chromosome = function(opt) {
-
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
 
     this._segment = "1";
@@ -23,6 +22,7 @@
     this._useRelative = false;
     this._showAxis = false;
     this.dispatch = d3.dispatch('bandclick', 'selectorchange');
+    this.rendered = false;
   };
 
   Chromosome.prototype.segment = function (a) {
@@ -91,6 +91,13 @@
 
     var self = this;
 
+    cyto_chr.chrCount++;
+
+    if(self.rendered) {
+      cyto_chr.chrCount--;
+      self.svgTarget.remove();
+    }
+
     cyto_chr.modelLoader.load(this._segment, this._resolution, function(data) {
 
       var maxBasePair = d3.max(data, function(d) {
@@ -120,9 +127,8 @@
       var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
 
-      if(!cyto_chr.hasInitPattern) {
+      if(cyto_chr.chrCount === 1) {
         cyto_chr.initPattern.call(self.svgTarget);
-        cyto_chr.hasInitPattern = true;
       }
 
       function bpCoord(bp) {
@@ -244,6 +250,8 @@
       if (self._showAxis) {
         self.renderAxis();
       }
+
+      self.rendered = true;
 
     });
 

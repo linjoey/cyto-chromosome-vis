@@ -21,7 +21,7 @@
     "850" : new CacheInstance,
     "1200" : new CacheInstance
   };
-  
+
   var callQueue = [];
 
   function loadData(file, res, cb) {
