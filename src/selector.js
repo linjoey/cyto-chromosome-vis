@@ -13,21 +13,9 @@
     this._another = "def";
   };
 
-  function getSet(prop, arg, cb) {
-    if(typeof arg !== 'undefined') {
-      this[prop] =  arg;
-      if(typeof cb === 'function') {
-        cb();
-      }
-      return this;
-    } else {
-      return this[prop];
-    }
-  }
-
   Selector.prototype.test = function(e) {
     var self = this;
-    return getSet.call(this, "_test", e, function(){
+    return cyto_chr.InitGetterSetter.call(this, "_test", e, function(){
       self._another = "_that";
     });
   };
@@ -35,7 +23,7 @@
   Selector.prototype.extent = function (a) {
 
     var self = this;
-    return getSet.call(this, "_extent", a, function(){
+    return cyto_chr.InitGetterSetter.call(this, "_extent", a, function(){
       self._brush.extent(a);
     });
 
@@ -44,25 +32,25 @@
   Selector.prototype.xscale = function(a) {
 
     var self = this;
-    return getSet.call(this, "_xscale", a, function(){
+    return cyto_chr.InitGetterSetter.call(this, "_xscale", a, function(){
       self._brush.x(a)
     });
   };
 
   Selector.prototype.target = function(a) {
-    return getSet.call(this, '_target', a);
+    return cyto_chr.InitGetterSetter.call(this, '_target', a);
   };
 
   Selector.prototype.height = function(a) {
-    return getSet.call(this, '_height', a);
+    return cyto_chr.InitGetterSetter.call(this, '_height', a);
   };
 
   Selector.prototype.x = function(a) {
-    return getSet.call(this, '_x', a);
+    return cyto_chr.InitGetterSetter.call(this, '_x', a);
   };
 
   Selector.prototype.y = function(a) {
-    return getSet.call(this, '_y', a);
+    return cyto_chr.InitGetterSetter.call(this, '_y', a);
   };
 
   Selector.prototype.render = function() {

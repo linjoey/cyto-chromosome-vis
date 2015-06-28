@@ -102,4 +102,16 @@
       }
     };
 
+  cyto_chr.InitGetterSetter = function(prop, arg, cb) {
+    if(typeof arg !== 'undefined') {
+      this[prop] =  arg;
+      if(typeof cb === 'function') {
+        cb();
+      }
+      return this;
+    } else {
+      return this[prop];
+    }
+  }
+
 })(window.cyto_chr = window.cyto_chr || {}, d3);
