@@ -1,5 +1,5 @@
 
-(function(chr_map, d3) {
+(function(cyto_chr, d3) {
 
   var Selector = function(extent) {
     if(extent){ this.extent = extent; }
@@ -71,7 +71,7 @@
 
     this.deleteButton = cbg.append('circle')
       .attr('cx', this.xscale(this.extent[1]) + 5)
-      .attr('cy', chr_map.margin.top - 5)
+      .attr('cy', cyto_chr.margin.top - 5)
       .attr('r', 5)
       .attr('fill', 'red')
       .on('mouseover', function() {
@@ -104,6 +104,6 @@
     return this;
   };
 
-  chr_map.Selector = Selector;
+  cyto_chr.Selector = Selector;
 
-})(window.chr_map = window.chr_map || {}, d3);
+})(window.cyto_chr = window.cyto_chr || {}, d3);

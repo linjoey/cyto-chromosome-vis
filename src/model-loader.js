@@ -1,5 +1,5 @@
 
-(function (chr_map, d3) {
+(function (cyto_chr, d3) {
 
   var defaultDataURLs = {
     "400" : "ideogram_9606_GCF_000001305.14_400_V1",
@@ -68,9 +68,9 @@
     return newAry;
   }
 
-  chr_map.modelLoader = {
+  cyto_chr.modelLoader = {
     load: getChromosomeData,
     setBaseDir: function(d) {baseDir = d;}
   };
 
-})(window.chr_map = window.chr_map || {}, d3);
+})(window.cyto_chr = window.cyto_chr || {}, d3);

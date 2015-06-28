@@ -1,6 +1,6 @@
 
-(function(chr_map, d3) {
-  chr_map.roundedRect = function (x, y, w, h, r, tl, tr, bl, br) {
+(function(cyto_chr, d3) {
+  cyto_chr.roundedRect = function (x, y, w, h, r, tl, tr, bl, br) {
       var retval;
       retval = "M" + (x + r) + "," + y;
       retval += "h" + (w - 2 * r);
@@ -35,7 +35,7 @@
       return retval;
     };
 
-  chr_map.getStainColour = function (bandtype, density) {
+  cyto_chr.getStainColour = function (bandtype, density) {
 
     if(bandtype == "gpos") {
       if(density === "" || density === null) return "#000000";
@@ -72,7 +72,7 @@
     return "green";
   };
 
-  chr_map.setOption = function (userOption, def) {
+  cyto_chr.setOption = function (userOption, def) {
       if(typeof userOption !== "undefined") {
         return userOption;
       } else {
@@ -80,4 +80,4 @@
       }
     };
 
-})(window.chr_map = window.chr_map || {}, d3);
+})(window.cyto_chr = window.cyto_chr || {}, d3);

@@ -1,7 +1,7 @@
 
-(function(chr_map, d3) {
+(function(cyto_chr, d3) {
 
-  chr_map.margin = {
+  cyto_chr.margin = {
     top: 40,
     left: 5
   };
@@ -27,13 +27,13 @@
     }
 
     this.segment = opt.segment.toString();
-    this.resolution = chr_map.setOption(opt.resolution, "550");
-    this.width = chr_map.setOption(opt.width, 1000);
+    this.resolution = cyto_chr.setOption(opt.resolution, "550");
+    this.width = cyto_chr.setOption(opt.width, 1000);
     this.height = 90;
-    this.useRelative = chr_map.setOption(opt.useRelative, true);
-    this.showAxis = chr_map.setOption(opt.showAxis, true);
+    this.useRelative = cyto_chr.setOption(opt.useRelative, true);
+    this.showAxis = cyto_chr.setOption(opt.showAxis, true);
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
-    this.alignCentromere = chr_map.setOption(opt.alignCentromere, false);
+    this.alignCentromere = cyto_chr.setOption(opt.alignCentromere, false);
 
     this.dispatch = d3.dispatch('bandclick', 'selectorchange');
 
@@ -64,7 +64,7 @@
 
     var axisg = this.svgTarget.append('g')
       .classed('bp-axis', true)
-      .attr('transform', 'translate('+ chr_map.margin.left + ',' + (CHR_HEIGHT + chr_map.margin.top + 5) + ")");
+      .attr('transform', 'translate('+ cyto_chr.margin.left + ',' + (CHR_HEIGHT + cyto_chr.margin.top + 5) + ")");
 
       axisg.call(bpAxis);
 
@@ -83,7 +83,7 @@
 
     var self = this;
 
-    chr_map.modelLoader.load(this.segment, this.resolution, function(data) {
+    cyto_chr.modelLoader.load(this.segment, this.resolution, function(data) {
 
       var maxBasePair = d3.max(data, function(d) {
         return +d.bp_stop;
@@ -101,7 +101,7 @@
 
       self.xscale = d3.scale.linear()
         .domain([1, maxBasePair])
-        .range([0, rangeTo - chr_map.margin.left]);
+        .range([0, rangeTo - cyto_chr.margin.left]);
 
       var svgWidth = self.alignCentromere ? self.width + (self.width * 0.3) : self.width;
 
@@ -119,7 +119,7 @@
           xshift = self.xscale(CHR1_BP_MID) - self.xscale(self.segMid);
         }
 
-        return self.xscale(bp) + chr_map.margin.left + xshift;
+        return self.xscale(bp) + cyto_chr.margin.left + xshift;
       }
 
       bands.append('g')
@@ -135,22 +135,22 @@
 
           function drawRoundedRect(d, r, tl, tr, bl, br) {
             return this.append('path')
-              .attr("d", chr_map.roundedRect(bpCoord(d.bp_start), chr_map.margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
-              .style('fill', chr_map.getStainColour(d.stain, d.density));
+              .attr("d", cyto_chr.roundedRect(bpCoord(d.bp_start), cyto_chr.margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
+              .style('fill', cyto_chr.getStainColour(d.stain, d.density));
           }
 
           if(i % 2 === 0) {
             var bmid = (bpCoord(d.bp_stop) + bpCoord(d.bp_start)) / 2;
             elem.append('line')
               .attr('x1', bmid)
-              .attr('y1', chr_map.margin.top)
+              .attr('y1', cyto_chr.margin.top)
               .attr('x2', bmid)
-              .attr('y2', chr_map.margin.top - 4)
+              .attr('y2', cyto_chr.margin.top - 4)
               .style('stroke', 'grey')
               .style('stroke-width',1);
 
             elem.append('text')
-              .attr('transform', 'translate(' + bmid + ',' + (chr_map.margin.top - 6) + ')rotate(-50)')
+              .attr('transform', 'translate(' + bmid + ',' + (cyto_chr.margin.top - 6) + ')rotate(-50)')
               .style('font', '10px sans-serif')
               .text(d.arm + d.band);
           }
@@ -175,14 +175,14 @@
 
           } else {
 
-            var ys = d.stain === "stalk" ? chr_map.margin.top + (CHR_HEIGHT / 4) : chr_map.margin.top;
+            var ys = d.stain === "stalk" ? cyto_chr.margin.top + (CHR_HEIGHT / 4) : cyto_chr.margin.top;
             var hs = d.stain === "stalk" ? CHR_HEIGHT / 2 : CHR_HEIGHT;
             rect = elem.append('rect')
               .attr('x', bpCoord(d.bp_start))
               .attr('y', ys)
               .attr('height', hs)
               .attr('width', self.xscale(d.bp_stop) - self.xscale(d.bp_start))
-              .style('fill', chr_map.getStainColour(d.stain, d.density));
+              .style('fill', cyto_chr.getStainColour(d.stain, d.density));
             applyBorder.call(rect);
           }
 
@@ -195,7 +195,7 @@
               .style('cursor', 'pointer');
 
             if (d.stain === "gneg") {
-              e.style('fill', chr_map.getStainColour("gpos", "25"));
+              e.style('fill', cyto_chr.getStainColour("gpos", "25"));
             }
 
           });
@@ -206,15 +206,15 @@
               .style('cursor', 'default');
 
             if (d.stain === "gneg") {
-              e.style('fill', chr_map.getStainColour("gneg"));
+              e.style('fill', cyto_chr.getStainColour("gneg"));
             }
           });
 
           rect.on('click', function(d) {
 
-            var ve = new chr_map.Selector()
-              .x(chr_map.margin.left)
-              .y(chr_map.margin.top - (CHR_HEIGHT / 4))
+            var ve = new cyto_chr.Selector()
+              .x(cyto_chr.margin.left)
+              .y(cyto_chr.margin.top - (CHR_HEIGHT / 4))
               .height(CHR_HEIGHT + (CHR_HEIGHT / 2))
               .xscale(self.xscale)
               .extent([d.bp_start, d.bp_stop])
@@ -238,6 +238,6 @@
     return self;
   };
 
-  chr_map.Chromosome = Chromosome;
+  cyto_chr.Chromosome = Chromosome;
 
-})(window.chr_map = window.chr_map || {}, d3);
+})(window.cyto_chr = window.cyto_chr || {}, d3);
