@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>Chromosome Map - Interactive Ideogram Visualization</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>-->
+    <script src="d3.min.js"></script>
+
+    <!--<script src="chromosome-map.min.js"></script>-->
 
     <script src="src/index.js"></script>
     <script src="src/utils.js"></script>
@@ -14,7 +17,8 @@
 
 </head>
 <body>
-
+X<div id="chrX"></div>
+Y<div id="chrY"></div>
 1<div id="chr1"></div>
 2<div id="chr2"></div>
 3<div id="chr3"></div>
@@ -37,8 +41,7 @@
 20<div id="chr20"></div>
 21<div id="chr21"></div>
 22<div id="chr22"></div>
-X<div id="chrX"></div>
-Y<div id="chrY"></div>
+
 
 
 
@@ -67,12 +70,16 @@ Y<div id="chrY"></div>
         }).render();
     }
 
-    new Chromosome({
+    var chrx = new Chromosome({
         target: "#chrX",
         segment: "X",
         resolution: "400",
         alignCentromere: false
     }).render();
+
+    chrx.on('bandclick', function(d) {
+        console.log(d);
+    });
 
     new Chromosome({
         target: "#chrY",

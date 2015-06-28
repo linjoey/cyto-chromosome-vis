@@ -76,7 +76,7 @@
       .on('mouseover', function() {
         d3.select(this)
           .style('cursor', 'pointer')
-          .style('opacity', '0.8');
+          .style('opacity', '0.7');
       })
       .on('mouseout', function(){
         d3.select(this)

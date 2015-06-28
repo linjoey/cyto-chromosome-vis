@@ -35,6 +35,14 @@
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
     this.alignCentromere = chr_map.setOption(opt.alignCentromere, false);
 
+    this.dispatch = d3.dispatch('bandclick');
+
+  };
+
+  Chromosome.prototype.on = function(e, listener) {
+    if (!this.dispatch.hasOwnProperty(e)) throw "Error: No event for " + e;
+
+    this.dispatch.on(e, listener);
   };
 
   Chromosome.prototype.renderAxis = function () {
@@ -212,6 +220,8 @@
               .extent([d.bp_start, d.bp_stop])
               .target(self.svgTarget)
               .render();
+
+            self.dispatch.bandclick(d);
           });
         });
 
