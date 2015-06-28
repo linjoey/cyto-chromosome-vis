@@ -10,41 +10,48 @@
 
   var baseDir = 'data/';
 
+  function CacheInstance() {
+    this.status = "notloaded";
+    this.cache = [];
+  }
+
   var dataCache = {
-    "400" : [],
-    "550" : [],
-    "850" : [],
-    "1200" : []
+    "400" : new CacheInstance,
+    "550" : new CacheInstance,
+    "850" : new CacheInstance,
+    "1200" : new CacheInstance
   };
-
-  var loaded = false;
-
+  
   var callQueue = [];
 
   function loadData(file, res, cb) {
-//TODO fix caching for multiple resolution
-    if (dataCache[res].length === 0) {
-      if (loaded) {
-        callQueue.push(cb);
+
+    var c = dataCache[res];
+    if (c.cache.length === 0) {
+      if (c.status === "loading") {
+        callQueue.push({
+          res: res,
+          cb: cb
+        });
+
         return;
+      } else if (c.status === "notloaded") {
+        console.log("network for ", res)
+        c.status = "loading";
+        d3.tsv(file, function(d) {
+          c.cache = d;
+          c.status = "loaded";
+          cb(d);
+
+          while(callQueue.length > 0) {
+            var cbq = callQueue.shift();
+            cbq.cb(d);
+          }
+
+        });
       }
-
-      loaded = true;
-      //console.log('network')
-      d3.tsv(file, function(d) {
-        dataCache[res] = d;
-        loaded = true;
-        cb(d);
-
-        while(callQueue.length > 0) {
-          var cbq = callQueue.shift();
-          cbq(d);
-        }
-
-      });
-
     } else {
-      cb(dataCache[res]);
+      cb(c.cache);
     }
   }
 
