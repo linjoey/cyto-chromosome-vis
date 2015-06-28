@@ -1,5 +1,5 @@
 {
-  "name": "chromosome-map",
+  "name": "cyto-chromosome-vis",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/linjoey/chromosome-map.git"
+    "url": "git+https://github.com/linjoey/cyto-chromosome-vis.git"
   },
   "author": "Joe Zhao Lin <linjoeyy@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/linjoey/chromosome-map/issues"
+    "url": "https://github.com/linjoey/cyto-chromosome-vis/issues"
   },
-  "homepage": "https://github.com/linjoey/chromosome-map#readme",
+  "homepage": "https://github.com/linjoey/cyto-chromosome-vis#readme",
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
