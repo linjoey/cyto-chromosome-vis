@@ -14,31 +14,43 @@
 
   var Chromosome = function(opt) {
 
-    if(typeof opt.target === "undefined") {
-      throw "Error: Chromosome constructor undfefined DOM target";
-    }
-
-    if(typeof opt.segment === "undefined") {
-      throw "Error: Chromosome segment is undfefined";
-    }
-
-    if(typeof opt.target === "string") {
-      this.domTarget = d3.select(opt.target);
-    } else {
-      this.domTarget = opt.target;
-    }
-
-    this.segment = opt.segment.toString();
-    this.resolution = cyto_chr.setOption(opt.resolution, "550");
-    this.width = cyto_chr.setOption(opt.width, 1000);
-    this.height = 90;
-    this.useRelative = cyto_chr.setOption(opt.useRelative, true);
-    this.showAxis = cyto_chr.setOption(opt.showAxis, true);
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
-    this.alignCentromere = cyto_chr.setOption(opt.alignCentromere, false);
 
+    this._segment = "1";
+    this._domTarget = d3.select(document.documentElement);
+    this._resolution = "550";
+    this._width = 1000;
+    this._useRelative = false;
+    this._showAxis = false;
     this.dispatch = d3.dispatch('bandclick', 'selectorchange');
+  };
 
+  Chromosome.prototype.segment = function (a) {
+    return cyto_chr.InitGetterSetter.call(this, '_segment', a);
+  };
+
+  Chromosome.prototype.target = function (a) {
+    if(typeof a === 'string') a = d3.select(a);
+    if(a.empty()) {
+      throw "Error: Invalid dom target";
+    }
+    return cyto_chr.InitGetterSetter.call(this, '_domTarget', a);
+  };
+
+  Chromosome.prototype.resolution = function (a) {
+    return cyto_chr.InitGetterSetter.call(this, '_resolution', a);
+  };
+
+  Chromosome.prototype.width = function (a) {
+    return cyto_chr.InitGetterSetter.call(this, '_width', a);
+  };
+
+  Chromosome.prototype.useRelative = function (a) {
+    return cyto_chr.InitGetterSetter.call(this, '_useRelative', a);
+  };
+
+  Chromosome.prototype.showAxis = function (a) {
+    return cyto_chr.InitGetterSetter.call(this, '_showAxis', a);
   };
 
   Chromosome.prototype.on = function(e, listener) {
@@ -47,20 +59,14 @@
     this.dispatch.on(e, listener);
   };
 
+
   Chromosome.prototype.renderAxis = function () {
     var bpAxis = d3.svg.axis()
       .scale(this.xscale)
       .tickFormat(d3.format('s'))
       .orient("bottom");
 
-    if (
-      this.useRelative && (
-      this.segment === "Y" ||
-      this.segment === "22" ||
-      this.segment === "21" ||
-      this.segment === "20" ||
-      this.segment === "19")
-    ) {
+    if (this._useRelative && (this.segment === "Y" || this.segment === "22" || this.segment === "21" || this.segment === "20" || this.segment === "19")) {
       bpAxis.ticks(6);
     }
 
@@ -85,7 +91,7 @@
 
     var self = this;
 
-    cyto_chr.modelLoader.load(this.segment, this.resolution, function(data) {
+    cyto_chr.modelLoader.load(this._segment, this._resolution, function(data) {
 
       var maxBasePair = d3.max(data, function(d) {
         return +d.bp_stop;
@@ -99,15 +105,15 @@
         }
       }
 
-      var rangeTo = self.useRelative ? (maxBasePair / CHR1_BP_END) * self.width : self.width;
+      var rangeTo = self._useRelative ? (maxBasePair / CHR1_BP_END) * self._width : self._width;
 
       self.xscale = d3.scale.linear()
         .domain([1, maxBasePair])
         .range([0, rangeTo - cyto_chr.margin.left]);
 
-      var svgWidth = self.alignCentromere ? self.width + (self.width * 0.3) : self.width;
+      var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
 
-      self.svgTarget = self.domTarget.append('svg')
+      self.svgTarget = self._domTarget.append('svg')
         .attr('width', svgWidth)
         .attr('height', self.height);
 
@@ -121,8 +127,7 @@
 
       function bpCoord(bp) {
         var xshift = 0;
-        if(self.alignCentromere && self.segment !== "1") {
-          console.log(self.segMid)
+        if(self.alignCentromere && self._segment !== "1") {
           xshift = self.xscale(CHR1_BP_MID) - self.xscale(self.segMid);
         }
 
@@ -219,7 +224,7 @@
 
           rect.on('click', function(d) {
 
-            var ve = new cyto_chr.Selector()
+            var ve = cyto_chr.selector()
               .x(cyto_chr.margin.left)
               .y(cyto_chr.margin.top - (CHR_HEIGHT / 4))
               .height(CHR_HEIGHT + (CHR_HEIGHT / 2))
@@ -236,7 +241,7 @@
           });
         });
 
-      if (self.showAxis) {
+      if (self._showAxis) {
         self.renderAxis();
       }
 
@@ -245,6 +250,8 @@
     return self;
   };
 
-  cyto_chr.Chromosome = Chromosome;
+  cyto_chr.chromosome = function(opt) {
+    return new Chromosome(opt);
+  };
 
 })(window.cyto_chr = window.cyto_chr || {}, d3);
