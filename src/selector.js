@@ -4,6 +4,7 @@
   var Selector = function(extent) {
     if(extent){ this.extent = extent; }
     this.brush = d3.svg.brush();
+    this.dispatch = d3.dispatch('change');
   };
 
   //TODO make get work after setting as a function
@@ -90,8 +91,8 @@
 
     this.brush.on('brush', function(d) {
       var e = self.brush.extent();
-      //console.log(self.brush.extent());
       self.deleteButton.attr('cx', self.xscale(e[1]) + 5);
+      self.dispatch.change(e);
     });
 
     return this;

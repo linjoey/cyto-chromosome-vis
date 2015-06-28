@@ -35,7 +35,7 @@
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
     this.alignCentromere = chr_map.setOption(opt.alignCentromere, false);
 
-    this.dispatch = d3.dispatch('bandclick');
+    this.dispatch = d3.dispatch('bandclick', 'selectorchange');
 
   };
 
@@ -220,6 +220,10 @@
               .extent([d.bp_start, d.bp_stop])
               .target(self.svgTarget)
               .render();
+
+            ve.dispatch.on('change', function(d) {
+              self.dispatch.selectorchange(d);
+            });
 
             self.dispatch.bandclick(d);
           });

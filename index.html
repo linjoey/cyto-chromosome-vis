@@ -81,11 +81,18 @@ Y<div id="chrY"></div>
         console.log(d);
     });
 
-    new Chromosome({
+    chrx.on('selectorchange', function(d) {
+        console.log(d);
+    });
+
+    chry = new Chromosome({
         target: "#chrY",
         segment: "Y"
     }).render();
 
+    chry.on('bandclick', function(d) {
+        console.log(d);
+    });
 </script>
 
 </body>
