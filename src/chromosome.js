@@ -112,6 +112,8 @@
       var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
 
+      cyto_chr.initPattern.call(self.svgTarget);
+
       function bpCoord(bp) {
         var xshift = 0;
         if(self.alignCentromere && self.segment !== "1") {

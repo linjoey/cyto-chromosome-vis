@@ -1,5 +1,27 @@
 
 (function(cyto_chr, d3) {
+
+  cyto_chr.initPattern = function () {
+    var pg = this.append('pattern')
+      .attr('id', 'acen-fill')
+      .attr('patternUnits', 'userSpaceOnUse')
+      .attr('x', '0')
+      .attr('y', '0')
+      .attr('width', '10')
+      .attr('height', '10')
+      .append('g')
+      .style({
+        "fill": "none",
+        "stroke": "#708090",
+        "stroke-width": "2"
+      });
+
+    pg.append('path')
+      .attr('d', "M0,0 l10,10");
+    pg.append('path')
+      .attr('d','M10,0 l-10,10');
+  };
+
   cyto_chr.roundedRect = function (x, y, w, h, r, tl, tr, bl, br) {
       var retval;
       retval = "M" + (x + r) + "," + y;
