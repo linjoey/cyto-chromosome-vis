@@ -1,7 +1,7 @@
 
-(function(cyto_vis, d3) {
+(function(cyto_chr, d3) {
 
-  cyto_vis.initPattern = function () {
+  cyto_chr.initPattern = function () {
     var pg = this.append('pattern')
       .attr('id', 'acen-fill')
       .attr('patternUnits', 'userSpaceOnUse')
@@ -22,7 +22,7 @@
       .attr('d','M10,0 l-10,10');
   };
 
-  cyto_vis.roundedRect = function (x, y, w, h, r, tl, tr, bl, br) {
+  cyto_chr.roundedRect = function (x, y, w, h, r, tl, tr, bl, br) {
       var retval;
       retval = "M" + (x + r) + "," + y;
       retval += "h" + (w - 2 * r);
@@ -57,7 +57,7 @@
       return retval;
     };
 
-  cyto_vis.getStainColour = function (bandtype, density) {
+  cyto_chr.getStainColour = function (bandtype, density) {
 
     if(bandtype == "gpos") {
       if(density === "" || density === null) return "#000000";
@@ -94,7 +94,7 @@
     return "green";
   };
 
-  cyto_vis.setOption = function (userOption, def) {
+  cyto_chr.setOption = function (userOption, def) {
       if(typeof userOption !== "undefined") {
         return userOption;
       } else {
@@ -102,7 +102,7 @@
       }
     };
 
-  cyto_vis.InitGetterSetter = function(prop, arg, cb) {
+  cyto_chr.InitGetterSetter = function(prop, arg, cb) {
     if(typeof arg !== 'undefined') {
       this[prop] =  arg;
       if(typeof cb === 'function') {
@@ -114,4 +114,4 @@
     }
   }
 
-})(window.cyto_vis = window.cyto_vis || {}, d3);
+})(window.cyto_chr = window.cyto_chr || {}, d3);

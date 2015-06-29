@@ -1,5 +1,5 @@
 
-(function(cyto_vis, d3) {
+(function(cyto_chr, d3) {
 
   var Selector = function(closecb) {
     this._brush = d3.svg.brush();
@@ -13,7 +13,7 @@
 
   Selector.prototype.test = function(e) {
     var self = this;
-    return cyto_vis.InitGetterSetter.call(this, "_test", e, function(){
+    return cyto_chr.InitGetterSetter.call(this, "_test", e, function(){
       self._another = "_that";
     });
   };
@@ -21,7 +21,7 @@
   Selector.prototype.extent = function (a) {
 
     var self = this;
-    return cyto_vis.InitGetterSetter.call(this, "_extent", a, function(){
+    return cyto_chr.InitGetterSetter.call(this, "_extent", a, function(){
       self._brush.extent(a);
     });
 
@@ -30,25 +30,25 @@
   Selector.prototype.xscale = function(a) {
 
     var self = this;
-    return cyto_vis.InitGetterSetter.call(this, "_xscale", a, function(){
+    return cyto_chr.InitGetterSetter.call(this, "_xscale", a, function(){
       self._brush.x(a)
     });
   };
 
   Selector.prototype.target = function(a) {
-    return cyto_vis.InitGetterSetter.call(this, '_target', a);
+    return cyto_chr.InitGetterSetter.call(this, '_target', a);
   };
 
   Selector.prototype.height = function(a) {
-    return cyto_vis.InitGetterSetter.call(this, '_height', a);
+    return cyto_chr.InitGetterSetter.call(this, '_height', a);
   };
 
   Selector.prototype.x = function(a) {
-    return cyto_vis.InitGetterSetter.call(this, '_x', a);
+    return cyto_chr.InitGetterSetter.call(this, '_x', a);
   };
 
   Selector.prototype.y = function(a) {
-    return cyto_vis.InitGetterSetter.call(this, '_y', a);
+    return cyto_chr.InitGetterSetter.call(this, '_y', a);
   };
 
   Selector.prototype.render = function() {
@@ -69,8 +69,8 @@
       .style('fill', 'steelblue')
       .style('opacity', '0.5');
 
-    var cbg_xpos = this._xscale(this._extent[1]) + cyto_vis.margin.left;
-    var cbg_ypos = cyto_vis.margin.top - 3;
+    var cbg_xpos = this._xscale(this._extent[1]) + cyto_chr.margin.left;
+    var cbg_ypos = cyto_chr.margin.top - 3;
 
     var cbg = this._target.append('g');
     cbg.append('title').text('remove');
@@ -117,7 +117,7 @@
 
   Selector.prototype.updateXButton = function() {
     var e = this._brush.extent();
-    var new_xpos = this._xscale(e[1]) + cyto_vis.margin.left;
+    var new_xpos = this._xscale(e[1]) + cyto_chr.margin.left;
     this.deleteButton.attr('cx', new_xpos);
   };
 
@@ -128,8 +128,8 @@
     this.updateXButton();
   };
 
-  cyto_vis.selector = function(cb){
+  cyto_chr.selector = function(cb){
     return new Selector(cb);
   };
 
-})(window.cyto_vis = window.cyto_vis || {}, d3);
+})(window.cyto_chr = window.cyto_chr || {}, d3);

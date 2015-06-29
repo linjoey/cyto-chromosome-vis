@@ -1,5 +1,5 @@
 
-(function (cyto_vis, d3) {
+(function (cyto_chr, d3) {
 
   var defaultDataURLs = {
     "400" : "ideogram_9606_GCF_000001305.14_400_V1",
@@ -56,7 +56,12 @@
 
   function getChromosomeData(chr, resolution, cb) {
 
+    chr = chr || '1';
+    resolution = resolution || "550";
+
     var fileName = defaultDataURLs[resolution];
+
+    var d = baseDir + fileName;
 
     loadData(baseDir + fileName, resolution, function (d) {
       var filteredResults = filterByChromosome(d, chr);
@@ -74,9 +79,10 @@
     return newAry;
   }
 
-  cyto_vis.modelLoader = {
+  cyto_chr.modelLoader = {
     load: getChromosomeData,
-    setDataDir: function(d) {baseDir = d;}
+    setDataDir: function(d) {baseDir = d;},
+    getDataDir: function() {return baseDir;}
   };
 
-})(window.cyto_vis = window.cyto_vis || {}, d3);
+})(window.cyto_chr = window.cyto_chr || {}, d3);
