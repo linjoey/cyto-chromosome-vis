@@ -91,6 +91,56 @@
     this.svgTarget.remove();
   };
 
+  Chromosome.prototype.moveSelectorTo = function(start, stop) {
+    if(arguments.length !== 2) {
+      throw "Error moveSelectorTo: Invalid number of arguments. Both start and stop coordinates are required";
+    }
+
+    if (this.selectors.length === 0) {
+      this.newSelector(0, "10000000");
+    } else {
+      this.selectors[0].move(start, stop);
+    }
+
+  };
+
+  Chromosome.prototype.newSelector = function(bp_start, bp_stop) {
+
+    var self = this;
+    function selectorRemoveCB(sel) {
+      var index = self.selectors.indexOf(sel);
+      self.selectors.splice(index, 1);
+    }
+
+    var ve = cyto_vis.selector(selectorRemoveCB)
+      .x(cyto_vis.margin.left)
+      .y(cyto_vis.margin.top - (CHR_HEIGHT / 4))
+      .height(CHR_HEIGHT + (CHR_HEIGHT / 2))
+      .xscale(this.xscale)
+      .extent([bp_start, bp_stop])
+      .target(this.svgTarget)
+      .render();
+
+    ve.dispatch.on('change', function(d) {
+      self.dispatch.selectorchange(d);
+    });
+
+    this.selectors.push(ve);
+  };
+
+  Chromosome.prototype.getSelections = function() {
+
+    var ret = [];
+    for(var i = 0; i < this.selectors.length; i++) {
+      var sel = this.selectors[i]['_extent'];
+      ret.push({
+        start: sel[0],
+        stop: sel[1]
+      })
+    }
+    return ret;
+  };
+
   Chromosome.prototype.render = function () {
 
     var self = this;
