@@ -21,13 +21,13 @@
 
 
     var s = cyto_chr.chromosome()
-            .config('showAxis', true)
-            .segment('X')
-            .useRelative(true)
-            .resolution(400)
-            .target("#test")
+            .config('segment', "2")
+            .config('target', '#chrX')
+            .config('resolution', "850") //400, 550, or 850
+            .config('width', 1200)
+            .config('useRelative', false)
+            .config('showAxis', false)
             .render();
-    console.log(s);
 
     function btnClick() {
         console.log(s.getSelections());
