@@ -13,8 +13,8 @@
         scope.useRelative = cyto_chr.setOption(scope.useRelative, true);
         scope.axis = cyto_chr.setOption(scope.axis, false);
 
-        var chr = cyto_chr.chromosome()
-          .target(d3.select(element[0]))
+        scope.chr = cyto_chr.chromosome()
+          .target(d3.select(element[0]).select('.chromosome'))
           .width(scope.width)
           .segment(scope.segment)
           .resolution(scope.resolution)
@@ -24,9 +24,20 @@
 
       }
 
+      function controller($scope) {
+        this.getActiveSelection = function() {}
+        this.getActiveSelector = function() {}
+        this.getAttrs = function() {
+
+        }
+      }
+
       return {
         link: link,
         restrict: 'E',
+        controller: controller,
+        transclude: true,
+        template: '<div class="chromosome"></div><div ng-transclude></div>',
         scope: {
           width: '@',
           segment: '@',
