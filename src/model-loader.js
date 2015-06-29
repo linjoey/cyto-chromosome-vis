@@ -1,5 +1,5 @@
 
-(function (cyto_chr, d3) {
+(function (cyto_vis, d3) {
 
   var defaultDataURLs = {
     "400" : "ideogram_9606_GCF_000001305.14_400_V1",
@@ -36,7 +36,7 @@
 
         return;
       } else if (c.status === "notloaded") {
-        console.log("network for ", res)
+        //console.log("network for ", res)
         c.status = "loading";
         d3.tsv(file, function(d) {
           c.cache = d;
@@ -75,9 +75,9 @@
     return newAry;
   }
 
-  cyto_chr.modelLoader = {
+  cyto_vis.modelLoader = {
     load: getChromosomeData,
     setBaseDir: function(d) {baseDir = d;}
   };
 
-})(window.cyto_chr = window.cyto_chr || {}, d3);
+})(window.cyto_vis = window.cyto_vis || {}, d3);
