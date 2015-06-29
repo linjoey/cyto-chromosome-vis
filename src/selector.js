@@ -21,6 +21,10 @@
   Selector.prototype.extent = function (a) {
 
     var self = this;
+    if(typeof a === "undefined") {
+      return self._brush.extent();
+    }
+
     return cyto_chr.InitGetterSetter.call(this, "_extent", a, function(){
       self._brush.extent(a);
     });
@@ -56,7 +60,6 @@
     var self = this;
 
     this.selector = this._target.append('g')
-      .classed('selector', true)
       .attr('transform', 'translate(' + this._x + ',' + this._y + ')')
       .call(this._brush);
 

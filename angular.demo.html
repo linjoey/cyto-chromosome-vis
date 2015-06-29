@@ -8,8 +8,7 @@
 <body ng-controller="main">
 
 
-<chromosome segment="X" show-axis="true" use-relative="true" resolution="550"></chromosome>
-<chromosome segment="1" show-axis="false" use-relative="true"></chromosome>
+<cytochromosome></cytochromosome>
 
 <div id="chr3"></div>
 <div id="chr13"></div>
@@ -27,17 +26,20 @@
 <script src="src/angular.adapter.js"></script>
 <script>
     var app = angular.module('demoApp',['cyto-chromosome-vis'])
-            .controller('main', function($scope, chromosomeFactory) {
-                var c = chromosomeFactory.build()
+            .config(['cytochromosomeProvider', function(cytochr) {
+                cytochr.setDataDir('data/');
+            }])
+
+            .controller('main', function($scope, cytochromosome) {
+
+                console.log(cytochromosome)
+                //cytochromosome.setDataDir('./');
+
+                var c = cytochromosome.build()
                         .target("#chr3")
                         .segment(3)
                         .render();
 
-                var d = chromosomeFactory.build()
-                        .target("#chr13")
-                        .segment(13)
-                        .render();
-                console.log(c,d);
 
             })
 

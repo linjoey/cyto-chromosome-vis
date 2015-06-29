@@ -59,8 +59,8 @@
 
   cyto_chr.getStainColour = function (bandtype, density) {
 
-    if(bandtype == "gpos") {
-      if(density === "" || density === null) return "#000000";
+    if(bandtype === "gpos") {
+      if(density === "" || density === null) { return "#000000"; }
 
       switch(density) {
         case "100":
@@ -112,6 +112,6 @@
     } else {
       return this[prop];
     }
-  }
+  };
 
 })(window.cyto_chr = window.cyto_chr || {}, d3);

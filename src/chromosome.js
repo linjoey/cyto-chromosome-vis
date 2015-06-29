@@ -23,8 +23,8 @@
     this._showAxis = false;
     this.dispatch = d3.dispatch('bandclick', 'selectorchange');
     this.rendered = false;
-
     this.selectors = [];
+    this.model = [];
   };
 
   Chromosome.prototype.segment = function (a) {
@@ -64,8 +64,7 @@
   };
 
   Chromosome.prototype.config = function(type, arg) {
-    var p = '_' + type;
-    return cyto_chr.InitGetterSetter.call(this, p, arg);
+    return this[type](arg);
   };
 
   Chromosome.prototype.renderAxis = function () {
@@ -140,13 +139,44 @@
 
     var ret = [];
     for(var i = 0; i < this.selectors.length; i++) {
-      var sel = this.selectors[i]['_extent'];
+      var sel = this.selectors[i].extent();
       ret.push({
         start: sel[0],
         stop: sel[1]
       })
     }
     return ret;
+  };
+
+  Chromosome.prototype.getSelectedBands = function(sensitivity) {
+
+    var results = [];
+    if (this.selectors.length > 0) {
+
+      var se = this.selectors[0].extent();
+      var selStart = +se[0];
+      var selStop = +se[1];
+
+      if (typeof sensitivity !== 'undefined') {
+        selStart -= sensitivity;
+        selStop += sensitivity;
+      }
+
+      results = this.model.slice().filter(function(e) {
+        var bStart = +e.bp_start;
+        var bStop = +e.bp_stop;
+
+        if ((selStart >= bStart && selStart < bStop) ||
+          (selStop > bStart && selStop <= bStop) ||
+          (selStart <= bStart && selStop >= bStop)) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+
+    return results;
   };
 
   Chromosome.prototype.render = function () {
@@ -159,6 +189,7 @@
 
     cyto_chr.modelLoader.load(this._segment, this._resolution, function(data) {
 
+      self.model = data;
       var maxBasePair = d3.max(data, function(d) {
         return +d.bp_stop;
       });

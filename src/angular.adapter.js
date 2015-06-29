@@ -3,8 +3,10 @@
     return;
   }
 
+  cyto_chr.modelLoader.setDataDir('./node_modules/cyto-chromosome-vis/data/');
+
   angular.module('cyto-chromosome-vis',[])
-    .directive('chromosome',[function() {
+    .directive('cytochromosome',[function() {
       function link(scope, element, attr) {
 
         attr.resolution = cyto_chr.setOption(attr.resolution, "550");
@@ -28,14 +30,20 @@
       return {
         link: link,
         restrict: 'E'
-      }
+      };
     }])
-    .factory('chromosomeFactory', [function() {
-      return {
-        build: function() {
-          return cyto_chr.chromosome();
-        }
-      }
-    }]);
+    .provider('cytochromosome', function(){
+      this.build = function() {
+        return cyto_chr.chromosome();
+      };
+
+      this.setDataDir = function(d) {
+        cyto_chr.modelLoader.setDataDir(d);
+      };
+
+      this.$get = function() {
+        return this;
+      };
+    });
 
 })();

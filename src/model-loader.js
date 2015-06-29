@@ -61,11 +61,13 @@
 
     var fileName = defaultDataURLs[resolution];
 
-    var d = baseDir + fileName;
-
     loadData(baseDir + fileName, resolution, function (d) {
-      var filteredResults = filterByChromosome(d, chr);
-      cb(filteredResults);
+
+      if(d) {
+        var filteredResults = filterByChromosome(d, chr);
+        cb(filteredResults);
+      }
+
     });
   }
 
