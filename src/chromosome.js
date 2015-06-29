@@ -1,9 +1,9 @@
 
-(function(cyto_chr, d3) {
+(function(cyto_vis, d3) {
 
-  cyto_chr.margin = {
-    top: 40,
-    left: 5,
+  cyto_vis.margin = {
+    top: 35,
+    left: 14,
     right: 5
   };
 
@@ -11,22 +11,24 @@
   var CHR1_BP_END = 248956422;
   var CHR1_BP_MID = 121700000;
 
-  var Chromosome = function(opt) {
+  var Chromosome = function() {
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
 
     this._segment = "1";
     this._domTarget = d3.select(document.documentElement);
     this._resolution = "550";
     this._width = 1000;
-    this._svgHeight = 80;
+    this._svgHeight = 75;
     this._useRelative = true;
     this._showAxis = false;
     this.dispatch = d3.dispatch('bandclick', 'selectorchange');
     this.rendered = false;
+
+    this.selectors = [];
   };
 
   Chromosome.prototype.segment = function (a) {
-    return cyto_chr.InitGetterSetter.call(this, '_segment', a.toString());
+    return cyto_vis.InitGetterSetter.call(this, '_segment', a.toString());
   };
 
   Chromosome.prototype.target = function (a) {
@@ -34,23 +36,23 @@
     if(a.empty()) {
       throw "Error: Invalid dom target";
     }
-    return cyto_chr.InitGetterSetter.call(this, '_domTarget', a);
+    return cyto_vis.InitGetterSetter.call(this, '_domTarget', a);
   };
 
   Chromosome.prototype.resolution = function (a) {
-    return cyto_chr.InitGetterSetter.call(this, '_resolution', a);
+    return cyto_vis.InitGetterSetter.call(this, '_resolution', a);
   };
 
   Chromosome.prototype.width = function (a) {
-    return cyto_chr.InitGetterSetter.call(this, '_width', a);
+    return cyto_vis.InitGetterSetter.call(this, '_width', a);
   };
 
   Chromosome.prototype.useRelative = function (a) {
-    return cyto_chr.InitGetterSetter.call(this, '_useRelative', a);
+    return cyto_vis.InitGetterSetter.call(this, '_useRelative', a);
   };
 
   Chromosome.prototype.showAxis = function (a) {
-    return cyto_chr.InitGetterSetter.call(this, '_showAxis', a);
+    return cyto_vis.InitGetterSetter.call(this, '_showAxis', a);
   };
 
   Chromosome.prototype.on = function(e, listener) {
@@ -59,6 +61,10 @@
     this.dispatch.on(e, listener);
   };
 
+  Chromosome.prototype.config = function(type, arg) {
+    var p = '_' + type;
+    return cyto_vis.InitGetterSetter.call(this, p, arg);
+  };
 
   Chromosome.prototype.renderAxis = function () {
     var bpAxis = d3.svg.axis()
@@ -66,13 +72,13 @@
       .tickFormat(d3.format('s'))
       .orient("bottom");
 
-    if (this._useRelative && (this.segment === "Y" || this.segment === "22" || this.segment === "21" || this.segment === "20" || this.segment === "19")) {
+    if (this._useRelative && (this._segment === "Y" || this._segment === "22" || this._segment === "21" || this._segment === "20" || this._segment === "19")) {
       bpAxis.ticks(6);
     }
 
     var axisg = this.svgTarget.append('g')
       .classed('bp-axis', true)
-      .attr('transform', 'translate('+ cyto_chr.margin.left + ',' + (CHR_HEIGHT + cyto_chr.margin.top + 5) + ")");
+      .attr('transform', 'translate('+ cyto_vis.margin.left + ',' + (CHR_HEIGHT + cyto_vis.margin.top + 5) + ")");
 
       axisg.call(bpAxis);
 
@@ -149,7 +155,7 @@
       self.remove();
     }
 
-    cyto_chr.modelLoader.load(this._segment, this._resolution, function(data) {
+    cyto_vis.modelLoader.load(this._segment, this._resolution, function(data) {
 
       var maxBasePair = d3.max(data, function(d) {
         return +d.bp_stop;
@@ -167,20 +173,25 @@
 
       self.xscale = d3.scale.linear()
         .domain([1, maxBasePair])
-        .range([0, rangeTo - cyto_chr.margin.left]);
+        .range([0, rangeTo - cyto_vis.margin.left]);
 
       var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
 
       self.svgTarget = self._domTarget.append('svg')
-        .attr('width', svgWidth + cyto_chr.margin.right)
+        .attr('width', svgWidth + cyto_vis.margin.right)
         .attr('height', self._svgHeight);
 
       var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
 
+      cyto_vis.initPattern.call(self.svgTarget);
 
-      cyto_chr.initPattern.call(self.svgTarget);
-
+      self.svgTarget.append('text')
+        .text(self._segment)
+        .attr('x', 5)
+        .attr('y', cyto_vis.margin.top + (CHR_HEIGHT/ 2) + 2)
+        .attr('text-anchor','middle')
+        .style('font', '10px sans-serif');
 
       function bpCoord(bp) {
         var xshift = 0;
@@ -188,7 +199,7 @@
           xshift = self.xscale(CHR1_BP_MID) - self.xscale(self.segMid);
         }
 
-        return self.xscale(bp) + cyto_chr.margin.left + xshift;
+        return self.xscale(bp) + cyto_vis.margin.left + xshift;
       }
 
       bands.append('g')
@@ -204,22 +215,22 @@
 
           function drawRoundedRect(d, r, tl, tr, bl, br) {
             return this.append('path')
-              .attr("d", cyto_chr.roundedRect(bpCoord(d.bp_start), cyto_chr.margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
-              .style('fill', cyto_chr.getStainColour(d.stain, d.density));
+              .attr("d", cyto_vis.roundedRect(bpCoord(d.bp_start), cyto_vis.margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
+              .style('fill', cyto_vis.getStainColour(d.stain, d.density));
           }
 
           if(i % 2 === 0) {
             var bmid = (bpCoord(d.bp_stop) + bpCoord(d.bp_start)) / 2;
             elem.append('line')
               .attr('x1', bmid)
-              .attr('y1', cyto_chr.margin.top)
+              .attr('y1', cyto_vis.margin.top)
               .attr('x2', bmid)
-              .attr('y2', cyto_chr.margin.top - 4)
+              .attr('y2', cyto_vis.margin.top - 4)
               .style('stroke', 'grey')
               .style('stroke-width',1);
 
             elem.append('text')
-              .attr('transform', 'translate(' + bmid + ',' + (cyto_chr.margin.top - 6) + ')rotate(-50)')
+              .attr('transform', 'translate(' + bmid + ',' + (cyto_vis.margin.top - 6) + ')rotate(-50)')
               .style('font', '10px sans-serif')
               .text(d.arm + d.band);
           }
@@ -244,14 +255,14 @@
 
           } else {
 
-            var ys = d.stain === "stalk" ? cyto_chr.margin.top + (CHR_HEIGHT / 4) : cyto_chr.margin.top;
+            var ys = d.stain === "stalk" ? cyto_vis.margin.top + (CHR_HEIGHT / 4) : cyto_vis.margin.top;
             var hs = d.stain === "stalk" ? CHR_HEIGHT / 2 : CHR_HEIGHT;
             rect = elem.append('rect')
               .attr('x', bpCoord(d.bp_start))
               .attr('y', ys)
               .attr('height', hs)
               .attr('width', self.xscale(d.bp_stop) - self.xscale(d.bp_start))
-              .style('fill', cyto_chr.getStainColour(d.stain, d.density));
+              .style('fill', cyto_vis.getStainColour(d.stain, d.density));
             applyBorder.call(rect);
           }
 
@@ -264,7 +275,7 @@
               .style('cursor', 'pointer');
 
             if (d.stain === "gneg") {
-              e.style('fill', cyto_chr.getStainColour("gpos", "25"));
+              e.style('fill', cyto_vis.getStainColour("gpos", "25"));
             }
 
           });
@@ -275,25 +286,15 @@
               .style('cursor', 'default');
 
             if (d.stain === "gneg") {
-              e.style('fill', cyto_chr.getStainColour("gneg"));
+              e.style('fill', cyto_vis.getStainColour("gneg"));
             }
           });
 
           rect.on('click', function(d) {
 
-            var ve = cyto_chr.selector()
-              .x(cyto_chr.margin.left)
-              .y(cyto_chr.margin.top - (CHR_HEIGHT / 4))
-              .height(CHR_HEIGHT + (CHR_HEIGHT / 2))
-              .xscale(self.xscale)
-              .extent([d.bp_start, d.bp_stop])
-              .target(self.svgTarget)
-              .render();
-
-            ve.dispatch.on('change', function(d) {
-              self.dispatch.selectorchange(d);
-            });
-
+            if(self.selectors.length === 0 || d3.event.shiftKey) {
+              self.newSelector(d.bp_start, d.bp_stop);
+            }
             self.dispatch.bandclick(d);
           });
         });
@@ -309,8 +310,8 @@
     return self;
   };
 
-  cyto_chr.chromosome = function(opt) {
-    return new Chromosome(opt);
+  cyto_vis.chromosome = function() {
+    return new Chromosome();
   };
 
-})(window.cyto_chr = window.cyto_chr || {}, d3);
+})(window.cyto_vis = window.cyto_vis || {}, d3);
