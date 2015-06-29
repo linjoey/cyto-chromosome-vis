@@ -2,93 +2,63 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Chromosome Map - Interactive Ideogram Visualization</title>
+    <title>Interactive Chromosome Representation | Demo</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-
-    <!--<script src="chromosome-map.min.js"></script>-->
-
-    <script src="src/utils.js"></script>
-    <script src="src/model-loader.js"></script>
-    <script src="src/selector.js"></script>
-    <script src="src/chromosome.js"></script>
+    <script src="cyto-chromosome.min.js"></script>
 
 </head>
 <body>
-X<div id="chrX"></div>
-Y<div id="chrY"></div>
-1<div id="chr1"></div>
-2<div id="chr2"></div>
-3<div id="chr3"></div>
-4<div id="chr4"></div>
-5<div id="chr5"></div>
-6<div id="chr6"></div>
-7<div id="chr7"></div>
-8<div id="chr8"></div>
-9<div id="chr9"></div>
-10<div id="chr10"></div>
-11<div id="chr11"></div>
-12<div id="chr12"></div>
-13<div id="chr13"></div>
-14<div id="chr14"></div>
-15<div id="chr15"></div>
-16<div id="chr16"></div>
-17<div id="chr17"></div>
-18<div id="chr18"></div>
-19<div id="chr19"></div>
-20<div id="chr20"></div>
-21<div id="chr21"></div>
-22<div id="chr22"></div>
-
-
-
-
-<!--<svg>-->
-
-    <!--<pattern id="acen-fill" patternUnits="userSpaceOnUse"-->
-             <!--x="0" y="0" width="10" height="10">-->
-        <!--<g style="fill:none; stroke:#708090; stroke-width:2">-->
-            <!--<path d="M0,0 l10,10"/>-->
-            <!--<path d="M10,0 l-10,10"/>-->
-        <!--</g>-->
-    <!--</pattern>-->
-
-<!--</svg>-->
+<div id="chrX"></div>
+<div id="chrY"></div>
+<div id="chr1"></div>
+<div id="chr2"></div>
+<div id="chr3"></div>
+<div id="chr4"></div>
+<div id="chr5"></div>
+<div id="chr6"></div>
+<div id="chr7"></div>
+<div id="chr8"></div>
+<div id="chr9"></div>
+<div id="chr10"></div>
+<div id="chr11"></div>
+<div id="chr12"></div>
+<div id="chr13"></div>
+<div id="chr14"></div>
+<div id="chr15"></div>
+<div id="chr16"></div>
+<div id="chr17"></div>
+<div id="chr18"></div>
+<div id="chr19"></div>
+<div id="chr20"></div>
+<div id="chr21"></div>
+<div id="chr22"></div>
 
 <script>
-    var Chromosome = cyto_chr.Chromosome;
+    var chromosomeFactory = cyto_vis.chromosome;
 
     for(var i = 1; i < 23; i++) {
         var t = "#chr"+i;
-        new Chromosome({
-            target: t,
-            segment: i
-        }).render();
+
+        chromosomeFactory()
+                .segment(i)
+                .target('#chr' + i)
+                .showAxis(true)
+                .render();
     }
 
-    var chrx = new Chromosome({
-        target: "#chrX",
-        segment: "X",
-        resolution: "400",
-        alignCentromere: false
-    }).render();
+    var x = chromosomeFactory()
+            .segment("X")
+            .target('#chrX')
+            .render();
 
-    chrx.on('bandclick', function(d) {
-        console.log(d);
-    });
+    var x = chromosomeFactory()
+            .segment("Y")
+            .target('#chrY')
+            .render();
 
-    chrx.on('selectorchange', function(d) {
-        console.log(d);
-    });
 
-    chry = new Chromosome({
-        target: "#chrY",
-        segment: "Y"
-    }).render();
 
-    chry.on('bandclick', function(d) {
-        console.log(d);
-    });
 </script>
 
 </body>
