@@ -76,7 +76,7 @@
 
   cyto_vis.modelLoader = {
     load: getChromosomeData,
-    setBaseDir: function(d) {baseDir = d;}
+    setDataDir: function(d) {baseDir = d;}
   };
 
 })(window.cyto_vis = window.cyto_vis || {}, d3);
