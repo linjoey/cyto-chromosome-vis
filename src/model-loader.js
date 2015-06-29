@@ -36,7 +36,6 @@
 
         return;
       } else if (c.status === "notloaded") {
-        //console.log("network for ", res)
         c.status = "loading";
         d3.tsv(file, function(d) {
           c.cache = d;
