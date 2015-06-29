@@ -2,7 +2,9 @@
 
 > Interactive visual representation/ web visualization tool for chromosome ideograms
 
-This is a web component built with D3.js to render chromosome representations in SVG. Each chromosome has interactive features such as clicking a band, picking a specific cyto-location (base pair), or removing specific selections. A convenient API is included to integrate user actions on the chromosomes with other js components.
+This is a web component built with D3.js to render chromosome representations in SVG. Each chromosome has interactive features such as clicking a band, picking a specific cyto-location (base pair), or removing specific selections. A convenient API is included to integrate user actions on the chromosomes with other js components. 
+
+This can be used in plain JavaScript environments or with ***Angular.js***
 
 ### Demo
 A demo is available here: http://linjoey.github.io/cyto-chromosome-vis/
@@ -10,22 +12,47 @@ A demo is available here: http://linjoey.github.io/cyto-chromosome-vis/
 
 ### Basic Usage
 
-1. Include D3 and the project source. 
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script src="cyto-chromosome.min.js"></script>
-```
+1. Include D3 and the project source: `cyto-chromosome.min.js`
+
 2. Create a target div to host the chromosome
 ```html
 <div id="chrY"></div>
 ```
-3. In a Javascript file/tag, instantiate a chromosome object.
+3. Instantiate a chromosome object.
 ```javascript
 var chromosomeFactory = cyto_chr.chromosome;
 var x = chromosomeFactory()
         .segment("X")
         .target('#chrX')
         .render();
+```
+
+### Angular environments
+1. Include the module `cyto-chromosome-vis` as a project dependency
+```javascript
+angular.module('demoApp',['cyto-chromosome-vis'])
+```
+
+2. Simply use the directive `chromosome`
+```html
+<chromosome segment="X" width="1000" show-axis="true" use-relative="true" resolution="400"></chromosome>
+```
+
+3. If you require interacting with the chromosome instance from a controller, manually instantiate it with the service `chromosomeFactory`:
+
+```html
+<div id="chr3"></div>
+```
+```JavaScript
+.controller('main', function($scope, chromosomeFactory) {
+                var c = chromosomeFactory.build()
+                        .target("#chr3")
+                        .segment(3)
+                        .render();
+                        
+                    c.on('bandclick',...);
+            })
+
 ```
 
 Once a chromosome is drawn, `click` a band to add a selector, `shift-click` to add multiple selectors. Drag the edges of the selector to change the selection; click the red button on a selector to delete it.
