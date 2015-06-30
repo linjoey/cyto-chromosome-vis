@@ -33,27 +33,36 @@ var x = chromosomeFactory()
 angular.module('demoApp',['cyto-chromosome-vis'])
 ```
 
-2. Simply use the directive `chromosome`
+2. Simply use the directive `cytochromosome`
 ```html
-<chromosome segment="X" width="1000" show-axis="true" use-relative="true" resolution="400"></chromosome>
+<cytochromosome segment="X" width="1000" show-axis="true" use-relative="true" resolution="400"></cytochromosome>
 ```
 
-3. If you require interacting with the chromosome instance from a controller, manually instantiate it with the service `chromosomeFactory`:
+3. If you require interacting with the chromosome instance from a controller, inject service `cytochromosome` and instantiate manually:
 
 ```html
 <div id="chr3"></div>
 ```
 ```JavaScript
-.controller('someController', function($scope, chromosomeFactory) {
-                var c = chromosomeFactory.build()
-                        .target("#chr3")
-                        .segment(3)
-                        .render();
-                        
-                    c.on('bandclick',...);
-            })
+var app = angular.module('demoApp',['cyto-chromosome-vis'])
+        .config(['cytochromosomeProvider', function(cytochr) {
+            cytochr.setDataDir('data/');
+        }])
+
+        .controller('main', function($scope, cytochromosome) {
+
+            var c = cytochromosome.build()
+                    .target("#chr3")
+                    .segment(3)
+                    .showAxis(true)
+                    .render();
+
+
+        })
 
 ```
+
+If the data directory is moved from the default `node_modules/cyto-chromosome-vis/data/`, inject `cytochromosomeProvider` and configure the data path relative to the html page. 
 
 Once a chromosome is drawn, `click` a band to add a selector, `shift-click` to add multiple selectors. Drag the edges of the selector to change the selection; click the red button on a selector to delete it.
 
@@ -75,37 +84,54 @@ s.resolution(); //850
 s.width(); //1200
 ```
 
-**chromosome.segment** 
+**chromosome.segment(string)** 
 The chromosome number to draw, e.g. `"1" or "X"`
 Default: 1
 
-**chromosome.target** 
-id of a div to append the chromosome svg
+**chromosome.target(a)** 
+id of a div to append the chromosome svg. Specify as string, e.g "#that-div" or a d3 selection
 Default: the root html document
 
-**chromosome.resolution**
+**chromosome.resolution(number)**
 g-band resolutions
 Default: 550
 
-**chromosome.width**
+**chromosome.height(number)**
+Height of the chromosome to draw. This is not the total svg height rendered.
+Default: 1000
+
+**chromosome.width(number)**
 Total width on the page to render
 Default: 1000
 
-**chromosome.useRelative**
+**chromosome.useRelative(bool)**
 Render each chromosome relative to their real sizes. Setting this to `false` will draw the chromosome to the full `width`.
 Default: true
 
-**chromosome.showAxis** 
+**chromosome.showAxis(bool)** 
 Display the basepair axis below the chromosome
 Default: false
 
-### Chromosome API
+
+### API
+
+**cyto_chr.chromosome()**
+Create a new chromosome instance
 
 **chromosome.render()**
 A call to `render()` will update the svg with the current configurations. If something is changed later, call to `render()` again to re-draw the chromosome.
 
 **chromosome.getSelections()**
 Get an list of all the selections on the chromosome
+
+**chromosome.newSelector(start, stop)**
+Create a new selector on the start and stop basepair of the chromosome
+
+**chromosome.moveSelectorTo(start, stop)**
+Move the first selector to the start and stop basepair of the chromosome
+
+**chromosome.getSVGTarget()**
+Get the current DOM SVG. This is a d3 selection.
 
 **chromosome.on(event, callback)**
 Capture events from user interactions.
