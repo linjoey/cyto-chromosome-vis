@@ -227,11 +227,13 @@
       var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
 
       var h = self._height + 58;
+      var w = svgWidth + cyto_chr.margin.right + cyto_chr.margin.right;
 
       self.svgTarget = self._domTarget
         .style('height', h + 'px')
+        .style('width', (w+5) + 'px')
         .append('svg')
-        .attr('width', svgWidth + cyto_chr.margin.right)
+        .attr('width',w)
         .attr('height', h);
 
       var bands = self.svgTarget.selectAll('g')
@@ -296,10 +298,10 @@
           } else if (d.stain === "acen" && (w > 6)) {
 
             if (d.arm === "p") {
-              rect = drawRoundedRect.call(elem, d, 8, false, true, false, true);
+              rect = drawRoundedRect.call(elem, d, 5, false, true, false, true);
 
             } else if(d.arm === "q") {
-              rect = drawRoundedRect.call(elem, d, 8, true, false, true, false);
+              rect = drawRoundedRect.call(elem, d, 5, true, false, true, false);
             }
           } else if (i === data.length - 1) {
 
