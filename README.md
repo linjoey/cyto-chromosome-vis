@@ -135,7 +135,7 @@ Get the current DOM SVG. This is a d3 selection.
 
 **chromosome.on(event, callback)**
 Capture events from user interactions.
-Two events are emmited: `bandclick` and `selectorchange`
+Events are emmited: `bandclick`, `selectorchange`, and `selectorend`
 
 ```javascript
 chromosome.on('bandclick', function(e) {
