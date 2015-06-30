@@ -25,6 +25,11 @@
     this.rendered = false;
     this.selectors = [];
     this.model = [];
+    this.maxBasePair = 0;
+  };
+
+  Chromosome.prototype.getMaxBasepair = function() {
+    return this.maxBasePair;
   };
 
   Chromosome.prototype.segment = function (a) {
@@ -186,6 +191,10 @@
     return results;
   };
 
+  Chromosome.prototype.getSVGTarget = function() {
+    return this.svgTarget;
+  };
+
   Chromosome.prototype.render = function () {
 
     var self = this;
@@ -197,7 +206,7 @@
     cyto_chr.modelLoader.load(this._segment, this._resolution, function(data) {
 
       self.model = data;
-      var maxBasePair = d3.max(data, function(d) {
+      self.maxBasePair = d3.max(data, function(d) {
         return +d.bp_stop;
       });
 
@@ -209,19 +218,21 @@
         }
       }
 
-      var rangeTo = self._useRelative ? (maxBasePair / CHR1_BP_END) * self._width : self._width;
+      var rangeTo = self._useRelative ? (self.maxBasePair / CHR1_BP_END) * self._width : self._width;
 
       self.xscale = d3.scale.linear()
-        .domain([1, maxBasePair])
+        .domain([1, self.maxBasePair])
         .range([0, rangeTo - cyto_chr.margin.left]);
 
       var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
 
-      self.svgTarget = self._domTarget.append('svg')
+      var h = self._height + 58;
+
+      self.svgTarget = self._domTarget
+        .style('height', h + 'px')
+        .append('svg')
         .attr('width', svgWidth + cyto_chr.margin.right)
-        .attr('height', function(){
-          return self._height + 60;
-        });
+        .attr('height', h);
 
       var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
