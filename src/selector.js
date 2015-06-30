@@ -3,7 +3,7 @@
 
   var Selector = function(closecb) {
     this._brush = d3.svg.brush();
-    this.dispatch = d3.dispatch('change');
+    this.dispatch = d3.dispatch('change', 'changeend');
     this._x = 0;
     this._y = 0;
     this._extent = [0,0];
@@ -35,7 +35,7 @@
 
     var self = this;
     return cyto_chr.InitGetterSetter.call(this, "_xscale", a, function(){
-      self._brush.x(a)
+      self._brush.x(a);
     });
   };
 
@@ -101,12 +101,15 @@
 
     this._brush.on('brush', function() {
       self.updateXButton();
-      self.dispatch.change(e);
+      var ext = self._brush.extent();
+      self.dispatch.change(ext);
     });
 
-    //this._brush.on('brushend', function(d){
-    //
-    //});
+    this._brush.on('brushend', function(d) {
+
+      var ext = self._brush.extent();
+      self.dispatch.changeend(ext);
+    });
 
     return this;
   };

@@ -7,7 +7,6 @@
     right: 5
   };
 
-  var CHR_HEIGHT = 15;
   var CHR1_BP_END = 248956422;
   var CHR1_BP_MID = 121700000;
 
@@ -18,10 +17,11 @@
     this._domTarget = d3.select(document.documentElement);
     this._resolution = "550";
     this._width = 1000;
+    this._height = 17;
     this._svgHeight = 75;
     this._useRelative = true;
     this._showAxis = false;
-    this.dispatch = d3.dispatch('bandclick', 'selectorchange');
+    this.dispatch = d3.dispatch('bandclick', 'selectorchange', 'selectorend');
     this.rendered = false;
     this.selectors = [];
     this.model = [];
@@ -47,6 +47,9 @@
 
   Chromosome.prototype.width = function (a) {
     return cyto_chr.InitGetterSetter.call(this, '_width', a);
+  };
+  Chromosome.prototype.height = function (a) {
+    return cyto_chr.InitGetterSetter.call(this, '_height', a);
   };
 
   Chromosome.prototype.useRelative = function (a) {
@@ -79,7 +82,7 @@
 
     var axisg = this.svgTarget.append('g')
       .classed('bp-axis', true)
-      .attr('transform', 'translate('+ cyto_chr.margin.left + ',' + (CHR_HEIGHT + cyto_chr.margin.top + 5) + ")");
+      .attr('transform', 'translate('+ cyto_chr.margin.left + ',' + (this._height + cyto_chr.margin.top + 5) + ")");
 
       axisg.call(bpAxis);
 
@@ -121,8 +124,8 @@
 
     var ve = cyto_chr.selector(selectorRemoveCB)
       .x(cyto_chr.margin.left)
-      .y(cyto_chr.margin.top - (CHR_HEIGHT / 4))
-      .height(CHR_HEIGHT + (CHR_HEIGHT / 2))
+      .y(cyto_chr.margin.top - (this._height / 4))
+      .height(this._height + (this._height / 2))
       .xscale(this.xscale)
       .extent([bp_start, bp_stop])
       .target(this.svgTarget)
@@ -130,6 +133,10 @@
 
     ve.dispatch.on('change', function(d) {
       self.dispatch.selectorchange(d);
+    });
+
+    ve.dispatch.on('changeend', function(d) {
+      self.dispatch.selectorend(d);
     });
 
     this.selectors.push(ve);
@@ -212,17 +219,19 @@
 
       self.svgTarget = self._domTarget.append('svg')
         .attr('width', svgWidth + cyto_chr.margin.right)
-        .attr('height', self._svgHeight);
+        .attr('height', function(){
+          return self._height + 60;
+        });
 
       var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
 
-      cyto_chr.initPattern.call(self.svgTarget);
+      //cyto_chr.initPattern.call(self.svgTarget);
 
       self.svgTarget.append('text')
         .text(self._segment)
         .attr('x', 5)
-        .attr('y', cyto_chr.margin.top + (CHR_HEIGHT/ 2) + 2)
+        .attr('y', cyto_chr.margin.top + (self._height/ 2) + 2)
         .attr('text-anchor','middle')
         .style('font', '10px sans-serif');
 
@@ -248,7 +257,7 @@
 
           function drawRoundedRect(d, r, tl, tr, bl, br) {
             return this.append('path')
-              .attr("d", cyto_chr.roundedRect(bpCoord(d.bp_start), cyto_chr.margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), CHR_HEIGHT, r, tl, tr, bl, br))
+              .attr("d", cyto_chr.roundedRect(bpCoord(d.bp_start), cyto_chr.margin.top, bpCoord(d.bp_stop) - bpCoord(d.bp_start), self._height, r, tl, tr, bl, br))
               .style('fill', cyto_chr.getStainColour(d.stain, d.density));
           }
 
@@ -288,8 +297,8 @@
 
           } else {
 
-            var ys = d.stain === "stalk" ? cyto_chr.margin.top + (CHR_HEIGHT / 4) : cyto_chr.margin.top;
-            var hs = d.stain === "stalk" ? CHR_HEIGHT / 2 : CHR_HEIGHT;
+            var ys = d.stain === "stalk" ? cyto_chr.margin.top + (self._height / 4) : cyto_chr.margin.top;
+            var hs = d.stain === "stalk" ? self._height / 2 : self._height;
             rect = elem.append('rect')
               .attr('x', bpCoord(d.bp_start))
               .attr('y', ys)

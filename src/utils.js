@@ -79,8 +79,8 @@
     }
 
     if (bandtype === "acen") {
-      return "url(#acen-fill)";
-      //return "#708090";
+      //return "url(#acen-fill)";
+      return "#708090";
     }
 
     if (bandtype === "gvar") {
