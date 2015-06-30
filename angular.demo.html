@@ -32,12 +32,10 @@
 
             .controller('main', function($scope, cytochromosome) {
 
-                console.log(cytochromosome)
-                //cytochromosome.setDataDir('./');
-
                 var c = cytochromosome.build()
                         .target("#chr3")
                         .segment(3)
+                        .showAxis(true)
                         .render();
 
 

@@ -13,6 +13,14 @@
 </head>
 <body>
 
+<svg>
+    <g transform="translate(0 0)"><!-- replace with your target upper left corner coordinates -->
+        <text x="0" y="0">
+            <tspan x="0" dy="1.2em">very long text</tspan>
+            <tspan x="0" dy="1.2em">I would like to linebreak</tspan>
+        </text>
+    </g>
+</svg>
 <div id="test"></div>
 
 <input type="button" onclick="btnClick()" value="TEST">
@@ -21,16 +29,24 @@
 
 
     var s = cyto_chr.chromosome()
-            .config('segment', "2")
-            .config('target', '#chrX')
+            .config('segment', "X")
+            .config('target', '#test')
             .config('resolution', "850") //400, 550, or 850
             .config('width', 1200)
+            .config('height', 17)
             .config('useRelative', false)
-            .config('showAxis', false)
+            .config('showAxis', true)
             .render();
 
+    s.on('selectorend', function(d){
+        console.log(d);
+    })
+
     function btnClick() {
-        console.log(s.getSelections());
+        var t = s.getSVGTarget()
+                .append('test');
+        console.log(
+                s.maxBasePair)
     }
 
 </script>

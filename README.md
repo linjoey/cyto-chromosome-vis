@@ -1,10 +1,10 @@
 # cyto-chromosome-vis
 
-> Interactive visual representation/ web visualization tool for chromosome ideograms
+> Interactive visual representation/ web visualization tool for **chromosome** ideograms
 
-This is a web component built with D3.js to render chromosome representations in SVG. Each chromosome has interactive features such as clicking a band, picking a specific cyto-location (base pair), or removing specific selections. A convenient API is included to integrate user actions on the chromosomes with other js components. 
+This is a web component built with D3.js to render chromosome representations in SVG. Each chromosome has interactive features such as clicking a band, picking a specific cyto-location (base pair), or removing a specific selection. A convenient API is included to integrate user actions on the chromosomes with other js components. 
 
-This can be used in plain JavaScript environments or with ***Angular.js***
+This can be used in plain JavaScript environments or with ***Angular.js*** (as a directive or a service).
 
 ### Demo
 A demo is available here: http://linjoey.github.io/cyto-chromosome-vis/
@@ -44,7 +44,7 @@ angular.module('demoApp',['cyto-chromosome-vis'])
 <div id="chr3"></div>
 ```
 ```JavaScript
-.controller('main', function($scope, chromosomeFactory) {
+.controller('someController', function($scope, chromosomeFactory) {
                 var c = chromosomeFactory.build()
                         .target("#chr3")
                         .segment(3)
