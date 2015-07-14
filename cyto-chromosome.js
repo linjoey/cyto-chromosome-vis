@@ -200,6 +200,7 @@
     var self = this;
 
     if(self.rendered) {
+      self.selectors = [];
       self.remove();
     }
 
