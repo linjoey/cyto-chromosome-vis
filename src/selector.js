@@ -3,7 +3,7 @@
 
   var Selector = function(closecb) {
     this._brush = d3.svg.brush();
-    this.dispatch = d3.dispatch('change', 'changeend');
+    this.dispatch = d3.dispatch('change', 'changeend', 'selectordelete');
     this._x = 0;
     this._y = 0;
     this._extent = [0,0];
@@ -19,7 +19,6 @@
   };
 
   Selector.prototype.extent = function (a) {
-
     var self = this;
     if(typeof a === "undefined") {
       return self._brush.extent();
@@ -32,7 +31,6 @@
   };
 
   Selector.prototype.xscale = function(a) {
-
     var self = this;
     return cyto_chr.InitGetterSetter.call(this, "_xscale", a, function(){
       self._brush.x(a);
@@ -56,7 +54,6 @@
   };
 
   Selector.prototype.render = function() {
-
     var self = this;
 
     this.selector = this._target.append('g')
@@ -74,7 +71,6 @@
 
     var cbg_xpos = this._xscale(this._extent[1]) + cyto_chr.margin.left;
     var cbg_ypos = cyto_chr.margin.top - 3;
-
     var cbg = this._target.append('g');
     cbg.append('title').text('remove');
 
@@ -83,19 +79,15 @@
       .attr('cy', cbg_ypos)
       .attr('r', 5)
       .attr('fill', 'red')
-      //.style('opacity', '0')
       .on('mouseover', function() {
         d3.select(this)
-          .style('cursor', 'pointer')
-          //.style('opacity', '1');
+          .style('cursor', 'pointer');
       })
       .on('mouseout', function(){
         d3.select(this)
-          .style('cursor', 'default')
-          //.style('opacity', '0');
+          .style('cursor', 'default');
       })
       .on('click', function() {
-
         self.remove();
       });
 
@@ -106,11 +98,9 @@
     });
 
     this._brush.on('brushend', function(d) {
-
       var ext = self._brush.extent();
       self.dispatch.changeend(ext);
     });
-
     return this;
   };
 
@@ -128,7 +118,6 @@
   };
 
   Selector.prototype.move = function(start, stop) {
-
     this._brush.extent([start, stop]);
     this.selector.call(this._brush);
     this.updateXButton();

@@ -13,7 +13,8 @@
   var Chromosome = function() {
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
 
-    this._segment = "1";
+    this._segment = '1';
+    this._selectionMode = 'single'
     this._domTarget = d3.select(document.documentElement);
     this._resolution = "550";
     this._width = 1000;
@@ -37,6 +38,10 @@
     return cyto_chr.InitGetterSetter.call(this, '_segment', a);
   };
 
+  Chromosome.prototype.selectionMode = function (a) {
+    return cyto_chr.InitGetterSetter.call(this, '_selectionMode', a);
+  };
+
   Chromosome.prototype.target = function (a) {
     if(typeof a === 'string') a = d3.select(a);
     if(a.empty()) {
@@ -53,6 +58,7 @@
   Chromosome.prototype.width = function (a) {
     return cyto_chr.InitGetterSetter.call(this, '_width', a);
   };
+
   Chromosome.prototype.height = function (a) {
     return cyto_chr.InitGetterSetter.call(this, '_height', a);
   };
@@ -347,8 +353,7 @@
           });
 
           rect.on('click', function(d) {
-
-            if(self.selectors.length === 0 || d3.event.shiftKey) {
+            if(self.selectors.length === 0 || (self._selectionMode === 'multi' && d3.event.altKey)) {
               self.newSelector(d.bp_start, d.bp_stop);
             }
             self.dispatch.bandclick(d);
