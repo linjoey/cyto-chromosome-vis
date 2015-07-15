@@ -1,4 +1,4 @@
-#chromosome        arm     band    iscn_start      iscn_stop       bp_start        bp_stop stain   density
+#chromosome	arm	band	iscn_start	iscn_stop	bp_start	bp_stop	stain	density
 1	p	36.33b	0	50	1	1161386	gneg	
 1	p	36.33a	51	100	1161387	2300000	gneg	
 1	p	36.32c	100	148	2300000	3347586	gpos	

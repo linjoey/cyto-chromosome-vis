@@ -2,7 +2,7 @@
 (function(cyto_chr, d3) {
 
   cyto_chr.margin = {
-    top: 35,
+    top: 38,
     left: 14,
     right: 5
   };
@@ -51,7 +51,12 @@
 
   Chromosome.prototype.resolution = function (a) {
     if (typeof a === 'number') a = a.toString();
-    return cyto_chr.InitGetterSetter.call(this, '_resolution', a);
+    if (a === "400" || a === "550" || a ==="850" || a === "1200") {
+      return cyto_chr.InitGetterSetter.call(this, '_resolution', a);
+    } else {
+      throw "Error: Invalid resolution. Please enter 400, 550, 850, or 1200 only.";
+    }
+
   };
 
   Chromosome.prototype.width = function (a) {
@@ -233,14 +238,14 @@
 
       var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
 
-      var h = self._height + 58;
+      var h = self._height + 60;
       var w = svgWidth + cyto_chr.margin.right + cyto_chr.margin.right;
 
       self.svgTarget = self._domTarget
         .style('height', h + 'px')
         .style('width', (w+5) + 'px')
         .append('svg')
-        .attr('width',w)
+        .attr('width', w)
         .attr('height', h);
 
       var bands = self.svgTarget.selectAll('g')
@@ -281,7 +286,13 @@
               .style('fill', cyto_chr.getStainColour(d.stain, d.density));
           }
 
-          if(i % 2 === 0) {
+          var labelSkipFactor = self._resolution === '1200' ? 8 : 2;
+
+          if (self._useRelative && self._resolution == "1200" && self._segment == 'Y') {
+            labelSkipFactor = 12;
+          }
+
+          if(i % labelSkipFactor === 0) {
             var bmid = (bpCoord(d.bp_stop) + bpCoord(d.bp_start)) / 2;
             elem.append('line')
               .attr('x1', bmid)
@@ -302,7 +313,7 @@
           if (i === 0 && w > 10) {
             rect = drawRoundedRect.call(elem, d, 4, true, false, true, false);
             applyBorder.call(rect);
-          } else if (d.stain === "acen" && (w > 6)) {
+          } else if (d.stain === "acen" && (w > 10)) {
 
             if (d.arm === "p") {
               rect = drawRoundedRect.call(elem, d, 5, false, true, false, true);

@@ -2,7 +2,7 @@
 (function(cyto_chr, d3) {
 
   cyto_chr.margin = {
-    top: 35,
+    top: 38,
     left: 14,
     right: 5
   };
@@ -13,15 +13,15 @@
   var Chromosome = function() {
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
 
-    this._segment = "1";
+    this._segment = '1';
+    this._selectionMode = 'single';
     this._domTarget = d3.select(document.documentElement);
     this._resolution = "550";
     this._width = 1000;
     this._height = 17;
-    this._svgHeight = 75;
     this._useRelative = true;
     this._showAxis = false;
-    this.dispatch = d3.dispatch('bandclick', 'selectorchange', 'selectorend');
+    this.dispatch = d3.dispatch('bandclick', 'selectorchange', 'selectorend', 'selectordelete');
     this.rendered = false;
     this.selectors = [];
     this.model = [];
@@ -37,6 +37,10 @@
     return cyto_chr.InitGetterSetter.call(this, '_segment', a);
   };
 
+  Chromosome.prototype.selectionMode = function (a) {
+    return cyto_chr.InitGetterSetter.call(this, '_selectionMode', a);
+  };
+
   Chromosome.prototype.target = function (a) {
     if(typeof a === 'string') a = d3.select(a);
     if(a.empty()) {
@@ -47,12 +51,18 @@
 
   Chromosome.prototype.resolution = function (a) {
     if (typeof a === 'number') a = a.toString();
-    return cyto_chr.InitGetterSetter.call(this, '_resolution', a);
+    if (a === "400" || a === "550" || a ==="850" || a === "1200") {
+      return cyto_chr.InitGetterSetter.call(this, '_resolution', a);
+    } else {
+      throw "Error: Invalid resolution. Please enter 400, 550, 850, or 1200 only.";
+    }
+
   };
 
   Chromosome.prototype.width = function (a) {
     return cyto_chr.InitGetterSetter.call(this, '_width', a);
   };
+
   Chromosome.prototype.height = function (a) {
     return cyto_chr.InitGetterSetter.call(this, '_height', a);
   };
@@ -123,6 +133,7 @@
 
     var self = this;
     function selectorRemoveCB(sel) {
+      self.dispatch.selectordelete(sel);
       var index = self.selectors.indexOf(sel);
       self.selectors.splice(index, 1);
     }
@@ -227,14 +238,14 @@
 
       var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
 
-      var h = self._height + 58;
+      var h = self._height + 60;
       var w = svgWidth + cyto_chr.margin.right + cyto_chr.margin.right;
 
       self.svgTarget = self._domTarget
         .style('height', h + 'px')
         .style('width', (w+5) + 'px')
         .append('svg')
-        .attr('width',w)
+        .attr('width', w)
         .attr('height', h);
 
       var bands = self.svgTarget.selectAll('g')
@@ -275,7 +286,13 @@
               .style('fill', cyto_chr.getStainColour(d.stain, d.density));
           }
 
-          if(i % 2 === 0) {
+          var labelSkipFactor = self._resolution === '1200' ? 8 : 2;
+
+          if (self._useRelative && self._resolution == "1200" && self._segment == 'Y') {
+            labelSkipFactor = 12;
+          }
+
+          if(i % labelSkipFactor === 0) {
             var bmid = (bpCoord(d.bp_stop) + bpCoord(d.bp_start)) / 2;
             elem.append('line')
               .attr('x1', bmid)
@@ -296,7 +313,7 @@
           if (i === 0 && w > 10) {
             rect = drawRoundedRect.call(elem, d, 4, true, false, true, false);
             applyBorder.call(rect);
-          } else if (d.stain === "acen" && (w > 6)) {
+          } else if (d.stain === "acen" && (w > 10)) {
 
             if (d.arm === "p") {
               rect = drawRoundedRect.call(elem, d, 5, false, true, false, true);
@@ -347,8 +364,7 @@
           });
 
           rect.on('click', function(d) {
-
-            if(self.selectors.length === 0 || d3.event.shiftKey) {
+            if(self.selectors.length === 0 || (self._selectionMode === 'multi' && d3.event.altKey)) {
               self.newSelector(d.bp_start, d.bp_stop);
             }
             self.dispatch.bandclick(d);
@@ -466,7 +482,7 @@
 
   var Selector = function(closecb) {
     this._brush = d3.svg.brush();
-    this.dispatch = d3.dispatch('change', 'changeend');
+    this.dispatch = d3.dispatch('change', 'changeend', 'selectordelete');
     this._x = 0;
     this._y = 0;
     this._extent = [0,0];
@@ -482,7 +498,6 @@
   };
 
   Selector.prototype.extent = function (a) {
-
     var self = this;
     if(typeof a === "undefined") {
       return self._brush.extent();
@@ -495,7 +510,6 @@
   };
 
   Selector.prototype.xscale = function(a) {
-
     var self = this;
     return cyto_chr.InitGetterSetter.call(this, "_xscale", a, function(){
       self._brush.x(a);
@@ -519,7 +533,6 @@
   };
 
   Selector.prototype.render = function() {
-
     var self = this;
 
     this.selector = this._target.append('g')
@@ -537,7 +550,6 @@
 
     var cbg_xpos = this._xscale(this._extent[1]) + cyto_chr.margin.left;
     var cbg_ypos = cyto_chr.margin.top - 3;
-
     var cbg = this._target.append('g');
     cbg.append('title').text('remove');
 
@@ -546,19 +558,15 @@
       .attr('cy', cbg_ypos)
       .attr('r', 5)
       .attr('fill', 'red')
-      //.style('opacity', '0')
       .on('mouseover', function() {
         d3.select(this)
-          .style('cursor', 'pointer')
-          //.style('opacity', '1');
+          .style('cursor', 'pointer');
       })
       .on('mouseout', function(){
         d3.select(this)
-          .style('cursor', 'default')
-          //.style('opacity', '0');
+          .style('cursor', 'default');
       })
       .on('click', function() {
-
         self.remove();
       });
 
@@ -569,11 +577,9 @@
     });
 
     this._brush.on('brushend', function(d) {
-
       var ext = self._brush.extent();
       self.dispatch.changeend(ext);
     });
-
     return this;
   };
 
@@ -591,7 +597,6 @@
   };
 
   Selector.prototype.move = function(start, stop) {
-
     this._brush.extent([start, stop]);
     this.selector.call(this._brush);
     this.updateXButton();
