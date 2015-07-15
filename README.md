@@ -102,7 +102,7 @@ Default: 1000
 
 **chromosome.width(number)**
 Total width on the page to render
-Default: 1000
+Default: parent's width
 
 **chromosome.useRelative(bool)**
 Render each chromosome relative to their real sizes. Setting this to `false` will draw the chromosome to the full `width`.
