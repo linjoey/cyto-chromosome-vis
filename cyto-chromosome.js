@@ -17,7 +17,7 @@
     this._selectionMode = 'single';
     this._domTarget = d3.select(document.documentElement);
     this._resolution = "550";
-    this._width = 1000;
+    this._width = null;
     this._height = 17;
     this._useRelative = true;
     this._showAxis = false;
@@ -215,6 +215,11 @@
       self.remove();
     }
 
+    if(self._width === null) {
+      var parentWidth = d3.select(self._domTarget[0][0].parentNode).node().getBoundingClientRect().width;
+      self.width(parentWidth)
+    }
+
     cyto_chr.modelLoader.load(this._segment, this._resolution, function(data) {
 
       self.model = data;
@@ -231,6 +236,7 @@
       }
 
       var rangeTo = self._useRelative ? (self.maxBasePair / CHR1_BP_END) * self._width : self._width;
+      rangeTo -= cyto_chr.margin.right;
 
       self.xscale = d3.scale.linear()
         .domain([1, self.maxBasePair])
@@ -238,7 +244,7 @@
 
       var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
 
-      var h = self._height + 60;
+      var h = self._height + 62;
       var w = svgWidth + cyto_chr.margin.right + cyto_chr.margin.right;
 
       self.svgTarget = self._domTarget

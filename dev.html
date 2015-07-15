@@ -14,7 +14,7 @@
     <style>
         #container {
             border: 1px dotted #8d99a8;
-            width: 100%;
+            /*width: 100%;*/
         }
     </style>
 </head>
@@ -41,10 +41,10 @@
     var bodysize = d3.select("body").node().getBoundingClientRect();
     console.log(bodysize)
     var s = cyto_chr.chromosome()
-            .config('segment', "X")
+            .config('segment', "1")
             .config('target', '#test')
             .config('resolution', "550") //400, 550, or 850
-            .config('width', 1000)
+            //.config('width', 1000)
             .config('height', 17)
             .config('useRelative', false)
             .config('showAxis', true)
