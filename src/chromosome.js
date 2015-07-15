@@ -14,15 +14,14 @@
     //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
 
     this._segment = '1';
-    this._selectionMode = 'single'
+    this._selectionMode = 'single';
     this._domTarget = d3.select(document.documentElement);
     this._resolution = "550";
     this._width = 1000;
     this._height = 17;
-    this._svgHeight = 75;
     this._useRelative = true;
     this._showAxis = false;
-    this.dispatch = d3.dispatch('bandclick', 'selectorchange', 'selectorend');
+    this.dispatch = d3.dispatch('bandclick', 'selectorchange', 'selectorend', 'selectordelete');
     this.rendered = false;
     this.selectors = [];
     this.model = [];
@@ -129,6 +128,7 @@
 
     var self = this;
     function selectorRemoveCB(sel) {
+      self.dispatch.selectordelete(sel);
       var index = self.selectors.indexOf(sel);
       self.selectors.splice(index, 1);
     }
