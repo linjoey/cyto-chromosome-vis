@@ -310,10 +310,11 @@
 
           var rect;
           var w = bpCoord(d.bp_stop) - bpCoord(d.bp_start);
+          var acenThreshold = (self._resolution == "1200") ? 7 : 6;
           if (i === 0 && w > 10) {
             rect = drawRoundedRect.call(elem, d, 4, true, false, true, false);
             applyBorder.call(rect);
-          } else if (d.stain === "acen" && (w > 10)) {
+          } else if (d.stain === "acen" && (w > acenThreshold)) {
 
             if (d.arm === "p") {
               rect = drawRoundedRect.call(elem, d, 5, false, true, false, true);
