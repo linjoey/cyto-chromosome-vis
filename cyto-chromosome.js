@@ -371,8 +371,12 @@
           });
 
           rect.on('click', function(d) {
-            if(self.selectors.length === 0 || (self._selectionMode === 'multi' && d3.event.altKey)) {
+            if (self.selectors.length === 0 || (self._selectionMode === 'multi' && d3.event.altKey)) {
               self.newSelector(d.bp_start, d.bp_stop);
+            }
+
+            if (self._selectionMode === 'single' && self.selectors.length > 0) {
+              self.moveSelectorTo(d.bp_start, d.bp_stop);
             }
             self.dispatch.bandclick(d);
           });

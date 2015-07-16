@@ -41,7 +41,7 @@
     var bodysize = d3.select("body").node().getBoundingClientRect();
     console.log(bodysize)
     var s = cyto_chr.chromosome()
-            .config('segment', "1")
+            .config('segment', "X")
             .config('target', '#test')
             .config('resolution', "550") //400, 550, or 850
             //.config('width', 1000)
@@ -51,15 +51,16 @@
             .config('selectionMode', 'single')
             .render();
 
-    s.on('selectorend', function(d){
+    s.on('selectorchange', function(d){
         console.log(d);
     })
 
     function btnClick() {
         var t = s.getSVGTarget()
                 .append('test');
-        console.log(
-                s.maxBasePair)
+        s.useRelative(true)
+        s.render();
+        console.log(s.maxBasePair)
     }
 
 </script>
