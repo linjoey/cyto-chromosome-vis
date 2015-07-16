@@ -97,7 +97,7 @@
 
     var axisg = this.svgTarget.append('g')
       .classed('bp-axis', true)
-      .attr('transform', 'translate('+ cyto_chr.margin.left + ',' + (this._height + cyto_chr.margin.top + 5) + ")");
+      .attr('transform', 'translate('+ cyto_chr.margin.left + ',' + (this._height + cyto_chr.margin.top + 6) + ")");
 
       axisg.call(bpAxis);
 
