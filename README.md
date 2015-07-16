@@ -98,7 +98,7 @@ Default: 550
 
 **chromosome.height(number)**
 Height of the chromosome to draw. This is not the total svg height rendered.
-Default: 1000
+Default: 17
 
 **chromosome.width(number)**
 Total width on the page to render
