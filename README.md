@@ -1,6 +1,7 @@
 # cyto-chromosome-vis
 [![npm version](https://badge.fury.io/js/cyto-chromosome-vis.svg)](http://badge.fury.io/js/cyto-chromosome-vis)
 [![Dependency Status](https://david-dm.org/linjoey/cyto-chromosome-vis.svg)](https://david-dm.org/linjoey/cyto-chromosome-vis)
+[![devDependency Status](https://david-dm.org/linjoey/cyto-chromosome-vis/dev-status.svg)](https://david-dm.org/linjoey/cyto-chromosome-vis#info=devDependencies)
 > Interactive visual representation/ web visualization tool for **chromosome** ideograms
 
 This is a web component built with D3.js to render chromosome representations in SVG. Each chromosome has interactive features such as clicking a band, picking a specific cyto-location (base pair), or removing a specific selection. A convenient API is included to integrate user actions on the chromosomes with other js components. 
