@@ -2,6 +2,7 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var wrap = require('gulp-wrap');
 
 var SOURCE_FILES = [
   'src/chromosome.js',
@@ -16,6 +17,7 @@ gulp.task('default', ['build', 'dev']);
 gulp.task('dev', function(){
   gulp.src(SOURCE_FILES)
     .pipe(concat('cyto-chromosome.min.js'))
+    .pipe(wrap({src: 'build-wrap.template'}))
     .pipe(uglify())
     .pipe(gulp.dest('.'));
 });
@@ -23,5 +25,6 @@ gulp.task('dev', function(){
 gulp.task('build', function(){
   gulp.src(SOURCE_FILES)
     .pipe(concat('cyto-chromosome.js'))
+    .pipe(wrap({src: 'build-wrap-template.js'}))
     .pipe(gulp.dest('.'));
 });

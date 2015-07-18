@@ -1,23 +1,31 @@
 # cyto-chromosome-vis
-
+[![npm version](https://badge.fury.io/js/cyto-chromosome-vis.svg)](http://badge.fury.io/js/cyto-chromosome-vis)
+[![Dependency Status](https://david-dm.org/linjoey/cyto-chromosome-vis.svg)](https://david-dm.org/linjoey/cyto-chromosome-vis)
 > Interactive visual representation/ web visualization tool for **chromosome** ideograms
 
 This is a web component built with D3.js to render chromosome representations in SVG. Each chromosome has interactive features such as clicking a band, picking a specific cyto-location (base pair), or removing a specific selection. A convenient API is included to integrate user actions on the chromosomes with other js components. 
 
-This can be used in plain JavaScript environments or with ***Angular.js*** (as a directive or a service).
+This can be used in plain JavaScript (as a **global** namespace object), in ***Angular.js*** (as a directive or a service), or in CommonJS environments such as **Node.js**.
 
 ### Demo
 A demo is available here: http://linjoey.github.io/cyto-chromosome-vis/
 ![](ss-1.3.0.png)
 
-### Basic Usage
+### Usage 
+Install with npm: `npm install --save cyto-chromosome-vis`
 
-1. Include D3 and the project source: `cyto-chromosome.min.js`
+Install with bower: `bower install --save cyto-chromosome-vis`
+
+Use in plain JavaScript, Angular, or Node.js
+
+#### Plain JavaScript
+1. Include D3 and the project source: `cyto-chromosome.js` or `cyto-chromosome.min.js` from the project root.
 
 2. Create a target div to host the chromosome
 ```html
 <div id="chrY"></div>
 ```
+
 3. Instantiate a chromosome object.
 ```javascript
 var chromosomeFactory = cyto_chr.chromosome;
@@ -27,7 +35,24 @@ var x = chromosomeFactory()
         .render();
 ```
 
-### Angular environments
+#### CommonJS
+```html
+<div id="test"></div>
+<script src="bundle.js"></script>
+```
+
+```JavaScript
+/*src.js*/
+var chromosomeFactory = require('../cyto-chromosome-vis').chromosome;
+chromosomeFactory()
+  .target('#test')
+  .render();
+```
+
+Here bundle.js is compiled with [Browserify]("http://browserify.org/"), e.g. `browserify src.js > bundle.js`
+
+
+#### Angular environments
 1. Include the module `cyto-chromosome-vis` as a project dependency
 ```javascript
 angular.module('demoApp',['cyto-chromosome-vis'])
@@ -38,7 +63,7 @@ angular.module('demoApp',['cyto-chromosome-vis'])
 <cytochromosome segment="X" width="1000" show-axis="true" use-relative="true" resolution="400"></cytochromosome>
 ```
 
-3. If you require interacting with the chromosome instance from a controller, inject service `cytochromosome` and instantiate manually:
+3. If you require interacting with the chromosome instance from a controller, inject the service `cytochromosome` and instantiate manually:
 
 ```html
 <div id="chr3"></div>

@@ -6,11 +6,6 @@
 
   <script src="node_modules/d3/d3.min.js"></script>
 
-  <script src="src/utils.js"></script>
-  <script src="src/model-loader.js"></script>
-  <script src="src/selector.js"></script>
-  <script src="src/chromosome.js"></script>
-
   <style>
     #container {
       border: 1px dotted #8d99a8;
@@ -32,12 +27,16 @@
 <div id="container">
   <div id="test"></div>
 </div>
-
+<script>
+  cyto_chr = {};
+</script>
 
 <input type="button" onclick="btnClick()" value="TEST">
-
+<script src="src/utils.js"></script>
+<script src="src/model-loader.js"></script>
+<script src="src/selector.js"></script>
+<script src="src/chromosome.js"></script>
 <script>
-
   var bodysize = d3.select("body").node().getBoundingClientRect();
   console.log(bodysize)
   var s = cyto_chr.chromosome()
@@ -62,7 +61,6 @@
     s.render();
     console.log(s.maxBasePair)
   }
-
 </script>
 </body>
 </html>

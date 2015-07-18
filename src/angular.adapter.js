@@ -14,7 +14,6 @@
         attr.segment = cyto_chr.setOption(attr.segment, "1");
         attr.useRelative = cyto_chr.setOption(attr.useRelative, true);
         attr.showAxis = cyto_chr.setOption(attr.showAxis, false);
-        console.log(attr)
 
         cyto_chr.chromosome()
           .target(d3.select(element[0]))
@@ -24,7 +23,6 @@
           .useRelative(attr.useRelative == "true")
           .showAxis(attr.showAxis == "true")
           .render();
-
       }
 
       return {

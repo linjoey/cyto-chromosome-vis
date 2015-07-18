@@ -114,4 +114,4 @@
     }
   };
 
-})(window.cyto_chr = window.cyto_chr || {}, d3);
+})(cyto_chr || {}, d3);

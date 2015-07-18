@@ -11,8 +11,6 @@
   var CHR1_BP_MID = 121700000;
 
   var Chromosome = function() {
-    //TODO FIX ALIGN AXIS AS WELL WHEN CENTERING CENTROMERE
-
     this._segment = '1';
     this._selectionMode = 'single';
     this._domTarget = d3.select(document.documentElement);
@@ -56,7 +54,6 @@
     } else {
       throw "Error: Invalid resolution. Please enter 400, 550, 850, or 1200 only.";
     }
-
   };
 
   Chromosome.prototype.width = function (a) {
@@ -77,7 +74,6 @@
 
   Chromosome.prototype.on = function(e, listener) {
     if (!this.dispatch.hasOwnProperty(e)) throw "Error: No event for " + e;
-
     this.dispatch.on(e, listener);
   };
 
@@ -132,6 +128,7 @@
   Chromosome.prototype.newSelector = function(bp_start, bp_stop) {
 
     var self = this;
+
     function selectorRemoveCB(sel) {
       self.dispatch.selectordelete(sel);
       var index = self.selectors.indexOf(sel);
@@ -221,7 +218,6 @@
     }
 
     cyto_chr.modelLoader.load(this._segment, this._resolution, function(data) {
-
       self.model = data;
       self.maxBasePair = d3.max(data, function(d) {
         return +d.bp_stop;
@@ -256,8 +252,6 @@
 
       var bands = self.svgTarget.selectAll('g')
         .data(data).enter();
-
-      //cyto_chr.initPattern.call(self.svgTarget);
 
       self.svgTarget.append('text')
         .text(self._segment)
@@ -387,7 +381,6 @@
       }
 
       self.rendered = true;
-
     });
 
     return self;
@@ -397,4 +390,4 @@
     return new Chromosome();
   };
 
-})(window.cyto_chr = window.cyto_chr || {}, d3);
+})(cyto_chr || {}, d3);

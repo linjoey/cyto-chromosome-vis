@@ -1,0 +1,13 @@
+(function() {
+  var cyto_chr = new Object();
+  var d3;
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = cyto_chr;
+    d3 = require('d3');
+  } else {
+    window.cyto_chr = cyto_chr;
+    d3 = window.d3;
+  }
+  <%= contents %>
+}());
