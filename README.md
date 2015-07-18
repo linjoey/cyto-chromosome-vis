@@ -20,14 +20,14 @@ Install with bower: `bower install --save cyto-chromosome-vis`
 Use in plain JavaScript, Angular, or Node.js
 
 #### Plain JavaScript
-1. Include D3 and the project source: `cyto-chromosome.js` or `cyto-chromosome.min.js` from the project root.
+- Include D3 and the project source: `cyto-chromosome.js` or `cyto-chromosome.min.js` from the project root.
 
-2. Create a target div to host the chromosome
+- Create a target div to host the chromosome
 ```html
 <div id="chrY"></div>
 ```
 
-3. Instantiate a chromosome object.
+- Instantiate a chromosome object.
 ```javascript
 var chromosomeFactory = cyto_chr.chromosome;
 var x = chromosomeFactory()
@@ -53,18 +53,18 @@ chromosomeFactory()
 Here bundle.js is compiled with [Browserify](http://browserify.org/), e.g. `browserify src.js > bundle.js`
 
 
-#### Angular environments
-1. Include the module `cyto-chromosome-vis` as a project dependency
+#### Angular.js
+- Include the module `cyto-chromosome-vis` as a project dependency
 ```javascript
 angular.module('demoApp',['cyto-chromosome-vis'])
 ```
 
-2. Simply use the directive `cytochromosome`
+- Simply use the directive `cytochromosome`
 ```html
 <cytochromosome segment="X" width="1000" show-axis="true" use-relative="true" resolution="400"></cytochromosome>
 ```
 
-3. If you require interacting with the chromosome instance from a controller, inject the service `cytochromosome` and instantiate manually:
+- If you require interacting with the chromosome instance from a controller, inject the service `cytochromosome` and instantiate manually:
 
 ```html
 <div id="chr3"></div>
@@ -90,9 +90,9 @@ var app = angular.module('demoApp',['cyto-chromosome-vis'])
 
 If the data directory is moved from the default `node_modules/cyto-chromosome-vis/data/`, inject `cytochromosomeProvider` and configure the data path relative to the html page. 
 
-Once a chromosome is drawn, `click` a band to add a selector, `shift-click` to add multiple selectors. Drag the edges of the selector to change the selection; click the red button on a selector to delete it.
+Once a chromosome is drawn, `click` a band to add a selector, `alt/option click` to add multiple selectors. Drag the edges of the selector to change the selection; click the red button on a selector to delete it.
 
-### Configurations
+### Configurations API
 
 Configure chromosomes with `chromosome.config(type, value)` or `chromosome.type(value)`. `chromosome.type()` (no arguments) will return the current configuration. The default values for each configuration is shown below.
 
@@ -110,33 +110,37 @@ s.resolution(); //850
 s.width(); //1200
 ```
 
-**chromosome.segment(string)** 
+**chromosome.segment([string])** 
 The chromosome number to draw, e.g. `"1" or "X"`
-Default: 1
+**Default**: 1
 
-**chromosome.target(a)** 
+**chromosome.target([string])** 
 id of a div to append the chromosome svg. Specify as string, e.g "#that-div" or a d3 selection
-Default: the root html document
+**Default**: the root html document
 
-**chromosome.resolution(number)**
+**chromosome.resolution([number])**
 g-band resolutions
-Default: 550
+**Default**: 550
 
-**chromosome.height(number)**
+**chromosome.height([number])**
 Height of the chromosome to draw. This is not the total svg height rendered.
-Default: 17
+**Default**: 17
 
-**chromosome.width(number)**
+**chromosome.width([number])**
 Total width on the page to render
-Default: parent's width
+**Default**: parent's width
 
-**chromosome.useRelative(bool)**
+**chromosome.useRelative([bool])**
 Render each chromosome relative to their real sizes. Setting this to `false` will draw the chromosome to the full `width`.
-Default: true
+**Default**: true
 
-**chromosome.showAxis(bool)** 
+**chromosome.showAxis([bool])** 
 Display the basepair axis below the chromosome
-Default: false
+**Default**: false
+
+**chromosome.selectionMode([string])**
+Allow single or multiple selectors on each chromosome. 'multi' or 'single'. To add additional selectors, press and hold the alt/option key while clicking a new band.
+**Default**: 'single'
 
 
 ### API
