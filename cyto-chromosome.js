@@ -60,7 +60,8 @@
 
   Chromosome.prototype.resolution = function (a) {
     if (typeof a === 'number') a = a.toString();
-    if (a === "400" || a === "550" || a ==="850" || a === "1200") {
+    console.log(a, typeof a)
+    if (a === "400" || a === "550" || a ==="850" || a === "1200" || a === undefined) {
       return cyto_chr.InitGetterSetter.call(this, '_resolution', a);
     } else {
       throw "Error: Invalid resolution. Please enter 400, 550, 850, or 1200 only.";

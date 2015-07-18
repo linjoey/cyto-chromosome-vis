@@ -184,4 +184,4 @@ Data is loaded from static files in the `data/` directory. G-banding resolutions
 ftp://ftp.ncbi.nlm.nih.gov/pub/gdp/
 
 # License
-MIT
+Apache License 2.0
