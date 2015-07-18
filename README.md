@@ -49,7 +49,7 @@ chromosomeFactory()
   .render();
 ```
 
-Here bundle.js is compiled with [Browserify]("http://browserify.org/"), e.g. `browserify src.js > bundle.js`
+Here bundle.js is compiled with [Browserify](http://browserify.org/), e.g. `browserify src.js > bundle.js`
 
 
 #### Angular environments
