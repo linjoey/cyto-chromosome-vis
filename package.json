@@ -11,7 +11,7 @@
     "url": "git+https://github.com/linjoey/cyto-chromosome-vis.git"
   },
   "author": "Joe Zhao Lin <linjoeyy@gmail.com>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/linjoey/cyto-chromosome-vis/issues"
   },
@@ -21,9 +21,24 @@
     "gulp-concat": "^2.6.0",
     "gulp-uglify": "^1.2.0",
     "gulp-wrap": "^0.11.0",
-    "qunitjs": "^1.18.0"
+    "qunitjs": "^1.18.0",
+    "sniper": "^0.2.16"
   },
   "dependencies": {
     "d3": "^3.5.6"
+  },
+  "keywords": [
+    "biojs",
+    "chromosome"
+  ],
+  "sniper": {
+    "js": [
+      "cyto-chromosome.js",
+      "node_modules/d3/d3.js"
+    ],
+    "snippets": [
+      "examples"
+    ],
+    "first": "demo"
   }
 }
