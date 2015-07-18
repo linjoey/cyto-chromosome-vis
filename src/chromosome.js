@@ -1,6 +1,6 @@
 
 (function(cyto_chr, d3) {
-
+  'use strict'
   cyto_chr.margin = {
     top: 38,
     left: 14,
@@ -24,6 +24,7 @@
     this.selectors = [];
     this.model = [];
     this.maxBasePair = 0;
+    this.xscale = d3.scale.linear();
   };
 
   Chromosome.prototype.getMaxBasepair = function() {
@@ -203,7 +204,7 @@
     return this.svgTarget;
   };
 
-  Chromosome.prototype.render = function () {
+  Chromosome.prototype.render = function (zoomRange) {
 
     var self = this;
 
@@ -232,16 +233,18 @@
       }
 
       var rangeTo = self._useRelative ? (self.maxBasePair / CHR1_BP_END) * self._width : self._width;
-      rangeTo -= cyto_chr.margin.right;
+      rangeTo -= (cyto_chr.margin.left + cyto_chr.margin.right);
 
-      self.xscale = d3.scale.linear()
-        .domain([1, self.maxBasePair])
-        .range([0, rangeTo - cyto_chr.margin.left]);
+      if (zoomRange) {
+        self.xscale.domain([zoomRange[0], zoomRange[1]]);
+      } else {
+        self.xscale.domain([1, self.maxBasePair]);
+      }
 
-      var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
+      self.xscale.range([0, rangeTo]);
 
       var h = self._height + 62;
-      var w = svgWidth + cyto_chr.margin.right + cyto_chr.margin.right;
+      var w = self._width;
 
       self.svgTarget = self._domTarget
         .style('height', h + 'px')
@@ -388,6 +391,6 @@
 
   cyto_chr.chromosome = function() {
     return new Chromosome();
-  };
+  };1
 
 })(cyto_chr || {}, d3);

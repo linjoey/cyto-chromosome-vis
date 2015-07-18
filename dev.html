@@ -15,15 +15,6 @@
 </head>
 <body>
 
-<svg>
-  <g transform="translate(0 0)"><!-- replace with your target upper left corner coordinates -->
-    <text x="0" y="0">
-      <tspan x="0" dy="1.2em">very long text</tspan>
-      <tspan x="0" dy="1.2em">I would like to linebreak</tspan>
-    </text>
-  </g>
-</svg>
-
 <div id="container">
   <div id="test"></div>
 </div>
@@ -32,6 +23,8 @@
 </script>
 
 <input type="button" onclick="btnClick()" value="TEST">
+<input type="button" onclick="btnClick2()" value="RESET">
+
 <script src="src/utils.js"></script>
 <script src="src/model-loader.js"></script>
 <script src="src/selector.js"></script>
@@ -40,7 +33,7 @@
   var bodysize = d3.select("body").node().getBoundingClientRect();
   console.log(bodysize)
   var s = cyto_chr.chromosome()
-    .config('segment', "X")
+    .config('segment', "1")
     .config('target', '#test')
     //.config('resolution', 550) //400, 550, or 850
     .resolution(400)
@@ -56,11 +49,13 @@
   })
 
   function btnClick() {
-    var t = s.getSVGTarget()
-      .append('test');
-    s.useRelative(true)
+    var t = s.getSelections()
+    console.log(t)
+    s.render([t[0].start, t[0].stop])
+  }
+
+  function btnClick2() {
     s.render();
-    console.log(s.maxBasePair)
   }
 </script>
 </body>
