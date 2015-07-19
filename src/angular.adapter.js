@@ -1,5 +1,5 @@
-(function(){
-  if(typeof angular === 'undefined') {
+(function(cyto_chr, d3){
+  if (typeof angular === 'undefined') {
     return;
   }
 
@@ -44,4 +44,4 @@
       };
     });
 
-})();
+})(cyto_chr || {}, d3);

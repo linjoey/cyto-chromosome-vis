@@ -1,17 +1,15 @@
 (function() {
-  var cyto_chr = new Object();
-  var d3;
+  var cyto_chr = {}, d3 = window.d3;
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = cyto_chr;
     d3 = require('d3');
-  } else {
+  } else if(typeof angular !== 'undefined') {} else {
     window.cyto_chr = cyto_chr;
-    d3 = window.d3;
   }
   
 (function(cyto_chr, d3) {
-
+  'use strict'
   cyto_chr.margin = {
     top: 38,
     left: 14,
@@ -35,6 +33,7 @@
     this.selectors = [];
     this.model = [];
     this.maxBasePair = 0;
+    this.xscale = d3.scale.linear();
   };
 
   Chromosome.prototype.getMaxBasepair = function() {
@@ -60,7 +59,6 @@
 
   Chromosome.prototype.resolution = function (a) {
     if (typeof a === 'number') a = a.toString();
-    console.log(a, typeof a)
     if (a === "400" || a === "550" || a ==="850" || a === "1200" || a === undefined) {
       return cyto_chr.InitGetterSetter.call(this, '_resolution', a);
     } else {
@@ -215,7 +213,7 @@
     return this.svgTarget;
   };
 
-  Chromosome.prototype.render = function () {
+  Chromosome.prototype.render = function (zoomRange) {
 
     var self = this;
 
@@ -244,16 +242,18 @@
       }
 
       var rangeTo = self._useRelative ? (self.maxBasePair / CHR1_BP_END) * self._width : self._width;
-      rangeTo -= cyto_chr.margin.right;
+      rangeTo -= (cyto_chr.margin.left + cyto_chr.margin.right);
 
-      self.xscale = d3.scale.linear()
-        .domain([1, self.maxBasePair])
-        .range([0, rangeTo - cyto_chr.margin.left]);
+      if (zoomRange) {
+        self.xscale.domain([zoomRange[0], zoomRange[1]]);
+      } else {
+        self.xscale.domain([1, self.maxBasePair]);
+      }
 
-      var svgWidth = self.alignCentromere ? self._width + (self._width * 0.3) : self._width;
+      self.xscale.range([0, rangeTo]);
 
       var h = self._height + 62;
-      var w = svgWidth + cyto_chr.margin.right + cyto_chr.margin.right;
+      var w = self._width;
 
       self.svgTarget = self._domTarget
         .style('height', h + 'px')
@@ -400,7 +400,7 @@
 
   cyto_chr.chromosome = function() {
     return new Chromosome();
-  };
+  };1
 
 })(cyto_chr || {}, d3);
 
@@ -740,8 +740,8 @@
   };
 
 })(cyto_chr || {}, d3);
-(function(){
-  if(typeof angular === 'undefined') {
+(function(cyto_chr, d3){
+  if (typeof angular === 'undefined') {
     return;
   }
 
@@ -786,5 +786,5 @@
       };
     });
 
-})();
+})(cyto_chr || {}, d3);
 }());

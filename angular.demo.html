@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="demoApp">
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>Angular Demo</title>
+  <meta charset="UTF-8">
+  <title>Angular Demo</title>
 
 </head>
 <body ng-controller="main">
@@ -23,23 +23,21 @@
 <!--<script src="src/selector.js"></script>-->
 <!--<script src="src/chromosome.js"></script>-->
 
-<script src="src/angular.adapter.js"></script>
 <script>
-    var app = angular.module('demoApp',['cyto-chromosome-vis'])
-            .config(['cytochromosomeProvider', function(cytochr) {
-                cytochr.setDataDir('data/');
-            }])
 
-            .controller('main', function($scope, cytochromosome) {
+  var app = angular.module('demoApp', ['cyto-chromosome-vis'])
+    .config(['cytochromosomeProvider', function (cytochr) {
+      cytochr.setDataDir('data/');
+    }])
 
-                var c = cytochromosome.build()
-                        .target("#chr3")
-                        .segment(3)
-                        .showAxis(true)
-                        .render();
+    .controller('main', function ($scope, cytochromosome) {
 
-
-            })
+      var c = cytochromosome.build()
+        .target("#chr3")
+        .segment(3)
+        .showAxis(true)
+        .render();
+    })
 
 </script>
 </body>

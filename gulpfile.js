@@ -12,9 +12,9 @@ var SOURCE_FILES = [
   'src/angular.adapter.js'
 ];
 
-gulp.task('default', ['build', 'dev']);
+gulp.task('default', ['build-dev', 'release']);
 
-gulp.task('dev', function(){
+gulp.task('release', function(){
   gulp.src(SOURCE_FILES)
     .pipe(concat('cyto-chromosome.min.js'))
     .pipe(wrap({src: 'build-wrap.template'}))
@@ -22,9 +22,9 @@ gulp.task('dev', function(){
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('build', function(){
+gulp.task('build-dev', function(){
   gulp.src(SOURCE_FILES)
     .pipe(concat('cyto-chromosome.js'))
-    .pipe(wrap({src: 'build-wrap-template.js'}))
+    .pipe(wrap({src: 'build-wrap.template'}))
     .pipe(gulp.dest('.'));
 });
